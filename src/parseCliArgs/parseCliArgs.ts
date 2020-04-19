@@ -63,8 +63,6 @@ export function parseCliArgs(options: ParseCliArgsOptions = {}): ArgumentsMap {
     }
   }
 
-  console.log('positionalArgs:', positionalArgs);
-
   const positionalArgsMap = positionalArgs.reduce((map, value, index) => {
     const name = (
       positionalArgDefs.length > index && positionalArgDefs[index].name
@@ -88,9 +86,13 @@ export function parseCliArgs(options: ParseCliArgsOptions = {}): ArgumentsMap {
       exitProcessWhenTesting: exitProcessWhenTesting,
     });
   }
+
+  const unnamedArgs = positionalArgs.slice(positionalArgDefs.length);
+
   return {
     ...positionalArgsMap,
     ...namedArgsMap,
     ...(afterStopArgs.length > 0 ? { '--': afterStopArgs } : {}),
+    ...(unnamedArgs.length > 0 ? { _: unnamedArgs } : {}),
   };
 }

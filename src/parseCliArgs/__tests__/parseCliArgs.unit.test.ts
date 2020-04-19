@@ -27,6 +27,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
     });
 
     const expected = {
+      _: ['a', 1, 'quoted value'], // all positional args
       '0': 'a',
       '1': 1,
       '2': 'quoted value',
@@ -44,6 +45,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
     });
 
     const expected = {
+      _: ['quoted value'],
       'string1': 'a',
       'number1': 1,
       '2': 'quoted value',
@@ -76,6 +78,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
     });
 
     const expected: ArgumentsMap = {
+      _: ['a', 1, '--option', '-o'],
       '0': 'a',
       '1': 1,
       '2': '--option',
