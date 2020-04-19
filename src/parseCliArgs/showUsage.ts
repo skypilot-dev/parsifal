@@ -7,14 +7,16 @@ type ShowUsageOptions = {
   argumentDefs: ArgumentDef[];
   command?: string;
   exitCode?: number;
+  exitProcessWhenTesting?: boolean;
   message?: string;
 }
 
 export function showUsage(options: ShowUsageOptions): never {
   const {
     argumentDefs = [],
-    exitCode = 0,
     command = 'command',
+    exitCode = 0,
+    exitProcessWhenTesting, // if true, call `process.exit()` even when running in test mode
     message,
   } = options;
   const writeToDisplay = exitCode ? console.log : console.error;
@@ -34,7 +36,10 @@ export function showUsage(options: ShowUsageOptions): never {
     return required ? name.toUpperCase() : `[${name.toUpperCase()}]`;
   }).join(' ');
 
-  if (message || exitCode) {
+  if ((message || exitCode) && !exitProcessWhenTesting) {
+    if (process.env.NODE_ENV === 'test') {
+      throw new Error(message);
+    }
     writeToDisplay(`Error: ${message}`);
   }
   console.log(`Usage: ${command} ${namedArgString} ${positionalArgString}`);

@@ -4,18 +4,6 @@ function toArgs(argString: string): string[] {
   return argString.split(' ');
 }
 
-const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never);
-const mockStdout = jest.spyOn(process.stdout, 'write').mockImplementation(_string => false);
-beforeEach(() => {
-  mockExit.mockClear();
-  mockStdout.mockClear();
-});
-
-afterAll(() => {
-  mockExit.mockRestore()
-  mockStdout.mockRestore();
-});
-
 describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   it('given positional arguments with names, should sequentially map the values to the names', () => {
     const parsedArgs: ArgumentsMap = parseCliArgs({
@@ -31,7 +19,36 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
       option2: 'value2',
     };
     expect(parsedArgs).toEqual(expected);
-    expect(mockExit).not.toHaveBeenCalled();
+  });
+
+  it('by default should parse undefined positional arguments', () => {
+    const parsedArgs: ArgumentsMap = parseCliArgs({
+      args: ['a', '1', 'quoted value'],
+    });
+
+    const expected = {
+      '0': 'a',
+      '1': 1,
+      '2': 'quoted value',
+    };
+    expect(parsedArgs).toEqual(expected);
+  });
+
+  it('given definitions for only some positional arguments, should map them in sequence', () => {
+    const parsedArgs: ArgumentsMap = parseCliArgs({
+      args: ['a', '1', 'quoted value'],
+      argumentDefs: [
+        { isPositional: true, name: 'string1' },
+        { isPositional: true, name: 'number1' },
+      ],
+    });
+
+    const expected = {
+      'string1': 'a',
+      'number1': 1,
+      '2': 'quoted value',
+    };
+    expect(parsedArgs).toEqual(expected);
   });
 
   it('by default should treat numeric arguments as numbers', () => {
@@ -51,25 +68,34 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
       number2: 0.3,
     };
     expect(parsedArgs).toEqual(expected);
-    expect(mockExit).not.toHaveBeenCalled();
   });
 
-  /* FIXME: Do not treat post-stop args as positional args. */
-  it('should treat all args after a stop as positional arguments', () => {
+  it('by default, should treat all args after a stop as positional arguments', () => {
     const parsedArgs: ArgumentsMap = parseCliArgs({
-      args: toArgs('-- --option -o'),
-      argumentDefs: [
-        { isPositional: true, name: 'string1' },
-        { isPositional: true, name: 'string2' },
-      ],
+      args: toArgs('a 1 -- --option -o'),
     });
 
     const expected: ArgumentsMap = {
-      string1: '--option',
-      string2: '-o',
+      '0': 'a',
+      '1': 1,
+      '2': '--option',
+      '3': '-o',
     };
+    console.log('parsedArgs:', parsedArgs);
     expect(parsedArgs).toEqual(expected);
-    expect(mockExit).not.toHaveBeenCalled();
+  });
+
+  it('when separateAfterStopArgs=true, should treat all args after a stop as unparsed arguments', () => {
+    const parsedArgs: ArgumentsMap = parseCliArgs({
+      args: toArgs('-- --option -o'),
+      separateAfterStopArgs: true,
+    });
+
+    const expected: ArgumentsMap = {
+      '--': ['--option', '-o'],
+    };
+    console.log('parsedArgs:', parsedArgs);
+    expect(parsedArgs).toEqual(expected);
   });
 
   it('should parse named arguments without the need for definitions', () => {
@@ -82,7 +108,6 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
       option2: 1,
     };
     expect(parsedArgs).toEqual(expected);
-    expect(mockExit).not.toHaveBeenCalled();
   });
 
   it('should parse named arguments without the need for definitions', () => {
@@ -95,16 +120,15 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
       option2: 1,
     };
     expect(parsedArgs).toEqual(expected);
-    expect(mockExit).not.toHaveBeenCalled();
   });
 
-  it('when requireNamedArgDefs=true, should exit with an error if given unnamed args', () => {
-    parseCliArgs({
-      args: toArgs('--option2=1'),
-      requireNamedArgDefs: true,
-    });
-
-    expect(mockExit).toHaveBeenCalledWith(1);
+  it('when requireNamedArgDefs=true, should throw an error if given unnamed args', () => {
+    expect(() => {
+      parseCliArgs({
+        args: toArgs('--option2=1'),
+        requireNamedArgDefs: true,
+      });
+    }).toThrow();
   });
 
   it('should treat an option without a value as a boolean', () => {
@@ -132,7 +156,6 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
       actual: 1,
     };
     expect(parsedArgs).toEqual(expected);
-    expect(mockExit).not.toHaveBeenCalled();
   });
 
   it('if an option (including aliased versions) is used multiple times, return an array of all values', () => {
@@ -148,21 +171,28 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it("should exit with 1 if a required positional argument isn't supplied", () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never);
+
     parseCliArgs({
       args: toArgs(''),
       argumentDefs: [{ required: true }],
+      exitProcessWhenTesting: true,
     });
     expect(mockExit).toHaveBeenCalledWith(1);
+    mockExit.mockRestore()
   });
 
   it("should exit with 1 if a required named argument isn't supplied", () => {
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never);
     parseCliArgs({
       args: toArgs('--option2=a'),
       argumentDefs: [
         { name: 'color', required: true, valueLabel: 'hexademical color' },
         { name: 'option2' },
       ],
+      exitProcessWhenTesting: true,
     });
     expect(mockExit).toHaveBeenCalledWith(1);
+    mockExit.mockRestore();
   });
 });
