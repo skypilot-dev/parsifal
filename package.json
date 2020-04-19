@@ -1,0 +1,10 @@
+{
+  "name": "@skypilot/parsifal",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Intelligent and flexible parser for command-line arguments",
+  "repository": "https://github.com/skypilotcc/parsifal.git",
+  "license": "ISC",
+  "author": "wthorsen@skypilot.dev",
+  "main": "lib/index.js"
+}
