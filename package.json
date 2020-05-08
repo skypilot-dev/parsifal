@@ -11,13 +11,13 @@
     "options",
     "parser"
   ],
-  "homepage": "https://github.com/skypilotcc/parsifal#readme",
+  "homepage": "https://github.com/skypilot-dev/parsifal#readme",
   "bugs": {
-    "url": "https://github.com/skypilotcc/parsifal/issues"
+    "url": "https://github.com/skypilot-dev/parsifal/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skypilotcc/parsifal.git"
+    "url": "git+https://github.com/skypilot-dev/parsifal.git"
   },
   "license": "ISC",
   "author": {
