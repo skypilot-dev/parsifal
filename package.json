@@ -1,6 +1,6 @@
 {
   "name": "@skypilot/parsifal",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "Intelligent and flexible parser for command-line arguments",
   "keywords": [
@@ -25,6 +25,10 @@
     "email": "wthorsen@skypilot.dev"
   },
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "/lib"
+  ],
   "scripts": {
     "all-ci-checks": "yarn run all-cq-checks && yarn run build",
     "all-cq-checks": "yarn run typecheck && yarn run lint --quiet && yarn test",
@@ -40,6 +44,9 @@
     "test": "jest",
     "typecheck": "tsc"
   },
+  "dependencies": {
+    "minimist": "^1.2.5"
+  },
   "devDependencies": {
     "@skypilot/common-types": "^1.5.0",
     "@skypilot/toolchain": "^3.6.0",
@@ -47,12 +54,5 @@
   },
   "publishConfig": {
     "access": "restricted"
-  },
-  "files": [
-    "/lib"
-  ],
-  "types": "lib/index.d.ts",
-  "dependencies": {
-    "minimist": "^1.2.5"
   }
 }
