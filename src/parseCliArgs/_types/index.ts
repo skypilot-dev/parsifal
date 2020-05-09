@@ -14,7 +14,7 @@ export type ArgumentDef = {
   valueType?: 'boolean' | 'string' | 'number';
 }
 
-export interface ArgumentMap {
+export interface ArgumentsMap {
   [key: string]: ArgumentValue;
 }
 

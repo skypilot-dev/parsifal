@@ -1,6 +1,7 @@
+import { ArgumentValue } from '../_types';
 import { mapPositionalArgs } from '../mapPositionalArgs';
 
-describe('mapPositionalArgs(: PositionalArgumentDef[], : ArgumentValue[])', () => {
+describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => {
   it('by default should map arguments to indices', () => {
     const values = [1, 'b'];
 
@@ -9,7 +10,7 @@ describe('mapPositionalArgs(: PositionalArgumentDef[], : ArgumentValue[])', () =
       '1': 'b',
     };
 
-    const argsMap = mapPositionalArgs([], values);
+    const argsMap = mapPositionalArgs(values);
 
     expect(argsMap).toEqual(expected);
   });
@@ -18,7 +19,7 @@ describe('mapPositionalArgs(: PositionalArgumentDef[], : ArgumentValue[])', () =
     const argDefs = ['numberOption', 'stringOption'];
     const values = [1, 'a'];
 
-    const args = mapPositionalArgs(argDefs, values);
+    const args = mapPositionalArgs(values, argDefs);
 
     const expected = {
       numberOption: 1,
@@ -32,7 +33,7 @@ describe('mapPositionalArgs(: PositionalArgumentDef[], : ArgumentValue[])', () =
     const argDefs = ['option', 'extraOption'];
     const values = [1];
 
-    const args = mapPositionalArgs(argDefs, values);
+    const args = mapPositionalArgs(values, argDefs);
 
     const expected = {
       option: 1,
@@ -46,13 +47,51 @@ describe('mapPositionalArgs(: PositionalArgumentDef[], : ArgumentValue[])', () =
     const argDefs = ['option'];
     const values = [1, 2, 3];
 
-    const args = mapPositionalArgs(argDefs, values);
+    const args = mapPositionalArgs(values, argDefs);
 
     const expected = {
       option: 1,
       '1': 2,
       '2': 3,
     };
+
+    expect(args).toEqual(expected);
+  });
+
+  it('can use definition objects along with strings', () => {
+    const argDefs = [{ name: 'stringDefOption' }, 'stringOption', { name: 'numberDefOption' }];
+    const values = ['a', 'b', 3];
+
+    const args = mapPositionalArgs(values, argDefs);
+
+    const expected = {
+      stringDefOption: 'a',
+      'stringOption': 'b',
+      numberDefOption: 3,
+    };
+
+    expect(args).toEqual(expected);
+  });
+
+  it('if a definition object lacks a `name`, should use the index', () => {
+    const argDefs = [{}];
+    const values = [1];
+
+    const args = mapPositionalArgs(values, argDefs);
+
+    const expected = {
+      '0': 1,
+    };
+
+    expect(args).toEqual(expected);
+  });
+
+  it('given an empty array of arguments & no definitions, should return an empty object', () => {
+    const values: ArgumentValue = [];
+
+    const args = mapPositionalArgs(values);
+
+    const expected = {};
 
     expect(args).toEqual(expected);
   });
