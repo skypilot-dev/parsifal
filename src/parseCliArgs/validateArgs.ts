@@ -1,6 +1,7 @@
 import { NamedArgumentDef, PositionalArgumentDef } from './_types';
 
 type ArgumentMap = {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   [key: string]: any;
 };
 

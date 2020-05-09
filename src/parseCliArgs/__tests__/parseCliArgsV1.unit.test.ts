@@ -84,7 +84,6 @@ describe('parseCliArgsV1(:ParseCliArgsOptionsV1)', () => {
       '2': '--option',
       '3': '-o',
     };
-    console.log('parsedArgs:', parsedArgs);
     expect(parsedArgs).toEqual(expected);
   });
 
@@ -97,7 +96,6 @@ describe('parseCliArgsV1(:ParseCliArgsOptionsV1)', () => {
     const expected: ArgumentsMap = {
       '--': ['--option', '-o'],
     };
-    console.log('parsedArgs:', parsedArgs);
     expect(parsedArgs).toEqual(expected);
   });
 

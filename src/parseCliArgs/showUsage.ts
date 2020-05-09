@@ -1,4 +1,4 @@
-/* eslint-disable-next-line no-console */
+/* eslint-disable no-console */
 
 import { ArgumentDef, NamedArgumentDef, PositionalArgumentDef } from './_types';
 import { formatNamedArgUse } from './formatNamedArgUse';

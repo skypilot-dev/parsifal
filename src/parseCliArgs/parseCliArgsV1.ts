@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import { Integer } from '@skypilot/common-types';
 import path from 'path';
 import minimist from 'minimist';
+import { Integer } from '@skypilot/common-types';
 import { NamedArgumentDef, PositionalArgumentDef } from './_types';
 import { omitAliases } from './omitAliases';
 import { parseAliases } from './parseAliases';
@@ -15,7 +15,8 @@ export type ArgumentsMap = {
   '--'?: string[];
 }
 
-type ParseCliArgsOptionsV1 = {
+export type ParseCliArgsOptionsV1 = {
+  apiVersion?: Integer;
   args?: string[];
   argumentDefs?: Array<NamedArgumentDef | PositionalArgumentDef>;
   isTest?: boolean;
@@ -29,7 +30,6 @@ type ParseCliArgsOptionsV1 = {
 export function parseCliArgsV1(options: ParseCliArgsOptionsV1 = {}): ArgumentsMap {
   /* Discard first two args to get command-line arguments. */
   const scriptName = options.args ? 'command' : path.parse(process.argv[1]).base;
-
   const {
     args = process.argv.slice(2),
     argumentDefs = [],
@@ -58,7 +58,7 @@ export function parseCliArgsV1(options: ParseCliArgsOptionsV1 = {}): ArgumentsMa
       showUsage({
         argumentDefs,
         exitCode: 1,
-        exitProcessWhenTesting: exitProcessWhenTesting,
+        exitProcessWhenTesting,
         message: `Unexpected arguments: ${unexpectedArgs}`,
       })
     }
@@ -80,11 +80,11 @@ export function parseCliArgsV1(options: ParseCliArgsOptionsV1 = {}): ArgumentsMa
     validateArgs(positionalArgDefs, positionalArgsMap);
   } catch (error) {
     showUsage({
-      argumentDefs: argumentDefs,
+      argumentDefs,
       command: scriptName,
       exitCode: 1,
       message: error.message,
-      exitProcessWhenTesting: exitProcessWhenTesting,
+      exitProcessWhenTesting,
     });
   }
 
