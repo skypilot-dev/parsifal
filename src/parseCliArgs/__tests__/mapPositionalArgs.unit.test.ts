@@ -2,16 +2,24 @@ import { ArgumentValue } from '../_types';
 import { mapPositionalArgs } from '../mapPositionalArgs';
 
 describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => {
-  it('by default should map arguments to indices', () => {
+  it('by default should not map arguments to indices', () => {
     const values = [1, 'b'];
+
+    const argsMap = mapPositionalArgs(values);
+
+    const expected = {};
+    expect(argsMap).toEqual(expected);
+  });
+
+  it('if `mapAllArgs:true`, should map all arguments to indices', () => {
+    const values = [1, 'b'];
+
+    const argsMap = mapPositionalArgs(values, [], { mapAllArgs: true });
 
     const expected = {
       '0': 1,
       '1': 'b',
     };
-
-    const argsMap = mapPositionalArgs(values);
-
     expect(argsMap).toEqual(expected);
   });
 
@@ -43,11 +51,11 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
     expect(args).toEqual(expected);
   });
 
-  it('if there are more args than strings, should map the remaining args to indices', () => {
+  it('if there are more args than strings & `mapAllArgs:true`, should map the remaining args to indices', () => {
     const argDefs = ['option'];
     const values = [1, 2, 3];
 
-    const args = mapPositionalArgs(values, argDefs);
+    const args = mapPositionalArgs(values, argDefs, { mapAllArgs: true });
 
     const expected = {
       option: 1,
