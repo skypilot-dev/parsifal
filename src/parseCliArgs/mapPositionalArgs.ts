@@ -2,20 +2,16 @@ import { ArgumentMap, ArgumentValue, PositionalArgumentDef } from './_types';
 
 export function mapPositionalArgs(
   positionalArgDefs: Array<PositionalArgumentDef | string>,
-  positionalArgs: ArgumentValue[],
+  values: ArgumentValue[],
 ): ArgumentMap {
-  return positionalArgDefs.reduce((argsMap, argDef, index) => {
-    let value: ArgumentValue = undefined;
-    if (typeof argDef === 'string') {
-      value = index < positionalArgs.length
-        ? positionalArgs[index]
-        : undefined;
-    } else {
+  let argsMap: ArgumentMap = {};
+  for (let i = 0; i < Math.max(positionalArgDefs.length, values.length); i += 1) {
+    const argDef = positionalArgDefs.length > i ? positionalArgDefs[i] : i.toString();
+    if (typeof argDef !== 'string') {
       throw new Error('Object definitions are not yet supported');
     }
-    return {
-      ...argsMap,
-      [argDef]: value,
-    };
-  }, {} as ArgumentMap);
+    const value = values.length > i ? values[i] : undefined;
+    argsMap = { ...argsMap, [argDef]: value };
+  }
+  return argsMap;
 }
