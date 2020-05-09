@@ -14,6 +14,15 @@ export type ArgumentDef = {
   valueType?: 'boolean' | 'string' | 'number';
 }
 
+export interface ArgumentMap {
+  [key: string]: ArgumentValue;
+}
+
+export type ArgumentValue = LiteralValue | LiteralValue[] | undefined
+
+type LiteralValue = boolean | number | string;
+
+
 export interface NamedArgumentDef extends RequireProps<ArgumentDef, 'name'> {
   positional?: false;
 }
