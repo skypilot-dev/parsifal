@@ -40,9 +40,10 @@ export function parseCliArgsV1(options: ParseCliArgsOptionsV1 = {}): ArgumentsMa
   } = options;
 
   const positionalArgDefs: PositionalArgumentDef[] = argumentDefs
-    .filter(({ isPositional, name }) => isPositional || !name);
+    .filter(({ positional, name }) => positional || !name)
+    .map((argDef) => ({ ...argDef, positional: true }));
   const namedArgDefs: NamedArgumentDef[] = argumentDefs
-    .filter((argDef) => argDef.name && !argDef.isPositional) as NamedArgumentDef[];
+    .filter((argDef) => argDef.name && !argDef.positional) as NamedArgumentDef[];
   const aliasMap = parseAliases(namedArgDefs);
 
   const parsedArgs = minimist(args, { alias: aliasMap, '--': separateAfterStopArgs });

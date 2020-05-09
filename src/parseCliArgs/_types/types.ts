@@ -5,8 +5,8 @@ type Validator = (arg: string) => boolean;
 export type ArgumentDef = {
   aliases?: string[];
   defaultValue?: string | number;
-  isPositional?: boolean;
   name?: string;
+  positional?: boolean;
   required?: boolean;
   validator?: Validator;
   validValues?: string[];
@@ -14,6 +14,10 @@ export type ArgumentDef = {
   valueType?: 'boolean' | 'string' | 'number';
 }
 
-export type NamedArgumentDef = RequireProps<ArgumentDef, 'name'>
+export interface NamedArgumentDef extends RequireProps<ArgumentDef, 'name'> {
+  positional?: false;
+}
 
-export type PositionalArgumentDef = ArgumentDef
+export interface PositionalArgumentDef extends ArgumentDef {
+  positional?: true;
+}

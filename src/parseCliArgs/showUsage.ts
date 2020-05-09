@@ -22,14 +22,14 @@ export function showUsage(options: ShowUsageOptions): never {
   const writeToDisplay = exitCode ? console.log : console.error;
 
   const namedArgDefs = argumentDefs
-    .filter(({ isPositional }) => !isPositional) as NamedArgumentDef[];
+    .filter(({ positional }) => !positional) as NamedArgumentDef[];
 
   const namedArgString = namedArgDefs
     .map((argDef) => formatNamedArgUse(argDef))
     .join(' ');
 
   const positionalArgDefs = argumentDefs
-    .filter(({ isPositional }) => !!isPositional) as PositionalArgumentDef[];
+    .filter(({ positional }) => !!positional) as PositionalArgumentDef[];
 
   const positionalArgString = positionalArgDefs.map((argDef, index) => {
     const { name = `ARG${index + 1}`, required } = argDef;

@@ -9,8 +9,8 @@ describe('parseCliArgsV1(:ParseCliArgsOptionsV1)', () => {
     const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: toArgs('value1 value2'),
       argumentDefs: [
-        { isPositional: true, name: 'option1' },
-        { isPositional: true, name: 'option2' },
+        { positional: true, name: 'option1' },
+        { positional: true, name: 'option2' },
       ],
     });
 
@@ -39,8 +39,8 @@ describe('parseCliArgsV1(:ParseCliArgsOptionsV1)', () => {
     const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: ['a', '1', 'quoted value'],
       argumentDefs: [
-        { isPositional: true, name: 'string1' },
-        { isPositional: true, name: 'number1' },
+        { positional: true, name: 'string1' },
+        { positional: true, name: 'number1' },
       ],
     });
 
@@ -58,9 +58,9 @@ describe('parseCliArgsV1(:ParseCliArgsOptionsV1)', () => {
     const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: toArgs('value1 2 0.3'),
       argumentDefs: [
-        { isPositional: true, name: 'string1' },
-        { isPositional: true, name: 'number1' },
-        { isPositional: true, name: 'number2' },
+        { positional: true, name: 'string1' },
+        { positional: true, name: 'number1' },
+        { positional: true, name: 'number2' },
       ],
     });
 
