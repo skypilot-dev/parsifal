@@ -15,7 +15,7 @@ export type ArgumentsMap = {
   '--'?: string[];
 }
 
-type ParseCliArgsOptions = {
+type ParseCliArgsOptionsV1 = {
   args?: string[];
   argumentDefs?: Array<NamedArgumentDef | PositionalArgumentDef>;
   isTest?: boolean;
@@ -26,7 +26,7 @@ type ParseCliArgsOptions = {
   usage?: string;
 }
 
-export function parseCliArgs(options: ParseCliArgsOptions = {}): ArgumentsMap {
+export function parseCliArgsV1(options: ParseCliArgsOptionsV1 = {}): ArgumentsMap {
   /* Discard first two args to get command-line arguments. */
   const scriptName = options.args ? 'command' : path.parse(process.argv[1]).base;
 

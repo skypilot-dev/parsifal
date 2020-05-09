@@ -2,7 +2,7 @@ import * as actualExports from '../index';
 
 const intendedExports: string[] = [
   /* Parser */
-  'parseCliArgs',
+  'parseCliArgsV1',
 ];
 
 describe('Validate exports', () => {

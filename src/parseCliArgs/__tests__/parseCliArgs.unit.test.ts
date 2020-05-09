@@ -1,12 +1,12 @@
-import { ArgumentsMap, parseCliArgs } from '../parseCliArgs';
+import { ArgumentsMap, parseCliArgsV1 } from '../parseCliArgsV1';
 
 function toArgs(argString: string): string[] {
   return argString.split(' ');
 }
 
-describe('parseCliArgs(:ParseCliArgsOptions)', () => {
+describe('parseCliArgsV1(:ParseCliArgsOptionsV1)', () => {
   it('given positional arguments with names, should sequentially map the values to the names', () => {
-    const parsedArgs: ArgumentsMap = parseCliArgs({
+    const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: toArgs('value1 value2'),
       argumentDefs: [
         { isPositional: true, name: 'option1' },
@@ -22,7 +22,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it('by default should parse undefined positional arguments', () => {
-    const parsedArgs: ArgumentsMap = parseCliArgs({
+    const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: ['a', '1', 'quoted value'],
     });
 
@@ -36,7 +36,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it('given definitions for only some positional arguments, should map them in sequence', () => {
-    const parsedArgs: ArgumentsMap = parseCliArgs({
+    const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: ['a', '1', 'quoted value'],
       argumentDefs: [
         { isPositional: true, name: 'string1' },
@@ -55,7 +55,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
 
   it('by default should treat numeric arguments as numbers', () => {
     /* Note that negative values are not treated as numbers. */
-    const parsedArgs: ArgumentsMap = parseCliArgs({
+    const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: toArgs('value1 2 0.3'),
       argumentDefs: [
         { isPositional: true, name: 'string1' },
@@ -73,7 +73,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it('by default, should treat all args after a stop as positional arguments', () => {
-    const parsedArgs: ArgumentsMap = parseCliArgs({
+    const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: toArgs('a 1 -- --option -o'),
     });
 
@@ -89,7 +89,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it('when separateAfterStopArgs=true, should treat all args after a stop as unparsed arguments', () => {
-    const parsedArgs: ArgumentsMap = parseCliArgs({
+    const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: toArgs('-- --option -o'),
       separateAfterStopArgs: true,
     });
@@ -102,7 +102,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it('should parse named arguments without the need for definitions', () => {
-    const parsedArgs = parseCliArgs({
+    const parsedArgs = parseCliArgsV1({
       args: toArgs('--option2=1 --option1=a'),
     });
 
@@ -114,7 +114,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it('should parse named arguments without the need for definitions', () => {
-    const parsedArgs = parseCliArgs({
+    const parsedArgs = parseCliArgsV1({
       args: toArgs('--option2=1 -o=a'),
     });
 
@@ -127,7 +127,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
 
   it('when requireNamedArgDefs=true, should throw an error if given unnamed args', () => {
     expect(() => {
-      parseCliArgs({
+      parseCliArgsV1({
         args: toArgs('--option2=1'),
         requireNamedArgDefs: true,
       });
@@ -135,7 +135,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it('should treat an option without a value as a boolean', () => {
-    const parsedArgs = parseCliArgs({
+    const parsedArgs = parseCliArgsV1({
       args: toArgs('--bool'),
     });
 
@@ -146,7 +146,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it('should understand aliases', () => {
-    const parsedArgs: ArgumentsMap = parseCliArgs({
+    const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: toArgs('-a --alias=1'),
       argumentDefs: [
         { name: 'all', aliases: ['a'] },
@@ -162,7 +162,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   });
 
   it('if an option (including aliased versions) is used multiple times, return an array of all values', () => {
-    const parsedArgs: ArgumentsMap = parseCliArgs({
+    const parsedArgs: ArgumentsMap = parseCliArgsV1({
       args: toArgs('-c=1 --count=2 --count=3'),
       argumentDefs: [
         { name: 'count', aliases: ['c'] },
@@ -176,7 +176,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
   it("should exit with 1 if a required positional argument isn't supplied", () => {
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never);
 
-    parseCliArgs({
+    parseCliArgsV1({
       args: toArgs(''),
       argumentDefs: [{ required: true }],
       exitProcessWhenTesting: true,
@@ -187,7 +187,7 @@ describe('parseCliArgs(:ParseCliArgsOptions)', () => {
 
   it("should exit with 1 if a required named argument isn't supplied", () => {
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => undefined as never);
-    parseCliArgs({
+    parseCliArgsV1({
       args: toArgs('--option2=a'),
       argumentDefs: [
         { name: 'color', required: true, valueLabel: 'hexademical color' },

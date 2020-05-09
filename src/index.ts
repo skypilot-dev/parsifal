@@ -1,1 +1,1 @@
-export { parseCliArgs } from 'src/parseCliArgs/parseCliArgs';
+export { parseCliArgsV1 } from './parseCliArgs/parseCliArgsV1';
