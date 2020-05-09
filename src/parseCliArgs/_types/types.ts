@@ -1,9 +1,12 @@
+import { RequireProps } from '@skypilot/common-types';
+
 type Validator = (arg: string) => boolean;
 
 export type ArgumentDef = {
   aliases?: string[];
   defaultValue?: string | number;
   isPositional?: boolean;
+  name?: string;
   required?: boolean;
   validator?: Validator;
   validValues?: string[];
@@ -11,10 +14,6 @@ export type ArgumentDef = {
   valueType?: 'boolean' | 'string' | 'number';
 }
 
-export interface NamedArgumentDef extends Omit<ArgumentDef, 'name'> {
-  name: string;
-}
+export type NamedArgumentDef = RequireProps<ArgumentDef, 'name'>
 
-export interface PositionalArgumentDef extends ArgumentDef {
-  name?: string;
-}
+export type PositionalArgumentDef = ArgumentDef
