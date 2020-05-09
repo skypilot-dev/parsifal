@@ -1,4 +1,4 @@
-import { NamedArgumentDef } from '../_types/types';
+import { NamedArgumentDef } from '../_types';
 import { formatNamedArgUse } from '../formatNamedArgUse';
 
 describe('formatNamedArgUse()', () => {

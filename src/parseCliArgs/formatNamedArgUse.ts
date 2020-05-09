@@ -1,4 +1,4 @@
-import { NamedArgumentDef } from './_types/types';
+import { NamedArgumentDef } from './_types';
 
 export function formatNamedArgUse(argDef: NamedArgumentDef): string {
   const { name, required, valueLabel = 'value', valueType } = argDef;

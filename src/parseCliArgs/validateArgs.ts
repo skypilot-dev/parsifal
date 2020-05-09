@@ -1,4 +1,4 @@
-import { NamedArgumentDef, PositionalArgumentDef } from './_types/types';
+import { NamedArgumentDef, PositionalArgumentDef } from './_types';
 
 type ArgumentMap = {
   [key: string]: any;

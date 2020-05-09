@@ -2,7 +2,7 @@
 import { Integer } from '@skypilot/common-types';
 import path from 'path';
 import minimist from 'minimist';
-import { NamedArgumentDef, PositionalArgumentDef } from './_types/types';
+import { NamedArgumentDef, PositionalArgumentDef } from './_types';
 import { omitAliases } from './omitAliases';
 import { parseAliases } from './parseAliases';
 import { showUsage } from './showUsage';

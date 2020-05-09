@@ -1,6 +1,6 @@
 /* eslint-disable-next-line no-console */
 
-import { ArgumentDef, NamedArgumentDef, PositionalArgumentDef } from './_types/types';
+import { ArgumentDef, NamedArgumentDef, PositionalArgumentDef } from './_types';
 import { formatNamedArgUse } from './formatNamedArgUse';
 
 type ShowUsageOptions = {
