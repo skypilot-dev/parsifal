@@ -14,7 +14,7 @@ export interface ParsedArgsResult {
   _unparsed?: string[];
 }
 
-interface Definitions {
+export interface DefinitionsMap {
   named?: Array<NamedArgumentDef | string>;
   positional?: PositionalArgDefInput[];
 }
@@ -30,7 +30,7 @@ interface ParseCliArgsOptions {
 }
 
 export function parseCliArgs(
-  definitions: Definitions = {}, options: ParseCliArgsOptions = {}
+  definitions: DefinitionsMap = {}, options: ParseCliArgsOptions = {}
 ): ParsedArgsResult {
 
   const {
