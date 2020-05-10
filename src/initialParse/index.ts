@@ -1,53 +1,75 @@
+/* eslint-disable  */
+// @ts-nocheck
+
 import { hasKey } from 'src/lib/functions/object/hasKey';
 import { isNumber } from 'src/lib/functions/number/isNumber';
 
+interface Flags {
+  allBooleans: boolean;
+  bools: object;
+  strings: object;
+  unknownFn: Function | null;
+}
+
 interface Options {
   '--'?: boolean;
+  alias?: object;
+  boolean?: boolean | string | string[];
+  default?: object;
   unknown?: Function | null;
 }
 
-export function initialParse(args, opts: Options = {}): any {
-  if (!opts) opts = {};
+export function initialParse(args: string[], options: Options = {}): any {
+  const { boolean: booleanOpt, unknown: unknownFn = null } = options;
 
-  var flags = { bools : {}, strings : {}, unknownFn: null };
+  let allBooleans = false;
+  let booleanKeys: { [key: string]: boolean } = {};
+  if (typeof booleanOpt === 'boolean') {
+    allBooleans = booleanOpt;
+  } else if (typeof booleanOpt === 'string') {
+    booleanKeys = { [booleanOpt]: true };
+  } else if (Array.isArray(booleanOpt)) {
+    booleanKeys = booleanOpt.filter(Boolean).reduce((accKeys, key: string) => ({
+      ...accKeys,
+      [key]: true,
+    }), {} as { [key: string]: boolean });
+  }
+  const flags: Flags = {
+    allBooleans,
+    bools: booleanKeys,
+    strings: {},
+    unknownFn,
+  };
 
-  if (typeof opts['unknown'] === 'function') {
-    flags.unknownFn = opts['unknown'];
+  if (typeof options['unknown'] === 'function') {
+    flags.unknownFn = options['unknown'];
   }
 
-  if (typeof opts['boolean'] === 'boolean' && opts['boolean']) {
-    flags.allBools = true;
-  } else {
-    [].concat(opts['boolean']).filter(Boolean).forEach(function (key) {
-      flags.bools[key] = true;
-    });
-  }
-
-  var aliases = {};
-  Object.keys(opts.alias || {}).forEach(function (key) {
-    aliases[key] = [].concat(opts.alias[key]);
-    aliases[key].forEach(function (x) {
+  const aliases = {};
+  Object.keys(options.alias || {}).forEach(function (key) {
+    aliases[key] = [].concat(options.alias[key]);
+    aliases[key].forEach((x) => {
       aliases[x] = [key].concat(aliases[key].filter(function (y) {
         return x !== y;
       }));
     });
   });
 
-  [].concat(opts.string).filter(Boolean).forEach(function (key) {
+  [].concat(options.string).filter(Boolean).forEach(function (key) {
     flags.strings[key] = true;
     if (aliases[key]) {
       flags.strings[aliases[key]] = true;
     }
   });
 
-  var defaults = opts['default'] || {};
+  const defaults = options['default'] || {};
 
-  var argv = { _ : [] };
+  const argv = { _ : [] };
   Object.keys(flags.bools).forEach(function (key) {
     setArg(key, defaults[key] === undefined ? false : defaults[key]);
   });
 
-  var notFlags = [];
+  let notFlags = [];
 
   if (args.indexOf('--') !== -1) {
     notFlags = args.slice(args.indexOf('--')+1);
@@ -55,7 +77,7 @@ export function initialParse(args, opts: Options = {}): any {
   }
 
   function argDefined(key, arg) {
-    return (flags.allBools && /^--[^=]+$/.test(arg)) ||
+    return (flags.allBooleans && /^--[^=]+$/.test(arg)) ||
       flags.strings[key] || flags.bools[key] || aliases[key];
   }
 
@@ -64,7 +86,7 @@ export function initialParse(args, opts: Options = {}): any {
       if (flags.unknownFn(arg) === false) return;
     }
 
-    var value = !flags.strings[key] && isNumber(val)
+    const value = !flags.strings[key] && isNumber(val)
       ? Number(val) : val
     ;
     setKey(argv, key.split('.'), value);
@@ -117,7 +139,7 @@ export function initialParse(args, opts: Options = {}): any {
       // http://stackoverflow.com/a/1068308/13216
       var m = arg.match(/^--([^=]+)=([\s\S]*)$/);
       var key = m[1];
-      var value = m[2];
+      let value = m[2];
       if (flags.bools[key]) {
         value = value !== 'false';
       }
@@ -132,7 +154,7 @@ export function initialParse(args, opts: Options = {}): any {
       var next = args[i + 1];
       if (next !== undefined && !/^-/.test(next)
         && !flags.bools[key]
-        && !flags.allBools
+        && !flags.allBooleans
         && (aliases[key] ? !aliasIsBoolean(key) : true)) {
         setArg(key, next, arg);
         i++;
@@ -203,7 +225,7 @@ export function initialParse(args, opts: Options = {}): any {
           flags.strings['_'] || !isNumber(arg) ? arg : Number(arg)
         );
       }
-      if (opts.stopEarly) {
+      if (options.stopEarly) {
         argv._.push.apply(argv._, args.slice(i + 1));
         break;
       }
@@ -220,8 +242,8 @@ export function initialParse(args, opts: Options = {}): any {
     }
   });
 
-  if (opts['--']) {
-    argv['--'] = new Array();
+  if (options['--']) {
+    argv['--'] = [];
     notFlags.forEach(function(key) {
       argv['--'].push(key);
     });
