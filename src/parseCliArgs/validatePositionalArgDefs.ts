@@ -1,7 +1,7 @@
 import { toOrdinal } from 'src/lib/functions/string/toOrdinal';
 import { PositionalArgDefInput, ValidationException } from './_types';
 
-export function validatePositionalArgDefs(
+function validateRequiredBeforeOptional(
   positionalArgDefs: PositionalArgDefInput[]
 ): ValidationException[] {
   let previousArgIsOptional = false;
@@ -23,4 +23,12 @@ export function validatePositionalArgDefs(
     }
   }
   return [];
+}
+
+export function validatePositionalArgDefs(
+  positionalArgDefs: PositionalArgDefInput[]
+): ValidationException[] {
+  return [
+    ...validateRequiredBeforeOptional(positionalArgDefs),
+  ];
 }
