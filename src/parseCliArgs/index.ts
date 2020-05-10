@@ -1,3 +1,4 @@
+import path from 'path';
 import { Integer } from '@skypilot/common-types';
 import { initialParse } from '../initialParse';
 import {
@@ -7,8 +8,10 @@ import {
   ValidationException,
 } from './_types';
 import { mapPositionalArgs } from './mapPositionalArgs';
+import { showUsage } from './showUsage';
 import { validateOptionNames } from './validateOptionNames';
 import { validatePositionalArgDefs } from './validatePositionalArgDefs';
+import { validatePositionalArgs } from './validatePositionalArgs';
 
 export interface ParsedArgsResult {
   _positional?: ArgumentValue[];
@@ -34,11 +37,15 @@ interface ParseCliArgsOptions {
 export function parseCliArgs(
   definitions: DefinitionsMap = {}, options: ParseCliArgsOptions = {}
 ): ParsedArgsResult {
+  const scriptName = options.args
+    ? path.parse(process.argv.slice(-1)[0]).base // Get the name of the test file
+    : path.parse(process.argv[1]).base; // Get the name of the script file
 
   const {
     args = process.argv.slice(2),
-    mapAllArgs,
-    useIndicesAsOptionNames,
+    exitProcessWhenTesting = false,
+    mapAllArgs = false,
+    useIndicesAsOptionNames = false,
   } = options;
   const { positional: positionalArgDefs = [] } = definitions;
 
@@ -49,17 +56,30 @@ export function parseCliArgs(
     '--': unparsedArgs = [],
   } = parsedArgs;
 
-  const exceptions: ValidationException[] = [
+  const configExceptions: ValidationException[] = [
     ...validateOptionNames(positionalArgDefs, { useIndicesAsOptionNames }),
     ...validatePositionalArgDefs(positionalArgDefs),
   ];
 
-  if (exceptions.length) {
-    throw new Error(exceptions.map(({ message }) => message).join('. ')
+  if (configExceptions.length) {
+    throw new Error(configExceptions.map(({ message }) => message).join('. ')
     );
   }
 
   const positionalArgsMap = mapPositionalArgs(positionalArgs, positionalArgDefs, { mapAllArgs });
+
+  const argumentExceptions: ValidationException[] = [
+    ...validatePositionalArgs(positionalArgs, positionalArgDefs),
+  ];
+
+  if (argumentExceptions.length) {
+    showUsage({
+      command: scriptName,
+      exitCode: 1,
+      exitProcessWhenTesting,
+      exceptions: argumentExceptions,
+    });
+  }
 
   return {
     _positional: positionalArgs,

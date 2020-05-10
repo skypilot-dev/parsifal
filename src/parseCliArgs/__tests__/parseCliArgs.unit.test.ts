@@ -5,7 +5,7 @@ function toArgs(argString: string): string[] {
   return argString.split(' ');
 }
 
-describe('parseCliArgs()', () => {
+describe('parseCliArgs() - definitions', () => {
   it('by default should parse positional arguments', () => {
     const parsedArgs: ParsedArgsResult = parseCliArgs(undefined, {
       args: ['a', '1', 'quoted value'],
@@ -113,5 +113,20 @@ describe('parseCliArgs()', () => {
     expect(() => {
       parseCliArgs(definitions, options);
     }).toThrow('Invalid definitions');
+  });
+});
+
+describe('parseCliArgs() - arguments', () => {
+  it('if not enough required positional arguments are given, should report the error', () => {
+    const definitions: DefinitionsMap = {
+      positional: [{ required: true }],
+    };
+    const options = {
+      args: [],
+    };
+
+    expect(() => {
+      parseCliArgs(definitions, options);
+    }).toThrow();
   });
 });
