@@ -1,4 +1,4 @@
-import { ArgumentsMap, ArgumentValue, PositionalArgumentDef } from './_types';
+import { ArgumentsMap, ArgumentValue, PositionalArgDefInput } from './_types';
 
 interface MapPositionalArgsOptions {
   mapAllArgs?: boolean; // if true, map args without definitions to their indices
@@ -6,7 +6,7 @@ interface MapPositionalArgsOptions {
 
 export function mapPositionalArgs(
   values: ArgumentValue[],
-  argDefs: Array<PositionalArgumentDef | string> = [],
+  argDefs: PositionalArgDefInput[] = [],
   options: MapPositionalArgsOptions = {},
 ): ArgumentsMap {
   const { mapAllArgs } = options;

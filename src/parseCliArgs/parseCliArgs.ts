@@ -1,6 +1,11 @@
 import minimist from 'minimist';
 import { Integer } from '@skypilot/common-types';
-import { ArgumentValue, NamedArgumentDef, PositionalArgumentDef, ValidationException } from './_types';
+import {
+  ArgumentValue,
+  NamedArgumentDef,
+  PositionalArgDefInput,
+  ValidationException,
+} from './_types';
 import { mapPositionalArgs } from './mapPositionalArgs';
 import { validatePositionalArgDefs } from './validatePositionalArgDefs';
 
@@ -11,7 +16,7 @@ export interface ParsedArgsResult {
 
 interface Definitions {
   named?: Array<NamedArgumentDef | string>;
-  positional?: Array<PositionalArgumentDef | string>;
+  positional?: PositionalArgDefInput[];
 }
 
 interface ParseCliArgsOptions {

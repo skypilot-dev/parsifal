@@ -1,4 +1,4 @@
-import { PositionalArgumentDef } from '../_types';
+import { PositionalArgDefInput } from '../_types';
 import { validatePositionalArgDefs } from '../validatePositionalArgDefs';
 
 describe('validatePositionalArgDefs()', () => {
@@ -21,7 +21,7 @@ describe('validatePositionalArgDefs()', () => {
   });
 
   it('should return an exception when a required arg follows a string-defined arg', () => {
-    const argDefs: Array<PositionalArgumentDef | string> = [
+    const argDefs: PositionalArgDefInput[] = [
       'option1', // string definitions always imply `required:false`
       { name: 'option2', required: true },
     ];
@@ -37,7 +37,7 @@ describe('validatePositionalArgDefs()', () => {
   });
 
   it('should return an exception when a required arg follows an optional arg', () => {
-    const argDefs: Array<PositionalArgumentDef | string> = [
+    const argDefs: PositionalArgDefInput[] = [
       { name: 'option1', required: false },
       { name: 'option2', required: true },
     ];

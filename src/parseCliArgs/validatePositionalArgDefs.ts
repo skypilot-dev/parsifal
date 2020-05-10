@@ -1,20 +1,8 @@
-import { Integer } from '@skypilot/common-types';
-import { PositionalArgumentDef, ValidationException } from './_types';
-
-function toOrdinal(int: Integer): string {
-  const modulus = int % 10;
-  const endingsMap = {
-    0: 'th',
-    1: 'st',
-    2: 'nd',
-    3: 'rd',
-  } as { [key: number]: string };
-  const ending = [1, 2, 3].includes(modulus) ? endingsMap[modulus] : endingsMap[0];
-  return `${int}${ending}`;
-}
+import { toOrdinal } from 'src/lib/functions/string/toOrdinal';
+import { PositionalArgDefInput, ValidationException } from './_types';
 
 export function validatePositionalArgDefs(
-  positionalArgDefs: Array<PositionalArgumentDef | string>
+  positionalArgDefs: PositionalArgDefInput[]
 ): ValidationException[] {
   let previousArgIsOptional = false;
   for (let i = 0; i < positionalArgDefs.length; i += 1) {

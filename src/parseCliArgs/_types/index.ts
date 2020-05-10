@@ -31,6 +31,8 @@ export interface PositionalArgumentDef extends ArgumentDef {
   positional?: true;
 }
 
+export type PositionalArgDefInput = PositionalArgumentDef | string;
+
 export interface ValidationException {
   level?: 'warning' | 'error';
   message: string;
