@@ -1,4 +1,4 @@
-import { ParsedArgsResult, parseCliArgs } from '../parseCliArgs';
+import { ParsedArgsResult, parseCliArgs } from '../index';
 
 /* TODO: Enable this function to parse quoted strings */
 function toArgs(argString: string): string[] {

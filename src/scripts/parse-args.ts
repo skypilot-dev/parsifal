@@ -1,4 +1,4 @@
-import { parseCliArgs } from 'src/parseCliArgs/parseCliArgs';
+import { parseCliArgs } from '../parseCliArgs';
 
 const parsedArgs = parseCliArgs();
 
