@@ -46,12 +46,12 @@ describe('validatePositionalArgs()', () => {
       {
         level: 'error',
         message: "'requiredOption' is required",
-        name: 'requiredOption',
+        identifiers: ['requiredOption'],
       },
       {
         level: 'error',
         message: 'the 2nd argument is required',
-        name: '1',
+        identifiers: ['1'],
       },
     ];
     expect(exceptions).toEqual(expected);

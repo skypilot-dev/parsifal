@@ -47,7 +47,7 @@ export function validatePositionalArgs(
       return {
         level: 'error',
         message: `${getArgName(positionalArgDef, ordinal)} is required`,
-        name: positionalArgDef?.name || (firstMissingIndex + i).toString(),
+        identifiers: [positionalArgDef?.name || (firstMissingIndex + i).toString()],
       };
     });
 }

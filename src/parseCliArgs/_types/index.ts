@@ -36,5 +36,5 @@ export type PositionalArgDefInput = PositionalArgumentDef | string;
 export interface ValidationException {
   level?: 'warning' | 'error';
   message: string;
-  name: string;
+  identifiers: string[];
 }
