@@ -8,6 +8,7 @@ import {
   ValidationException,
 } from './_types';
 import { mapPositionalArgs } from './mapPositionalArgs';
+import { parseNamedArgs } from './parseNamedArgs';
 import { showUsage } from './showUsage';
 import { validateOptionNames } from './validateOptionNames';
 import { validatePositionalArgDefs } from './validatePositionalArgDefs';
@@ -47,9 +48,10 @@ export function parseCliArgs(
     mapAllArgs = false,
     useIndicesAsOptionNames = false,
   } = options;
-  const { positional: positionalArgDefs = [] } = definitions;
+  const { named: namedArgDefs = [], positional: positionalArgDefs = [] } = definitions;
 
   const parsedArgs = initialParse(args, { '--': true });
+  const namedArgsMap = parseNamedArgs(parsedArgs, namedArgDefs);
 
   const {
     _: positionalArgs = [],
@@ -84,6 +86,7 @@ export function parseCliArgs(
   return {
     _positional: positionalArgs,
     _unparsed: unparsedArgs,
+    ...namedArgsMap,
     ...positionalArgsMap,
   };
 }

@@ -117,6 +117,25 @@ describe('parseCliArgs() - definitions', () => {
 });
 
 describe('parseCliArgs() - arguments', () => {
+  it('if named arguments are defined, should map values to them', () => {
+    const definitions: DefinitionsMap = {
+      named: ['option1', 'option2'],
+    };
+    const options = {
+      args: [],
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expected = {
+      _positional: [],
+      _unparsed: [],
+      option1: undefined,
+      option2: undefined,
+    }
+    expect(args).toEqual(expected);
+  });
+
   it('if not enough required positional arguments are given, should report the error', () => {
     const definitions: DefinitionsMap = {
       positional: [{ required: true }],

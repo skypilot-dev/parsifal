@@ -27,6 +27,8 @@ export interface NamedArgumentDef extends RequireProps<ArgumentDef, 'name'> {
   positional?: false;
 }
 
+export type NamedArgDefInput = NamedArgumentDef | string;
+
 export interface PositionalArgumentDef extends ArgumentDef {
   positional?: true;
 }
