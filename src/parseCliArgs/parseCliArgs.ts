@@ -1,7 +1,8 @@
 import minimist from 'minimist';
 import { Integer } from '@skypilot/common-types';
-import { ArgumentValue, NamedArgumentDef, PositionalArgumentDef } from './_types';
+import { ArgumentValue, NamedArgumentDef, PositionalArgumentDef, ValidationException } from './_types';
 import { mapPositionalArgs } from './mapPositionalArgs';
+import { validatePositionalArgDefs } from './validatePositionalArgDefs';
 
 export interface ParsedArgsResult {
   _positional?: ArgumentValue[];
@@ -39,6 +40,15 @@ export function parseCliArgs(
     _: positionalArgs = [],
     '--': unparsedArgs = [],
   } = parsedArgs;
+
+  const exceptions: ValidationException[] = [
+    ...validatePositionalArgDefs(positionalArgDefs),
+  ];
+
+  if (exceptions.length) {
+    throw new Error(exceptions.map(({ message }) => message).join('. ')
+    );
+  }
 
   const positionalArgsMap = mapPositionalArgs(positionalArgs, positionalArgDefs, { mapAllArgs });
 

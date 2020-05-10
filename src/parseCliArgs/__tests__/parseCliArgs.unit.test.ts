@@ -64,4 +64,14 @@ describe('parseCliArgs()', () => {
     };
     expect(parsedArgs).toEqual(expected);
   });
+
+  it('if positional-argument defs are invalid, should throw an error', () => {
+    const definitions = {
+      positional: [{ required: false }, { required: true }],
+    };
+
+    expect(() => {
+      parseCliArgs(definitions);
+    }).toThrow();
+  });
 });

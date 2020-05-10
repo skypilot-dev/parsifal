@@ -30,3 +30,9 @@ export interface NamedArgumentDef extends RequireProps<ArgumentDef, 'name'> {
 export interface PositionalArgumentDef extends ArgumentDef {
   positional?: true;
 }
+
+export interface ValidationException {
+  level?: 'warning' | 'error';
+  message: string;
+  name: string;
+}
