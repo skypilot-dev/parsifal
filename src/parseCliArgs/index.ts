@@ -7,6 +7,7 @@ import {
   ValidationException,
 } from './_types';
 import { mapPositionalArgs } from './mapPositionalArgs';
+import { validateOptionNames } from './validateOptionNames';
 import { validatePositionalArgDefs } from './validatePositionalArgDefs';
 
 export interface ParsedArgsResult {
@@ -27,6 +28,7 @@ interface ParseCliArgsOptions {
   mapAllArgs?: boolean;
   maxPositionalArgs?: Integer;
   separateAfterStopArgs?: boolean;
+  useIndicesAsOptionNames?: boolean;
 }
 
 export function parseCliArgs(
@@ -36,6 +38,7 @@ export function parseCliArgs(
   const {
     args = process.argv.slice(2),
     mapAllArgs,
+    useIndicesAsOptionNames,
   } = options;
   const { positional: positionalArgDefs = [] } = definitions;
 
@@ -47,6 +50,7 @@ export function parseCliArgs(
   } = parsedArgs;
 
   const exceptions: ValidationException[] = [
+    ...validateOptionNames(positionalArgDefs, { useIndicesAsOptionNames }),
     ...validatePositionalArgDefs(positionalArgDefs),
   ];
 
