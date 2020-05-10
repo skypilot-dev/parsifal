@@ -1,11 +1,17 @@
 /* eslint-disable no-console */
 
-import { ArgumentDef, NamedArgumentDef, PositionalArgumentDef } from './_types';
+import {
+  ArgumentDef,
+  NamedArgumentDef,
+  PositionalArgumentDef,
+  ValidationException,
+} from './_types';
 import { formatNamedArgUse } from './formatNamedArgUse';
 
 type ShowUsageOptions = {
-  argumentDefs: ArgumentDef[];
+  argumentDefs?: ArgumentDef[];
   command?: string;
+  exceptions?: ValidationException[];
   exitCode?: number;
   exitProcessWhenTesting?: boolean;
   message?: string;
@@ -15,9 +21,10 @@ export function showUsage(options: ShowUsageOptions): never {
   const {
     argumentDefs = [],
     command = 'command',
+    exceptions = [],
     exitCode = 0,
     exitProcessWhenTesting, // if true, call `process.exit()` even when running in test mode
-    message,
+    message = exceptions.map(({ message }) => message).join('\n'),
   } = options;
   const writeToDisplay = exitCode ? console.log : console.error;
 
