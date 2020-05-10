@@ -1,5 +1,6 @@
 import { toOrdinal } from 'src/lib/functions/string/toOrdinal';
 import { PositionalArgDefInput, ValidationException } from './_types';
+import { toOptionName } from './toOptionName';
 
 function validateRequiredBeforeOptional(
   positionalArgDefs: PositionalArgDefInput[]
@@ -17,7 +18,7 @@ function validateRequiredBeforeOptional(
         return [{
           level: 'error',
           message: `Invalid definitions: Required args must precede optional args (the ${previousOrdinal} is optional, but the ${currentOrdinal} is required)`,
-          name: typeof argDef === 'string' ? i.toString() : (argDef?.name || i.toString()),
+          identifiers: [toOptionName(argDef)],
         }];
       }
     }
