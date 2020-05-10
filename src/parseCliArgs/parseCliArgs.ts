@@ -1,5 +1,5 @@
-import minimist from 'minimist';
 import { Integer } from '@skypilot/common-types';
+import { initialParse } from '../initialParse';
 import {
   ArgumentValue,
   NamedArgumentDef,
@@ -39,7 +39,7 @@ export function parseCliArgs(
   } = options;
   const { positional: positionalArgDefs = [] } = definitions;
 
-  const parsedArgs = minimist(args, { '--': true });
+  const parsedArgs = initialParse(args, { '--': true });
 
   const {
     _: positionalArgs = [],

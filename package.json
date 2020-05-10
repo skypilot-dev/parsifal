@@ -45,9 +45,7 @@
     "test": "jest",
     "typecheck": "tsc"
   },
-  "dependencies": {
-    "minimist": "^1.2.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@skypilot/common-types": "^1.7.2",
     "@skypilot/toolchain": "^4.0.3",
