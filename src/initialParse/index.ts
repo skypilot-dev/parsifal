@@ -1,22 +1,9 @@
+import { hasKey } from 'src/lib/functions/object/hasKey';
+import { isNumber } from 'src/lib/functions/number/isNumber';
+
 interface Options {
   '--'?: boolean;
   unknown?: Function | null;
-}
-
-function hasKey (obj, keys) {
-  var o = obj;
-  keys.slice(0,-1).forEach(function (key) {
-    o = (o[key] || {});
-  });
-
-  var key = keys[keys.length - 1];
-  return key in o;
-}
-
-function isNumber (x) {
-  if (typeof x === 'number') return true;
-  if (/^0x[0-9a-f]+$/i.test(x)) return true;
-  return /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(x);
 }
 
 export function initialParse(args, opts: Options = {}): any {
