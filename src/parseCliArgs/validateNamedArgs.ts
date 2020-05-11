@@ -1,4 +1,22 @@
-import { ArgumentsMap, NamedArgumentDef, ValidationException } from './_types';
+import { ArgumentsMap, ArgumentValue, NamedArgumentDef, ValidationException } from './_types';
+import { validateConstrainedValue } from './validateConstrainedValue';
+
+function getOrUndefined<T extends ArgumentValue>(key: string, argsMap: ArgumentsMap): T | undefined {
+  return Object.prototype.hasOwnProperty.call(argsMap, key)
+    ? argsMap[key] as T | undefined
+    : undefined;
+}
+
+function validateConstrainedArgs(
+  argsMap: ArgumentsMap, argDefs: NamedArgumentDef[]
+): ValidationException[] {
+  return argDefs.reduce((accExceptions, argDef) => {
+    const { name } = argDef;
+    const value = getOrUndefined(name, argsMap);
+    const exception = validateConstrainedValue(value, argDef);
+    return exception ? [...accExceptions, exception] : accExceptions;
+  }, [] as ValidationException[]);
+}
 
 function validateRequiredArgs(
   namedArgs: ArgumentsMap, namedArgDefs: NamedArgumentDef[]
@@ -18,9 +36,10 @@ function validateRequiredArgs(
 }
 
 export function validateNamedArgs(
-  namedArgs: ArgumentsMap, namedArgDefs: NamedArgumentDef[]
+  argsMap: ArgumentsMap, namedArgDefs: NamedArgumentDef[]
 ): ValidationException[] {
   return [
-    ...validateRequiredArgs(namedArgs, namedArgDefs),
+    ...validateRequiredArgs(argsMap, namedArgDefs),
+    ...validateConstrainedArgs(argsMap, namedArgDefs),
   ];
 }

@@ -161,4 +161,17 @@ describe('parseCliArgs() - arguments', () => {
       parseCliArgs(definitions, options);
     }).toThrow();
   });
+
+  it('if any argument has an invalid value, should report the error', () => {
+    const definitions: DefinitionsMap = {
+      named: [{ name: 'option1', validValues: [1] }],
+    };
+    const options = {
+      args: toArgs('--option1=2'),
+    };
+
+    expect(() => {
+      parseCliArgs(definitions, options);
+    }).toThrow();
+  });
 });
