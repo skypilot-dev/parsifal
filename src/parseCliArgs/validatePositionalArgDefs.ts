@@ -2,6 +2,24 @@ import { toOrdinal } from 'src/lib/functions/string/toOrdinal';
 import { PositionalArgumentDef, ValidationException } from './_types';
 import { toOptionName } from './toOptionName';
 
+function validateDefaultAndRequired(
+  positionalArgDefs: PositionalArgumentDef[]
+): ValidationException[] {
+  return positionalArgDefs.reduce((accExceptions, argDef, i) => {
+    if (argDef.required && argDef.defaultValue !== undefined) {
+      return [
+        ...accExceptions,
+        {
+          level: 'error',
+          message: 'Invalid definition: An option cannot be required and have default value',
+          identifiers: [toOptionName(argDef, i)],
+        },
+      ]
+    }
+    return accExceptions;
+  }, [] as ValidationException[])
+}
+
 function validateRequiredBeforeOptional(
   positionalArgDefs: PositionalArgumentDef[]
 ): ValidationException[] {
@@ -29,6 +47,7 @@ export function validatePositionalArgDefs(
   positionalArgDefs: PositionalArgumentDef[]
 ): ValidationException[] {
   return [
+    ...validateDefaultAndRequired(positionalArgDefs),
     ...validateRequiredBeforeOptional(positionalArgDefs),
   ];
 }
