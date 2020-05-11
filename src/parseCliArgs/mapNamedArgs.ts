@@ -1,13 +1,14 @@
-import { ArgumentsMap, NamedArgDefInput } from './_types';
-import { toOptionName } from './toOptionName';
+import { getOrDefault } from '../lib/functions/object/getOrDefault';
+import { ArgumentsMap, NamedArgumentDef } from './_types';
 
 export function mapNamedArgs(
-  argsMap: ArgumentsMap, namedArgDefs: NamedArgDefInput[]
+  argsMap: ArgumentsMap, namedArgDefs: NamedArgumentDef[]
 ): ArgumentsMap {
-  const optionNames = namedArgDefs
-    .map(argDef => toOptionName(argDef));
-  return optionNames.reduce((accArgs, optionName) => ({
-    ...accArgs,
-    [optionName]: Object.prototype.hasOwnProperty.call(argsMap, optionName) ? argsMap[optionName] : undefined,
-  }), {});
+  return namedArgDefs.reduce((accArgsMap, argDef) => {
+    const { defaultValue, name } = argDef;
+    return {
+      ...accArgsMap,
+      [name]: getOrDefault(argsMap, name, defaultValue),
+    }
+  }, {});
 }

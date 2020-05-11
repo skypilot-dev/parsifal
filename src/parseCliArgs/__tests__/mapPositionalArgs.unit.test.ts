@@ -24,7 +24,7 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
   });
 
   it('should map an array of arguments to an array of strings and return the map', () => {
-    const argDefs = ['numberOption', 'stringOption'];
+    const argDefs = [{ name: 'numberOption' }, { name: 'stringOption' }];
     const values = [1, 'a'];
 
     const args = mapPositionalArgs(values, argDefs);
@@ -38,7 +38,7 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
   });
 
   it('if there are more strings than args, should map undefined to the remaining strings', () => {
-    const argDefs = ['option', 'extraOption'];
+    const argDefs = [{ name: 'option' }, { name: 'extraOption' }];
     const values = [1];
 
     const args = mapPositionalArgs(values, argDefs);
@@ -52,7 +52,7 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
   });
 
   it('if there are more args than strings & `mapAllArgs:true`, should map the remaining args to indices', () => {
-    const argDefs = ['option'];
+    const argDefs = [{ name: 'option' }];
     const values = [1, 2, 3];
 
     const args = mapPositionalArgs(values, argDefs, { mapAllArgs: true });
@@ -67,14 +67,13 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
   });
 
   it('can use definition objects along with strings', () => {
-    const argDefs = [{ name: 'stringDefOption' }, 'stringOption', { name: 'numberDefOption' }];
-    const values = ['a', 'b', 3];
+    const argDefs = [{ name: 'stringDefOption' }, { name: 'numberDefOption' }];
+    const values = ['a', 3];
 
     const args = mapPositionalArgs(values, argDefs);
 
     const expected = {
       stringDefOption: 'a',
-      'stringOption': 'b',
       numberDefOption: 3,
     };
 
@@ -126,5 +125,23 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
     const expected = {};
 
     expect(args).toEqual(expected);
+  });
+
+  it('should fall back to default values, if set', () => {
+    const definitions = [
+      { name: 'option1', defaultValue: 1 },
+      { name: 'option2', defaultValue: 'a' },
+      { name: 'option3' },
+    ];
+    const values: ArgumentValue[] = [];
+
+    const namedArgsMap = mapPositionalArgs(values, definitions);
+
+    const expected = {
+      option1: 1,
+      option2: 'a',
+      option3: undefined,
+    };
+    expect(namedArgsMap).toEqual(expected);
   });
 });

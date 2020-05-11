@@ -1,5 +1,5 @@
-import { ArgumentsMap, ArgumentValue, PositionalArgDefInput } from './_types';
-import { toOptionName } from './toOptionName';
+import { getOrDefault } from '../lib/functions/object/getOrDefault';
+import { ArgumentsMap, ArgumentValue, PositionalArgumentDef } from './_types';
 
 interface MapPositionalArgsOptions {
   mapAllArgs?: boolean; // if true, map args without definitions to their indices
@@ -8,7 +8,7 @@ interface MapPositionalArgsOptions {
 
 export function mapPositionalArgs(
   values: ArgumentValue[],
-  argDefs: PositionalArgDefInput[] = [],
+  argDefs: PositionalArgumentDef[] = [],
   options: MapPositionalArgsOptions = {},
 ): ArgumentsMap {
   const {
@@ -19,13 +19,13 @@ export function mapPositionalArgs(
   let argsMap: ArgumentsMap = {};
 
   for (let i = 0; i < Math.max(argDefs.length, mapAllArgs ? values.length : argDefs.length); i += 1) {
-    const argDef = argDefs.length > i ? argDefs[i] : i.toString();
+    const argDef = argDefs.length > i ? argDefs[i] : {};
+    const { name = i.toString(), defaultValue } = argDef;
     if (typeof argDef === 'object' && !argDef.name && !mapAllArgs && !useIndicesAsOptionNames) {
       continue;
     }
-    const key: string = toOptionName(argDef);
-    const value = values.length > i ? values[i] : undefined;
-    argsMap = { ...argsMap, [key]: value };
+    const value = values.length > i ? values[i] : getOrDefault(argsMap, name, defaultValue);
+    argsMap = { ...argsMap, [name]: value };
   }
   return argsMap;
 }

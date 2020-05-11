@@ -1,18 +1,13 @@
-import { ArgumentsMap, ArgumentValue, NamedArgumentDef, ValidationException } from './_types';
+import { getOrDefault } from 'src/lib/functions/object/getOrDefault';
+import { ArgumentsMap, NamedArgumentDef, ValidationException } from './_types';
 import { validateConstrainedValue } from './validateConstrainedValue';
-
-function getOrUndefined<T extends ArgumentValue>(key: string, argsMap: ArgumentsMap): T | undefined {
-  return Object.prototype.hasOwnProperty.call(argsMap, key)
-    ? argsMap[key] as T | undefined
-    : undefined;
-}
 
 function validateConstrainedArgs(
   argsMap: ArgumentsMap, argDefs: NamedArgumentDef[]
 ): ValidationException[] {
   return argDefs.reduce((accExceptions, argDef) => {
-    const { name } = argDef;
-    const value = getOrUndefined(name, argsMap);
+    const { defaultValue, name } = argDef;
+    const value = getOrDefault(argsMap, name, defaultValue);
     const exception = validateConstrainedValue(value, argDef);
     return exception ? [...accExceptions, exception] : accExceptions;
   }, [] as ValidationException[]);
