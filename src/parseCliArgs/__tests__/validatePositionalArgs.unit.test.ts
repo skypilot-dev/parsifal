@@ -58,4 +58,15 @@ describe('validatePositionalArgs()', () => {
     ];
     expect(exceptions).toEqual(expected);
   });
+
+  it('if a value is not in the list of valid values, should return an exception', () => {
+    const argDefs: PositionalArgumentDef[] = [
+      { name: 'option1', validValues: ['a', 'b'] },
+    ];
+    const values: ArgumentValue = [1];
+
+    const exceptions = validatePositionalArgs(values, argDefs);
+
+    expect(exceptions.length).toBe(1);
+  });
 });

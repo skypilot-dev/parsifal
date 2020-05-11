@@ -1,6 +1,7 @@
 import { Integer } from '@skypilot/common-types';
 import { toOrdinal } from '../lib/functions/string/toOrdinal';
 import { ArgumentValue, PositionalArgumentDef, ValidationException } from './_types';
+import { validateConstrainedValue } from './validateConstrainedValue';
 
 function getIndexOfLastRequired(argDefs: PositionalArgumentDef[]): Integer {
   let highestIndex = -1;
@@ -18,6 +19,16 @@ function getArgName(argDef: PositionalArgumentDef, ordinal: Integer): string {
   return argDef?.name
     ? `'${argDef.name}'`
     : `the ${toOrdinal(ordinal)} argument`;
+}
+
+function validateConstrainedArgs(
+  positionalArgs: ArgumentValue[], argDefs: PositionalArgumentDef[]
+): ValidationException[] {
+  return argDefs.reduce((accExceptions, argDef, i) => {
+    const value = positionalArgs[i];
+    const exception = validateConstrainedValue(value, argDef);
+    return exception ? [...accExceptions, exception] : accExceptions;
+  }, [] as ValidationException[]);
 }
 
 function validateRequiredArgs(
@@ -51,6 +62,7 @@ export function validatePositionalArgs(
   positionalArgs: ArgumentValue[], argDefs: PositionalArgumentDef[]
 ): ValidationException[] {
   return [
+    ...validateConstrainedArgs(positionalArgs, argDefs),
     ...validateRequiredArgs(positionalArgs, argDefs),
   ];
 }

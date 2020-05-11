@@ -2,14 +2,15 @@ import { RequireProps } from '@skypilot/common-types';
 
 type Validator = (arg: string) => boolean;
 
-export type ArgumentDef = {
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+export type ArgumentDef<T = any> = {
   aliases?: string[];
   defaultValue?: string | number;
   name?: string;
   positional?: boolean;
   required?: boolean;
   validator?: Validator;
-  validValues?: string[];
+  validValues?: T[];
   valueLabel?: string;
   valueType?: 'boolean' | 'string' | 'number';
 }
