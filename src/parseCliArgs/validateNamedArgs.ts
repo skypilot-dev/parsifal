@@ -1,6 +1,6 @@
 import { ArgumentsMap, NamedArgumentDef, ValidationException } from './_types';
 
-export function validateNamedArgs(
+function validateRequiredArgs(
   namedArgs: ArgumentsMap, namedArgDefs: NamedArgumentDef[]
 ): ValidationException[] {
   const unsatisfiedArgDefs = namedArgDefs
@@ -15,4 +15,12 @@ export function validateNamedArgs(
       message: `'${namedArgDef.name}' is required`,
       identifiers: [namedArgDef.name],
     }));
+}
+
+export function validateNamedArgs(
+  namedArgs: ArgumentsMap, namedArgDefs: NamedArgumentDef[]
+): ValidationException[] {
+  return [
+    ...validateRequiredArgs(namedArgs, namedArgDefs),
+  ];
 }
