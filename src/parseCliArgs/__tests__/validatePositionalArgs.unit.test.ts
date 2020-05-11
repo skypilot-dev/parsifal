@@ -1,14 +1,9 @@
-import {
-  ArgumentValue,
-  PositionalArgDefInput,
-  PositionalArgumentDef,
-  ValidationException,
-} from '../_types';
+import { ArgumentValue, PositionalArgumentDef, ValidationException } from '../_types';
 import { validatePositionalArgs } from '../validatePositionalArgs';
 
 describe('validatePositionalArgs()', () => {
   it('should return no exceptions if no args are required (empty array)', () => {
-    const argDefs: PositionalArgDefInput[] = [];
+    const argDefs: PositionalArgumentDef[] = [];
     const values: ArgumentValue[] = [];
 
     const exceptions = validatePositionalArgs(values, argDefs);
@@ -17,17 +12,7 @@ describe('validatePositionalArgs()', () => {
     expect(exceptions).toEqual(expected);
   });
 
-  it('should return no exceptions if no args are required (string definitions)', () => {
-    const argDefs = ['optional1', 'optional2'];
-    const values: ArgumentValue[] = [];
-
-    const exceptions = validatePositionalArgs(values, argDefs);
-
-    const expected: ValidationException[] = [];
-    expect(exceptions).toEqual(expected);
-  });
-
-  it('should return no exceptions if all required args are provided (object definitions)', () => {
+  it('should return no exceptions if no args are required', () => {
     const argDefs: PositionalArgumentDef[] = [{ name: 'optional1' }, { name: 'optional2' }];
     const values: ArgumentValue[] = [];
 
@@ -37,11 +22,23 @@ describe('validatePositionalArgs()', () => {
     expect(exceptions).toEqual(expected);
   });
 
+  it('should return no exceptions if all required args are provided', () => {
+    const argDefs: PositionalArgumentDef[] = [
+      { name: 'required1', required: true }, { name: 'optional2' },
+    ];
+    const values: ArgumentValue[] = [1];
+
+    const exceptions = validatePositionalArgs(values, argDefs);
+
+    const expected: ValidationException[] = [];
+    expect(exceptions).toEqual(expected);
+  });
+
   it('should return exceptions for each missing argument', () => {
-    const argDefs: PositionalArgDefInput[] = [
+    const argDefs: PositionalArgumentDef[] = [
       { name: 'requiredOption', required: true },
       { required: true },
-      'optionalOption',
+      { name: 'optionalOption' },
     ];
     const values: ArgumentValue[] = [];
 

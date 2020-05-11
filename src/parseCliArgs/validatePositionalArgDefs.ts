@@ -1,15 +1,14 @@
 import { toOrdinal } from 'src/lib/functions/string/toOrdinal';
-import { PositionalArgDefInput, ValidationException } from './_types';
+import { PositionalArgumentDef, ValidationException } from './_types';
 import { toOptionName } from './toOptionName';
 
 function validateRequiredBeforeOptional(
-  positionalArgDefs: PositionalArgDefInput[]
+  positionalArgDefs: PositionalArgumentDef[]
 ): ValidationException[] {
   let previousArgIsOptional = false;
   for (let i = 0; i < positionalArgDefs.length; i += 1) {
     const argDef = positionalArgDefs[i];
-    const argIsRequired = typeof argDef === 'string' ? false : argDef.required;
-    if (!argIsRequired) {
+    if (!argDef?.required) {
       previousArgIsOptional = true;
     } else {
       if (previousArgIsOptional) {
@@ -27,7 +26,7 @@ function validateRequiredBeforeOptional(
 }
 
 export function validatePositionalArgDefs(
-  positionalArgDefs: PositionalArgDefInput[]
+  positionalArgDefs: PositionalArgumentDef[]
 ): ValidationException[] {
   return [
     ...validateRequiredBeforeOptional(positionalArgDefs),
