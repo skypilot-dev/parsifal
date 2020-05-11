@@ -2,14 +2,15 @@ import path from 'path';
 import { Integer } from '@skypilot/common-types';
 import { initialParse } from '../initialParse';
 import {
-  ArgumentValue,
+  ArgumentValue, NamedArgDefInput,
   NamedArgumentDef,
-  PositionalArgDefInput,
+  PositionalArgDefInput, PositionalArgumentDef,
   ValidationException,
 } from './_types';
 import { mapPositionalArgs } from './mapPositionalArgs';
-import { parseNamedArgs } from './parseNamedArgs';
+import { mapNamedArgs } from './mapNamedArgs';
 import { showUsage } from './showUsage';
+import { validateNamedArgs } from './validateNamedArgs';
 import { validateOptionNames } from './validateOptionNames';
 import { validatePositionalArgDefs } from './validatePositionalArgDefs';
 import { validatePositionalArgs } from './validatePositionalArgs';
@@ -20,7 +21,7 @@ export interface ParsedArgsResult {
 }
 
 export interface DefinitionsMap {
-  named?: Array<NamedArgumentDef | string>;
+  named?: NamedArgDefInput[];
   positional?: PositionalArgDefInput[];
 }
 
@@ -48,15 +49,20 @@ export function parseCliArgs(
     mapAllArgs = false,
     useIndicesAsOptionNames = false,
   } = options;
-  const { named: namedArgDefs = [], positional: positionalArgDefs = [] } = definitions;
+  const { named: namedArgDefInputs = [], positional: positionalArgDefInputs = [] } = definitions;
 
-  const parsedArgs = initialParse(args, { '--': true });
-  const namedArgsMap = parseNamedArgs(parsedArgs, namedArgDefs);
-
-  const {
-    _: positionalArgs = [],
-    '--': unparsedArgs = [],
-  } = parsedArgs;
+  /* Convert string-defined options to `NamedArgumentDef` objects. */
+  const namedArgDefs: NamedArgumentDef[] = namedArgDefInputs
+    .map(input => (
+      typeof input === 'string' ? { name: input } : input
+    ));
+  /* Convert string-defined options to `PositionalArgumentDef` objects. */
+  const positionalArgDefs: PositionalArgumentDef[] = positionalArgDefInputs
+    .map((input, i) => (
+      typeof input === 'string'
+        ? { name: input }
+        : { ...(useIndicesAsOptionNames ? { name: i.toString() } : {}), ...input }
+    ));
 
   const configExceptions: ValidationException[] = [
     ...validateOptionNames(positionalArgDefs, { useIndicesAsOptionNames }),
@@ -68,9 +74,17 @@ export function parseCliArgs(
     );
   }
 
+  const parsedArgs = initialParse(args, { '--': true });
+  const {
+    _: positionalArgs = [],
+    '--': unparsedArgs = [],
+  } = parsedArgs;
+
+  const namedArgsMap = mapNamedArgs(parsedArgs, namedArgDefs);
   const positionalArgsMap = mapPositionalArgs(positionalArgs, positionalArgDefs, { mapAllArgs });
 
   const argumentExceptions: ValidationException[] = [
+    ...validateNamedArgs(namedArgsMap, namedArgDefs),
     ...validatePositionalArgs(positionalArgs, positionalArgDefs),
   ];
 

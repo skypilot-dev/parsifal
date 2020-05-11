@@ -81,11 +81,35 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
     expect(args).toEqual(expected);
   });
 
-  it('if a definition object lacks a `name`, should use the index', () => {
+  it('if a definition lacks a `name`, by default should not map the argument', () => {
     const argDefs = [{}];
     const values = [1];
 
     const args = mapPositionalArgs(values, argDefs);
+
+    const expected = {};
+
+    expect(args).toEqual(expected);
+  });
+
+  it("if a definition lacks a `name` and `useIndicesAsOptionNames:true`, should map the argument to the def's index", () => {
+    const argDefs = [{}];
+    const values = [1];
+
+    const args = mapPositionalArgs(values, argDefs, { useIndicesAsOptionNames: true });
+
+    const expected = {
+      '0': 1,
+    };
+
+    expect(args).toEqual(expected);
+  });
+
+  it("if a definition lacks a `name` and `mapAllArgs:true`, should map the argument to the def's index", () => {
+    const argDefs = [{}];
+    const values = [1];
+
+    const args = mapPositionalArgs(values, argDefs, { mapAllArgs: true });
 
     const expected = {
       '0': 1,

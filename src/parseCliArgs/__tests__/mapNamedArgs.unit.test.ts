@@ -1,7 +1,7 @@
 import { ArgumentsMap } from '../_types';
-import { parseNamedArgs } from '../parseNamedArgs';
+import { mapNamedArgs } from '../mapNamedArgs';
 
-describe('parseNamedArgs(:ArgumentsMap, :NamedArgDefInput[])', () => {
+describe('mapNamedArgs(:ArgumentsMap, :NamedArgDefInput[])', () => {
   it('should return an object containing the entries whose keys are among the option names', () => {
     const definitions = ['option1', { name: 'option3' }];
     const argsMap: ArgumentsMap = {
@@ -10,7 +10,7 @@ describe('parseNamedArgs(:ArgumentsMap, :NamedArgDefInput[])', () => {
       option3: 'a',
     };
 
-    const namedArgsMap = parseNamedArgs(argsMap, definitions);
+    const namedArgsMap = mapNamedArgs(argsMap, definitions);
 
     const expected = {
       option1: 1,
@@ -23,7 +23,7 @@ describe('parseNamedArgs(:ArgumentsMap, :NamedArgDefInput[])', () => {
     const definitions = ['option1', { name: 'option2' }];
     const argsMap: ArgumentsMap = {};
 
-    const namedArgsMap = parseNamedArgs(argsMap, definitions);
+    const namedArgsMap = mapNamedArgs(argsMap, definitions);
 
     const expected = {
       option1: undefined,

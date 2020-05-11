@@ -148,4 +148,17 @@ describe('parseCliArgs() - arguments', () => {
       parseCliArgs(definitions, options);
     }).toThrow();
   });
+
+  it('if any required named argument is not given, should report the error', () => {
+    const definitions: DefinitionsMap = {
+      named: [{ name: 'option1', required: true }],
+    };
+    const options = {
+      args: [],
+    };
+
+    expect(() => {
+      parseCliArgs(definitions, options);
+    }).toThrow();
+  });
 });

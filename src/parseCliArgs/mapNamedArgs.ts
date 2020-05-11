@@ -1,7 +1,7 @@
 import { ArgumentsMap, NamedArgDefInput } from './_types';
 import { toOptionName } from './toOptionName';
 
-export function parseNamedArgs(
+export function mapNamedArgs(
   argsMap: ArgumentsMap, namedArgDefs: NamedArgDefInput[]
 ): ArgumentsMap {
   const optionNames = namedArgDefs
