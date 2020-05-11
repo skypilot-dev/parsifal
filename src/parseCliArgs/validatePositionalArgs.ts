@@ -25,10 +25,10 @@ function getArgName(argDef: PositionalArgumentDef, ordinal: Integer): string {
     : `the ${toOrdinal(ordinal)} argument`;
 }
 
-export function validatePositionalArgs(
-  positionalArgs: ArgumentValue[], positionalArgDefs: PositionalArgDefInput[]
+function validateRequiredArgs(
+  positionalArgs: ArgumentValue[], argDefInputs: PositionalArgDefInput[]
 ): ValidationException[] {
-  const howManyRequired = getIndexOfLastRequired(positionalArgDefs) + 1;
+  const howManyRequired = getIndexOfLastRequired(argDefInputs) + 1;
   const howManyReceived = positionalArgs.length;
   const howManyMissing = howManyRequired - howManyReceived;
   const firstMissingIndex = howManyRequired - howManyMissing;
@@ -38,10 +38,10 @@ export function validatePositionalArgs(
     return [];
   }
 
-  const unsatisfiedArgDefs = positionalArgDefs
+  const unsatisfiedArgDefs = argDefInputs
     .slice(firstMissingIndex, lastMissingIndex) as PositionalArgumentDef[];
 
-  return unsatisfiedArgDefs
+  return  unsatisfiedArgDefs
     .map((positionalArgDef, i) => {
       const ordinal = (firstMissingIndex + i + 1);
       return {
@@ -50,4 +50,12 @@ export function validatePositionalArgs(
         identifiers: [positionalArgDef?.name || (firstMissingIndex + i).toString()],
       };
     });
+}
+
+export function validatePositionalArgs(
+  positionalArgs: ArgumentValue[], argDefInputs: PositionalArgDefInput[]
+): ValidationException[] {
+  return [
+    ...validateRequiredArgs(positionalArgs, argDefInputs),
+  ];
 }

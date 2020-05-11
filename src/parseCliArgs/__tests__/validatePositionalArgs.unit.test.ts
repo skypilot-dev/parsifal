@@ -1,4 +1,9 @@
-import { ArgumentValue, PositionalArgDefInput, ValidationException } from '../_types';
+import {
+  ArgumentValue,
+  PositionalArgDefInput,
+  PositionalArgumentDef,
+  ValidationException,
+} from '../_types';
 import { validatePositionalArgs } from '../validatePositionalArgs';
 
 describe('validatePositionalArgs()', () => {
@@ -23,7 +28,7 @@ describe('validatePositionalArgs()', () => {
   });
 
   it('should return no exceptions if all required args are provided (object definitions)', () => {
-    const argDefs: PositionalArgDefInput[] = [{ name: 'optional1' }, { name: 'optional2' }];
+    const argDefs: PositionalArgumentDef[] = [{ name: 'optional1' }, { name: 'optional2' }];
     const values: ArgumentValue[] = [];
 
     const exceptions = validatePositionalArgs(values, argDefs);
