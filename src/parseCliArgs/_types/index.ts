@@ -41,4 +41,4 @@ export interface ValidationException {
   identifiers: string[];
 }
 
-export type ValueType = 'boolean' | 'string' | 'number';
+export type ValueType = 'boolean' | 'integer' | 'string' | 'number';
