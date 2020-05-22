@@ -1,12 +1,12 @@
 import { MaybeReadOnlyArray } from '@skypilot/common-types';
-import { ArgumentDef, ArgumentValue, ValidationException } from '../_types';
+import { ArgumentDefV1, ArgumentValue, ValidationException } from '../_types';
 
 function isValidConstrainedValue<T>(validValues: MaybeReadOnlyArray<T>, value: T | undefined): boolean {
   return value !== undefined && validValues.includes(value);
 }
 
 export function validateConstrainedValue(
-  value: ArgumentValue, argDef: ArgumentDef,
+  value: ArgumentValue, argDef: ArgumentDefV1,
 ): ValidationException[] {
   if (value === undefined) {
     /* An undefined value, if not permitted, will be flagged as a missing required value,

@@ -2,8 +2,7 @@ import { RequireProps } from '@skypilot/common-types';
 
 type Validator = (arg: string) => boolean;
 
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-export type ArgumentDef = {
+export interface ArgumentDefV1 {
   aliases?: string[];
   defaultValue?: string | number;
   name?: string;
@@ -23,13 +22,13 @@ export type ArgumentValue = LiteralValue | undefined
 
 type LiteralValue = boolean | number | string;
 
-export interface NamedArgumentDef extends RequireProps<ArgumentDef, 'name'> {
+export interface NamedArgumentDef extends RequireProps<ArgumentDefV1, 'name'> {
   positional?: false;
 }
 
 export type NamedArgDefInput = NamedArgumentDef | string;
 
-export interface PositionalArgumentDef extends ArgumentDef {
+export interface PositionalArgumentDef extends ArgumentDefV1 {
   positional?: true;
 }
 

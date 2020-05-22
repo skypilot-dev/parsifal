@@ -1,8 +1,8 @@
 import { Integer } from '@skypilot/common-types';
-import { ArgumentDef } from './_types';
+import { ArgumentDefV1 } from './_types';
 
 export function toOptionName(
-  argDefInput: ArgumentDef | string | undefined,
+  argDefInput: ArgumentDefV1 | string | undefined,
   index: Integer = 0
 ): string {
   if (typeof argDefInput === 'string') {

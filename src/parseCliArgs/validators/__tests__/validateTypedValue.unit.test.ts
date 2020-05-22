@@ -1,9 +1,9 @@
-import { ArgumentDef, ArgumentValue, ValidationException, ValueType } from '../../_types';
+import { ArgumentDefV1, ArgumentValue, ValidationException, ValueType } from '../../_types';
 import { validateTypedValue } from '../validateTypedValue';
 
 describe('validateTypedValue', () => {
   it('if no `valueType` is set, should return an empty array', () => {
-    const argDef: ArgumentDef = {}
+    const argDef: ArgumentDefV1 = {}
     const values = [0, 1, 'a', true, false];
 
     values.forEach(value => {
@@ -24,7 +24,7 @@ describe('validateTypedValue', () => {
 
     valuesAndTypes.forEach(({ goodValues, valueType }) => {
       goodValues.forEach(value => {
-        const argDef: ArgumentDef = { valueType };
+        const argDef: ArgumentDefV1 = { valueType };
 
         const exceptions = validateTypedValue(value, argDef);
 
@@ -44,7 +44,7 @@ describe('validateTypedValue', () => {
 
     valuesAndTypes.forEach(({ badValues, valueType }) => {
       badValues.forEach(value => {
-        const argDef: ArgumentDef = { valueType };
+        const argDef: ArgumentDefV1 = { valueType };
 
         const exceptions = validateTypedValue(value, argDef);
 

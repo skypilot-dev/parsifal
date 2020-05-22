@@ -1,7 +1,7 @@
-import { ArgumentDef, ArgumentValue, ValidationException } from '../_types';
+import { ArgumentDefV1, ArgumentValue, ValidationException } from '../_types';
 
 export function validateTypedValue(
-  value: ArgumentValue, argDef: ArgumentDef
+  value: ArgumentValue, argDef: ArgumentDefV1
 ): ValidationException[] {
   const { valueType } = argDef;
   if (!valueType) {

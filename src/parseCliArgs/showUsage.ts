@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import {
-  ArgumentDef,
+  ArgumentDefV1,
   NamedArgumentDef,
   PositionalArgumentDef,
   ValidationException,
@@ -9,7 +9,7 @@ import {
 import { formatNamedArgUse } from './formatNamedArgUse';
 
 type ShowUsageOptions = {
-  argumentDefs?: ArgumentDef[];
+  argumentDefs?: ArgumentDefV1[];
   command?: string;
   exceptions?: ValidationException[];
   exitCode?: number;
