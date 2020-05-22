@@ -1,6 +1,7 @@
 import { getOrDefault } from 'src/lib/functions/object/getOrDefault';
 import { ArgumentsMap, NamedArgumentDef, ValidationException } from './_types';
 import { validateConstrainedValue } from './validators/validateConstrainedValue';
+import { validateRequiredArgs } from './validators/validateRequiredArgs';
 
 function validateConstrainedArgs(
   argsMap: ArgumentsMap, argDefs: NamedArgumentDef[]
@@ -13,23 +14,6 @@ function validateConstrainedArgs(
       ...validateConstrainedValue(value, argDef),
     ];
   }, [] as ValidationException[]);
-}
-
-function validateRequiredArgs(
-  namedArgs: ArgumentsMap, namedArgDefs: NamedArgumentDef[]
-): ValidationException[] {
-  const unsatisfiedArgDefs = namedArgDefs
-    .filter(({ required }) => !!required)
-    .filter(({ name }) => (
-      !Object.prototype.hasOwnProperty.call(namedArgs, name) || namedArgs[name] === undefined
-    ));
-
-  return unsatisfiedArgDefs
-    .map((namedArgDef ) => ({
-      level: 'error',
-      message: `'${namedArgDef.name}' is required`,
-      identifiers: [namedArgDef.name],
-    }));
 }
 
 export function validateNamedArgs(
