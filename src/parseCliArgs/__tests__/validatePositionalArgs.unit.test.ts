@@ -63,7 +63,7 @@ describe('validatePositionalArgs()', () => {
     const argDefs: PositionalArgumentDef[] = [
       { name: 'option1', validValues: ['a', 'b'] },
     ];
-    const values: ArgumentValue = [1];
+    const values: ArgumentValue[] = [1];
 
     const exceptions = validatePositionalArgs(values, argDefs);
 

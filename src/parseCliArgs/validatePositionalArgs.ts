@@ -26,8 +26,10 @@ function validateConstrainedArgs(
 ): ValidationException[] {
   return argDefs.reduce((accExceptions, argDef, i) => {
     const value = positionalArgs[i];
-    const exception = validateConstrainedValue(value, argDef);
-    return exception ? [...accExceptions, exception] : accExceptions;
+    return [
+      ...accExceptions,
+      ...validateConstrainedValue(value, argDef),
+    ];
   }, [] as ValidationException[]);
 }
 

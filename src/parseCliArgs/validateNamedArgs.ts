@@ -8,8 +8,10 @@ function validateConstrainedArgs(
   return argDefs.reduce((accExceptions, argDef) => {
     const { defaultValue, name } = argDef;
     const value = getOrDefault(argsMap, name, defaultValue);
-    const exception = validateConstrainedValue(value, argDef);
-    return exception ? [...accExceptions, exception] : accExceptions;
+    return [
+      ...accExceptions,
+      ...validateConstrainedValue(value, argDef),
+    ];
   }, [] as ValidationException[]);
 }
 

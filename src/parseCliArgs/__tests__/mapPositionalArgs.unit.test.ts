@@ -118,7 +118,7 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
   });
 
   it('given an empty array of arguments & no definitions, should return an empty object', () => {
-    const values: ArgumentValue = [];
+    const values: ArgumentValue[] = [];
 
     const args = mapPositionalArgs(values);
 
