@@ -5,7 +5,7 @@ type ArgumentMap = {
   [key: string]: any;
 };
 
-export function validateArgs(
+export function validateArgsV1(
   argDefs: Array<NamedArgumentDef | PositionalArgumentDef>,
   argMap: ArgumentMap,
   checkNames = false

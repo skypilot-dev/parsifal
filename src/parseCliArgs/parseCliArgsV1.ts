@@ -6,7 +6,7 @@ import { NamedArgumentDef, PositionalArgumentDef } from './_types';
 import { omitAliases } from './omitAliases';
 import { parseAliases } from './parseAliases';
 import { showUsage } from './showUsage';
-import { validateArgs } from './validateArgs';
+import { validateArgsV1 } from './validateArgsV1';
 
 type LiteralValue = boolean | number | string;
 
@@ -76,8 +76,8 @@ export function parseCliArgsV1(options: ParseCliArgsOptionsV1 = {}): ArgumentsMa
   const namedArgsMap = omitAliases(namedArgs, aliasMap);
 
   try {
-    validateArgs(namedArgDefs, namedArgsMap, requireNamedArgDefs);
-    validateArgs(positionalArgDefs, positionalArgsMap);
+    validateArgsV1(namedArgDefs, namedArgsMap, requireNamedArgDefs);
+    validateArgsV1(positionalArgDefs, positionalArgsMap);
   } catch (error) {
     showUsage({
       argumentDefs,
