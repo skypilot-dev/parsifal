@@ -1,4 +1,4 @@
-import { ArgumentDef, ValidationException } from '../_types';
+import { ArgumentDef, ValidationException } from '../../_types';
 import { validateConstrainedValue } from '../validateConstrainedValue';
 
 describe('validateConstrainedValue(value, :ArgumentDef)', () => {
@@ -38,7 +38,7 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
     expect(exceptions).toEqual(expected);
   });
 
-  it('when the value is not among `validValues`, should return an exception', () => {
+  it('when the value is not among `validValues`, should return an array containing an exception', () => {
     const argDef: ArgumentDef = {
       validValues: [1, 'a', true],
     };

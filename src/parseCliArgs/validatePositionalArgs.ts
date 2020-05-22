@@ -1,7 +1,7 @@
 import { Integer } from '@skypilot/common-types';
 import { toOrdinal } from '../lib/functions/string/toOrdinal';
 import { ArgumentValue, PositionalArgumentDef, ValidationException } from './_types';
-import { validateConstrainedValue } from './validateConstrainedValue';
+import { validateConstrainedValue } from './validators/validateConstrainedValue';
 
 function getIndexOfLastRequired(argDefs: PositionalArgumentDef[]): Integer {
   let highestIndex = -1;

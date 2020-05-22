@@ -1,5 +1,5 @@
 import { MaybeReadOnlyArray } from '@skypilot/common-types';
-import { ArgumentDef, ArgumentValue, ValidationException } from './_types';
+import { ArgumentDef, ArgumentValue, ValidationException } from '../_types';
 
 function isValidConstrainedValue<T>(validValues: MaybeReadOnlyArray<T>, value: T | undefined): boolean {
   return value !== undefined && validValues.includes(value);

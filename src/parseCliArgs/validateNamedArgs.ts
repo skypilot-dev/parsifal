@@ -1,6 +1,6 @@
 import { getOrDefault } from 'src/lib/functions/object/getOrDefault';
 import { ArgumentsMap, NamedArgumentDef, ValidationException } from './_types';
-import { validateConstrainedValue } from './validateConstrainedValue';
+import { validateConstrainedValue } from './validators/validateConstrainedValue';
 
 function validateConstrainedArgs(
   argsMap: ArgumentsMap, argDefs: NamedArgumentDef[]
