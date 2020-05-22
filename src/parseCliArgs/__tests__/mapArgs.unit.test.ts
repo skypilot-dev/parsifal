@@ -42,4 +42,39 @@ describe('mapArgs(:InitialParsedArgs, :ArgumentDefinition[])', () => {
     ]);
     expect(argsMap).toStrictEqual(expected);
   });
+
+  it('by default should ignore undefined args', () => {
+    const argDefs: ArgumentDefinition[] = [];
+    const initialParsedArgs: InitialParsedArgs = {
+      _: [0],
+      '--': [],
+      'undefined1': 1,
+      'undefined2': 2,
+    };
+
+    const argsMap = mapArgs(initialParsedArgs, argDefs);
+
+    const expected = new Map([]);
+    expect(argsMap).toStrictEqual(expected);
+  });
+
+  it('when `mapAllNamedArgs: true` should map all named args & ignore positional args', () => {
+    const argDefs: ArgumentDefinition[] = [];
+    const initialParsedArgs: InitialParsedArgs = {
+      _: [0],
+      '--': [],
+      'undefined1': 1,
+      'undefined2': 2,
+    };
+    const mapArgsOptions = { mapAllNamedArgs: true };
+
+    const argsMap = mapArgs(initialParsedArgs, argDefs, mapArgsOptions);
+
+    const expected = new Map([
+      ['undefined1', { definition: { name: 'undefined1' }, value: 1 }],
+      ['undefined2', { definition: { name: 'undefined2' }, value: 2 }],
+    ]);
+
+    expect(argsMap).toStrictEqual(expected);
+  });
 });
