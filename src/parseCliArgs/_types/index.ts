@@ -12,7 +12,7 @@ export type ArgumentDef = {
   validator?: Validator;
   validValues?: ArgumentValue[];
   valueLabel?: string;
-  valueType?: 'boolean' | 'string' | 'number';
+  valueType?: ValueType;
 }
 
 export interface ArgumentsMap {
@@ -40,3 +40,5 @@ export interface ValidationException {
   message: string;
   identifiers: string[];
 }
+
+export type ValueType = 'boolean' | 'string' | 'number';
