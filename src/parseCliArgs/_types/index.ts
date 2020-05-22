@@ -2,6 +2,11 @@ import { RequireProps } from '@skypilot/common-types';
 
 type Validator = (arg: string) => boolean;
 
+export interface Argument {
+  definition: ArgumentDefinition;
+  value: ArgumentValue;
+}
+
 export interface ArgumentDefV1 {
   aliases?: string[];
   defaultValue?: string | number;
@@ -14,11 +19,19 @@ export interface ArgumentDefV1 {
   valueType?: ValueType;
 }
 
+export type ArgumentDefinition = RequireProps<ArgumentDefV1, 'name'>
+
 export interface ArgumentsMap {
   [key: string]: ArgumentValue;
 }
 
 export type ArgumentValue = LiteralValue | undefined
+
+export interface InitialParsedArgs {
+  [key: string]: ArgumentValue | ArgumentValue[];
+  _: ArgumentValue[];
+  '--': ArgumentValue[];
+}
 
 type LiteralValue = boolean | number | string;
 
