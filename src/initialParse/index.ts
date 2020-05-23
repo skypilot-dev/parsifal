@@ -36,7 +36,7 @@ export function initialParse(args: string[], options: Options = {}): any {
     }), {} as { [key: string]: boolean });
   }
   const flags: Flags = {
-    allBooleans,
+    allBooleans: true,
     bools: booleanKeys,
     strings: {},
     unknownFn,

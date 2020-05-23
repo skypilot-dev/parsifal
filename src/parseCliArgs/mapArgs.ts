@@ -5,6 +5,18 @@ interface MapArgsOptions {
   mapAllNamedArgs?: boolean;
 }
 
+function fixBooleans(argsMap: Map<string, Argument>): Map<string, Argument> {
+  Array.from(argsMap.entries())
+    .filter(([_name, argument]: [string, Argument]) => (
+      argument.value === 'true' || argument.value === 'false'
+    ))
+    .filter(([_name, argument]) => argument && argument.definition.valueType === 'boolean')
+    .forEach(([_name, argument]) => {
+      argument.value = argument.value === 'true';
+    });
+  return argsMap;
+}
+
 export function mapArgs(
   initialParsedArgs: InitialParsedArgs,
   argDefs: ArgumentDefinition[],
@@ -44,5 +56,6 @@ export function mapArgs(
         });
       });
   }
+  fixBooleans(argsMap);
   return argsMap;
 }

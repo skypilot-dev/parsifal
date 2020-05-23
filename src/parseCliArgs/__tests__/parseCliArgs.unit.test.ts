@@ -128,6 +128,68 @@ describe('parseCliArgs() - arguments', () => {
     }).toThrow();
   });
 
+  it('by default should treat any double-hyphenated argument as a boolean', () => {
+    const definitions: DefinitionsMap = {
+      named: [{ name: 'implicitTrue' }],
+    };
+    const options = {
+      args: toArgs('--implicitTrue'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: [],
+      _unparsed: [],
+      implicitTrue: true,
+    };
+    expect(args).toStrictEqual(expectedArgs);
+  });
+
+  it("if `valueType` is anything other than 'boolean', the arg should not be treated as a boolean", () => {
+    const definitions: DefinitionsMap = {
+      named: [
+        { name: 'trueString' },
+        { name: 'falseString' },
+      ],
+    };
+    const options = {
+      args: toArgs('--trueString=true --falseString=false true false'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: ['true', 'false'],
+      _unparsed: [],
+      trueString: 'true',
+      falseString: 'false',
+    };
+    expect(args).toStrictEqual(expectedArgs);
+  });
+
+  it("if `valueType: 'boolean'`, 'true' and 'false' should be treated as boolean values", () => {
+    const definitions: DefinitionsMap = {
+      named: [
+        { name: 'explicitTrue', valueType: 'boolean' },
+        { name: 'explicitFalse', valueType: 'boolean' },
+      ],
+    };
+    const options = {
+      args: toArgs('--explicitTrue=true --explicitFalse=false'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: [],
+      _unparsed: [],
+      explicitTrue: true,
+      explicitFalse: false,
+    };
+    expect(args).toStrictEqual(expectedArgs);
+  });
+
   it("if `valueType: 'string'`, the arg should always be treated as a string", () => {
     const definitions: DefinitionsMap = {
       named: [
