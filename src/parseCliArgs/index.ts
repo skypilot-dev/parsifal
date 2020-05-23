@@ -78,13 +78,17 @@ export function parseCliArgs(
     );
   }
 
-  const parsedArgs = initialParse(args, { '--': true });
+  const argDefs: ArgumentDefinition[] = [...namedArgDefs, ...positionalArgDefs];
+  const stringArgNames: string[] = argDefs
+    .filter(({ valueType }) => valueType === 'string')
+    .map(({ name }) => name);
+
+  const parsedArgs = initialParse(args, { '--': true, string: stringArgNames });
   const {
     _: positionalArgs = [],
     '--': unparsedArgs = [],
   } = parsedArgs;
 
-  const argDefs: ArgumentDefinition[] = [...namedArgDefs, ...positionalArgDefs];
   const argsMap = mapArgs(parsedArgs, argDefs, { mapAllNamedArgs });
 
   const argumentExceptions: ValidationException[] = validateArgs(argsMap);

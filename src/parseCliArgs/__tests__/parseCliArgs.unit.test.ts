@@ -127,4 +127,30 @@ describe('parseCliArgs() - arguments', () => {
       parseCliArgs(definitions, options);
     }).toThrow();
   });
+
+  it("if `valueType: 'string'`, the arg should always be treated as a string", () => {
+    const definitions: DefinitionsMap = {
+      named: [
+        { name: 'booleanString', valueType: 'string' },
+        { name: 'numericString', valueType: 'string' },
+      ],
+      positional: [
+        { name: 'booleanString', valueType: 'string' },
+        { name: 'numericString', valueType: 'string' },
+      ],
+    };
+    const options = {
+      args: toArgs('--booleanString=true --numericString=0'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: [],
+      _unparsed: [],
+      booleanString: 'true',
+      numericString: '0',
+    };
+    expect(args).toStrictEqual(expectedArgs);
+  });
 });

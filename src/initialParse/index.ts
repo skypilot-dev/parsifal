@@ -16,6 +16,7 @@ interface Options {
   alias?: object;
   boolean?: boolean | string | string[];
   default?: object;
+  string?: string | string[]; // argument names to treat a strings
   unknown?: Function | null;
 }
 
