@@ -34,7 +34,6 @@ interface ParseCliArgsOptions {
   mapAllArgs?: boolean;
   maxPositionalArgs?: Integer;
   separateAfterStopArgs?: boolean;
-  useIndicesAsOptionNames?: boolean;
 }
 
 export function parseCliArgs(
@@ -48,7 +47,6 @@ export function parseCliArgs(
     args = process.argv.slice(2),
     exitProcessWhenTesting = false,
     mapAllArgs = false,
-    useIndicesAsOptionNames = false,
   } = options;
   const { named: namedArgDefInputs = [], positional: positionalArgDefInputs = [] } = definitions;
 
@@ -59,14 +57,14 @@ export function parseCliArgs(
     ));
   /* Convert string-defined options to `PositionalArgumentDef` objects. */
   const positionalArgDefs: PositionalArgumentDef[] = positionalArgDefInputs
-    .map((input, i) => (
+    .map((input) => (
       typeof input === 'string'
-        ? { name: input }
-        : { ...(useIndicesAsOptionNames ? { name: i.toString() } : {}), ...input }
+        ? { name: input, positional: true }
+        : { ...input, positional: true }
     ));
 
   const configExceptions: ValidationException[] = [
-    ...validateOptionNames(positionalArgDefs, { useIndicesAsOptionNames }),
+    ...validateOptionNames(positionalArgDefs),
     ...validateNamedArgDefs(namedArgDefs),
     ...validatePositionalArgDefs(positionalArgDefs),
   ];

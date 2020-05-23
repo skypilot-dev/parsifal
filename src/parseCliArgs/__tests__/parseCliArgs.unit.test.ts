@@ -84,36 +84,6 @@ describe('parseCliArgs() - definitions', () => {
       parseCliArgs(definitions);
     }).toThrow();
   });
-
-  it('when `useIndicesAsOptionNames: true`, should use indices for unnamed options', () => {
-    const definitions = {
-      positional: [{}, {}],
-      useIndicesAsOptionNames: true,
-    };
-
-    const args = parseCliArgs(definitions);
-
-    const expected = {
-      '0': undefined,
-      '1': undefined,
-      _positional: [],
-      _unparsed: [],
-    };
-    expect(args).toEqual(expected);
-  });
-
-  it('if positional-argument defs have a name that conflicts with an index, should throw an error', () => {
-    const definitions: DefinitionsMap = {
-      positional: [{}, '0'],
-    };
-    const options = {
-      useIndicesAsOptionNames: true,
-    };
-
-    expect(() => {
-      parseCliArgs(definitions, options);
-    }).toThrow('Invalid definitions');
-  });
 });
 
 describe('parseCliArgs() - arguments', () => {
