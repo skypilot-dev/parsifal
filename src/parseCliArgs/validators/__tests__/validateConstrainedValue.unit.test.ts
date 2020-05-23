@@ -1,9 +1,10 @@
-import { ArgumentDefV1, ValidationException } from '../../_types';
+import { ArgumentDefinition, ValidationException } from '../../_types';
 import { validateConstrainedValue } from '../validateConstrainedValue';
 
 describe('validateConstrainedValue(value, :ArgumentDef)', () => {
   it('when the value is among the valid values, should return an empty array', () => {
-    const argDef: ArgumentDefV1 = {
+    const argDef: ArgumentDefinition = {
+      name: 'option',
       validValues: [1, 2],
     };
     const value = 1;
@@ -15,7 +16,7 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
   });
 
   it('when `validValues` is undefined, should always return an empty array', () => {
-    const argDef: ArgumentDefV1 = {};
+    const argDef: ArgumentDefinition = { name: 'option' };
     const values = [0, 1, 'a', true, false];
 
     values.forEach((value) => {
@@ -27,7 +28,8 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
   });
 
   it('when the value is undefined, should return an empty array (because required values are validated elsewhere)', () => {
-    const argDef: ArgumentDefV1 = {
+    const argDef: ArgumentDefinition = {
+      name: 'option',
       validValues: [],
     };
     const value = undefined;
@@ -39,7 +41,8 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
   });
 
   it('when the value is not among `validValues`, should return an array containing an exception', () => {
-    const argDef: ArgumentDefV1 = {
+    const argDef: ArgumentDefinition = {
+      name: 'option',
       validValues: [1, 'a', true],
     };
     const values = [0, 2, 'b', false];
@@ -55,7 +58,8 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
   });
 
   it('can handle valid values of mixed types', () => {
-    const argDef: ArgumentDefV1 = {
+    const argDef: ArgumentDefinition = {
+      name: 'option',
       validValues: [1, 'a', false, undefined],
     };
     const values = [1, 'a', false];

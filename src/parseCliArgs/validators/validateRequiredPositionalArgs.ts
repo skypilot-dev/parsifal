@@ -1,8 +1,8 @@
 import { Integer } from '@skypilot/common-types';
 import { toOrdinal } from 'src/lib/functions/string/toOrdinal';
-import { ArgumentValue, PositionalArgumentDef, ValidationException } from '../_types';
+import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
 
-function getIndexOfLastRequired(argDefs: PositionalArgumentDef[]): Integer {
+function getIndexOfLastRequired(argDefs: ArgumentDefinition[]): Integer {
   let highestIndex = -1;
   for (let i = 0; i < argDefs.length; i += 1) {
     const argDef = argDefs[i];
@@ -14,14 +14,14 @@ function getIndexOfLastRequired(argDefs: PositionalArgumentDef[]): Integer {
   return highestIndex;
 }
 
-function getArgName(argDef: PositionalArgumentDef, ordinal: Integer): string {
+function getArgName(argDef: ArgumentDefinition, ordinal: Integer): string {
   return argDef?.name
     ? `'${argDef.name}'`
     : `the ${toOrdinal(ordinal)} argument`;
 }
 
 export function validateRequiredPositionalArgs(
-  positionalArgs: ArgumentValue[], argDefs: PositionalArgumentDef[]
+  positionalArgs: ArgumentValue[], argDefs: ArgumentDefinition[]
 ): ValidationException[] {
   const howManyRequired = getIndexOfLastRequired(argDefs) + 1;
   const howManyReceived = positionalArgs.length;
@@ -34,7 +34,7 @@ export function validateRequiredPositionalArgs(
   }
 
   const unsatisfiedArgDefs = argDefs
-    .slice(firstMissingIndex, lastMissingIndex) as PositionalArgumentDef[];
+    .slice(firstMissingIndex, lastMissingIndex) as ArgumentDefinition[];
 
   return unsatisfiedArgDefs
     .map((positionalArgDef, i) => {

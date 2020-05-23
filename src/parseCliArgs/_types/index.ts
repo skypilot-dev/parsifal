@@ -9,7 +9,7 @@ export interface Argument {
 
 export interface ArgumentDefV1 {
   aliases?: string[];
-  defaultValue?: string | number;
+  defaultValue?: ArgumentValue;
   name?: string;
   positional?: boolean;
   required?: boolean;
@@ -20,6 +20,8 @@ export interface ArgumentDefV1 {
 }
 
 export type ArgumentDefinition = RequireProps<ArgumentDefV1, 'name'>
+
+export type ArgumentInput = ArgumentDefinition | string;
 
 export interface ArgumentsMap {
   [key: string]: ArgumentValue;

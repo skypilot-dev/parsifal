@@ -11,8 +11,10 @@ export function mapArgs(
   options: MapArgsOptions = {}
 ): Map<string, Argument> {
   const { mapAllNamedArgs = false } = options;
+
   const argsMap = new Map<string, Argument>();
   const { _: positionalArgs, '--': _unparsedArgs, ...namedArgsMap } = initialParsedArgs;
+
   const namedArgDefs = argDefs.filter(({ positional }) => !positional);
   const positionalArgDefs = argDefs.filter(({ positional }) => !!positional);
 
