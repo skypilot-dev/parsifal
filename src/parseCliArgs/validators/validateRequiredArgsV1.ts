@@ -1,6 +1,6 @@
 import { ArgumentsMap, NamedArgumentDef, ValidationException } from '../_types';
 
-export function validateRequiredArgs(
+export function validateRequiredArgsV1(
   argsMap: ArgumentsMap, argDefs: NamedArgumentDef[]
 ): ValidationException[] {
   const unsatisfiedArgDefs = argDefs
