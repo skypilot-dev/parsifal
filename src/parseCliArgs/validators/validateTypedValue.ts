@@ -14,8 +14,9 @@ export function validateTypedValue(
   if (!hasCorrectType) {
     const valueString = typeof value === 'string' ? `'${value}'` : `${value}`;
     return [{
+      code: 'wrongType',
       level: 'error',
-      message: `Invalid value for '${argDef.name}': ${valueString} (expected type: ${valueType})`,
+      message: `Error: ${valueString} is not a valid value for ${argDef.name}`,
       identifiers: [`'${argDef.name}'`],
     }];
   }

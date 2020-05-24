@@ -16,6 +16,7 @@ export function validateConstrainedValue(
   if (argDef.validValues?.length) {
     if (!isValidConstrainedValue(argDef.validValues, value)) {
       return [{
+        code: 'unlistedValue',
         level: 'error',
         message: `Invalid value for '${argDef.name}': Expected one of ${
           argDef.validValues.map((validValue) => `'${validValue}'`).join(' | ')
