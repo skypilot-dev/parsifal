@@ -1,6 +1,6 @@
 import { filterDuplicates } from '../../lib/functions/array/filterDuplicates';
 import { PositionalArgDefInput, ValidationException } from '../_types';
-import { toOptionName } from '../toOptionName';
+import { toOptionName } from '../formatters/toOptionName';
 
 interface ValidateOptionNamesOptions {
   useIndicesAsOptionNames?: boolean;

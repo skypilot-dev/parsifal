@@ -1,4 +1,4 @@
-import { ArgumentDefinition } from '../_types';
+import { ArgumentDefinition } from '../../_types';
 import { formatValueLabel } from '../formatValueLabel';
 
 describe('formatValueLabel', () => {

@@ -1,5 +1,7 @@
-import { ArgumentDefinition } from './_types';
+import { ArgumentDefinition } from '../_types';
 import { formatValueLabel } from './formatValueLabel';
+
+/* FIXME: Add tests */
 
 export function formatPositionalArgsUse(argDefs: ArgumentDefinition[]): string {
   const requiredArgDefs = argDefs.filter(({ required }) => !!required);

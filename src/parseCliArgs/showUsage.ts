@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 
 import { Argument, ValidationException } from './_types';
-import { formatNamedArgUse } from './formatNamedArgUse';
-import { formatPositionalArgsUse } from './formatPositionalArgsUse';
+import { formatNamedArgUse } from './formatters/formatNamedArgUse';
+import { formatPositionalArgsUse } from './formatters/formatPositionalArgsUse';
 
 type ShowUsageOptions = {
   argsMap: Map<string, Argument>;

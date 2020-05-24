@@ -1,6 +1,6 @@
 import { toOrdinal } from '../../lib/functions/string/toOrdinal';
 import { PositionalArgumentDef, ValidationException } from '../_types';
-import { toOptionName } from '../toOptionName';
+import { toOptionName } from '../formatters/toOptionName';
 
 function validateDefaultAndRequired(
   positionalArgDefs: PositionalArgumentDef[]

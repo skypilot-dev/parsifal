@@ -6,7 +6,7 @@ import {
   PositionalArgumentDef,
   ValidationException,
 } from './_types';
-import { formatNamedArgUse } from './formatNamedArgUse';
+import { formatNamedArgUse } from './formatters/formatNamedArgUse';
 
 type ShowUsageOptions = {
   argumentDefs?: ArgumentDefV1[];

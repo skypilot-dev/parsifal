@@ -1,4 +1,4 @@
-import { PositionalArgDefInput, PositionalArgumentDef } from '../_types';
+import { PositionalArgDefInput, PositionalArgumentDef } from '../../_types';
 import { toOptionName } from '../toOptionName';
 
 describe('toOptionName(:PositionalArgDefInput)', () => {
