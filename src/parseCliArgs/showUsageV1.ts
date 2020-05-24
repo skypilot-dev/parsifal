@@ -17,7 +17,7 @@ type ShowUsageOptions = {
   message?: string;
 }
 
-export function showUsage(options: ShowUsageOptions): never {
+export function showUsageV1(options: ShowUsageOptions): never {
   const {
     argumentDefs = [],
     command = 'command',
