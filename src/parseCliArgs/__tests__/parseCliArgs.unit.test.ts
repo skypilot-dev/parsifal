@@ -48,26 +48,9 @@ describe('parseCliArgs() - definitions', () => {
     expect(parsedArgs).toEqual(expected);
   });
 
-  it('can map all args without definitions to their indices', () => {
-    const definitions = {};
-
-    const parsedArgs: ParsedArgsResult = parseCliArgs(definitions, {
-      args: toArgs('1 2 -- 3'),
-      mapAllArgs: true,
-    });
-
-    const expected = {
-      _positional: [1, 2], // all positional args
-      _unparsed: ['3'],
-      '0': 1,
-      '1': 2,
-    };
-    expect(parsedArgs).toEqual(expected);
-  });
-
   it('if positional-argument defs have invalid required/optional order, should throw an error', () => {
     const definitions = {
-      positional: [{ required: false }, { required: true }],
+      positional: [{ name: 'pos1', required: false }, {name: 'pos2',  required: true }],
     };
 
     expect(() => {
@@ -83,36 +66,6 @@ describe('parseCliArgs() - definitions', () => {
     expect(() => {
       parseCliArgs(definitions);
     }).toThrow();
-  });
-
-  it('when `useIndicesAsOptionNames: true`, should use indices for unnamed options', () => {
-    const definitions = {
-      positional: [{}, {}],
-      useIndicesAsOptionNames: true,
-    };
-
-    const args = parseCliArgs(definitions);
-
-    const expected = {
-      '0': undefined,
-      '1': undefined,
-      _positional: [],
-      _unparsed: [],
-    };
-    expect(args).toEqual(expected);
-  });
-
-  it('if positional-argument defs have a name that conflicts with an index, should throw an error', () => {
-    const definitions: DefinitionsMap = {
-      positional: [{}, '0'],
-    };
-    const options = {
-      useIndicesAsOptionNames: true,
-    };
-
-    expect(() => {
-      parseCliArgs(definitions, options);
-    }).toThrow('Invalid definitions');
   });
 });
 
@@ -138,7 +91,7 @@ describe('parseCliArgs() - arguments', () => {
 
   it('if not enough required positional arguments are given, should report the error', () => {
     const definitions: DefinitionsMap = {
-      positional: [{ required: true }],
+      positional: [{ name: 'positional', required: true }],
     };
     const options = {
       args: [],
@@ -173,5 +126,93 @@ describe('parseCliArgs() - arguments', () => {
     expect(() => {
       parseCliArgs(definitions, options);
     }).toThrow();
+  });
+
+  it('by default should treat any double-hyphenated argument as a boolean', () => {
+    const definitions: DefinitionsMap = {
+      named: [{ name: 'implicitTrue' }],
+    };
+    const options = {
+      args: toArgs('--implicitTrue'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: [],
+      _unparsed: [],
+      implicitTrue: true,
+    };
+    expect(args).toStrictEqual(expectedArgs);
+  });
+
+  it("if `valueType` is anything other than 'boolean', the arg should not be treated as a boolean", () => {
+    const definitions: DefinitionsMap = {
+      named: [
+        { name: 'trueString' },
+        { name: 'falseString' },
+      ],
+    };
+    const options = {
+      args: toArgs('--trueString=true --falseString=false true false'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: ['true', 'false'],
+      _unparsed: [],
+      trueString: 'true',
+      falseString: 'false',
+    };
+    expect(args).toStrictEqual(expectedArgs);
+  });
+
+  it("if `valueType: 'boolean'`, 'true' and 'false' should be treated as boolean values", () => {
+    const definitions: DefinitionsMap = {
+      named: [
+        { name: 'explicitTrue', valueType: 'boolean' },
+        { name: 'explicitFalse', valueType: 'boolean' },
+      ],
+    };
+    const options = {
+      args: toArgs('--explicitTrue=true --explicitFalse=false'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: [],
+      _unparsed: [],
+      explicitTrue: true,
+      explicitFalse: false,
+    };
+    expect(args).toStrictEqual(expectedArgs);
+  });
+
+  it("if `valueType: 'string'`, the arg should always be treated as a string", () => {
+    const definitions: DefinitionsMap = {
+      named: [
+        { name: 'booleanString', valueType: 'string' },
+        { name: 'numericString', valueType: 'string' },
+      ],
+      positional: [
+        { name: 'booleanString', valueType: 'string' },
+        { name: 'numericString', valueType: 'string' },
+      ],
+    };
+    const options = {
+      args: toArgs('--booleanString=true --numericString=0'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: [],
+      _unparsed: [],
+      booleanString: 'true',
+      numericString: '0',
+    };
+    expect(args).toStrictEqual(expectedArgs);
   });
 });

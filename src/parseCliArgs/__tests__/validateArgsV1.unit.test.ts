@@ -1,4 +1,4 @@
-import { validateArgs } from '../validateArgs';
+import { validateArgsV1 } from '../validateArgsV1';
 
 describe('validationArgs()', () => {
   it('should throw an error if a required argument is missing', () => {
@@ -9,7 +9,7 @@ describe('validationArgs()', () => {
     ];
 
     expect(() => {
-      validateArgs(argDefs, argMap);
+      validateArgsV1(argDefs, argMap);
     }).toThrow();
   });
 
@@ -21,7 +21,7 @@ describe('validationArgs()', () => {
     ];
 
     expect(() => {
-      validateArgs(argDefs, argMap);
+      validateArgsV1(argDefs, argMap);
     }).not.toThrow();
   });
 
@@ -30,7 +30,7 @@ describe('validationArgs()', () => {
     const argDefs: { name: string }[] = [];
 
     expect(() => {
-      validateArgs(argDefs, argMap);
+      validateArgsV1(argDefs, argMap);
     }).not.toThrow();
   });
 });

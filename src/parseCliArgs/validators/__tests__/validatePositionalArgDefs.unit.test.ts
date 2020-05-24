@@ -1,4 +1,4 @@
-import { PositionalArgumentDef } from '../_types';
+import { PositionalArgumentDef } from '../../_types';
 import { validatePositionalArgDefs } from '../validatePositionalArgDefs';
 
 describe('validatePositionalArgDefs()', () => {

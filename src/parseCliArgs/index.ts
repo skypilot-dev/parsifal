@@ -2,19 +2,18 @@ import path from 'path';
 import { Integer } from '@skypilot/common-types';
 import { initialParse } from '../initialParse';
 import {
-  ArgumentValue, NamedArgDefInput,
-  NamedArgumentDef,
-  PositionalArgDefInput, PositionalArgumentDef,
+  Argument,
+  ArgumentDefinition,
+  ArgumentInput,
+  ArgumentValue,
   ValidationException,
 } from './_types';
-import { mapPositionalArgs } from './mapPositionalArgs';
-import { mapNamedArgs } from './mapNamedArgs';
+import { mapArgs } from './mapArgs';
 import { showUsage } from './showUsage';
-import { validateNamedArgDefs } from './validateNamedArgDefs';
-import { validateNamedArgs } from './validateNamedArgs';
-import { validateOptionNames } from './validateOptionNames';
-import { validatePositionalArgDefs } from './validatePositionalArgDefs';
-import { validatePositionalArgs } from './validatePositionalArgs';
+import { validateArgs } from './validateArgs';
+import { validateArgDefs } from './validators/validateArgDefs';
+import { validateOptionNames } from './validators/validateOptionNames';
+import { validatePositionalArgDefs } from './validators/validatePositionalArgDefs';
 
 export interface ParsedArgsResult {
   _positional?: ArgumentValue[];
@@ -22,8 +21,8 @@ export interface ParsedArgsResult {
 }
 
 export interface DefinitionsMap {
-  named?: NamedArgDefInput[];
-  positional?: PositionalArgDefInput[];
+  named?: ArgumentInput[];
+  positional?: ArgumentInput[];
 }
 
 interface ParseCliArgsOptions {
@@ -31,10 +30,14 @@ interface ParseCliArgsOptions {
   args?: string[]; // arguments explicitly passed in instead of parsed from the command line
   exitProcessWhenTesting?: boolean;
   isTest?: boolean;
-  mapAllArgs?: boolean;
+  mapAllNamedArgs?: boolean;
   maxPositionalArgs?: Integer;
   separateAfterStopArgs?: boolean;
-  useIndicesAsOptionNames?: boolean;
+}
+
+function argsMapToEntries(argsMap: Map<string, Argument>): Array<[string, ArgumentValue]> {
+  const entries = Array.from(argsMap.entries());
+  return entries.map(([name, argument]) => [name, argument.value]);
 }
 
 export function parseCliArgs(
@@ -47,27 +50,26 @@ export function parseCliArgs(
   const {
     args = process.argv.slice(2),
     exitProcessWhenTesting = false,
-    mapAllArgs = false,
-    useIndicesAsOptionNames = false,
+    mapAllNamedArgs = false,
   } = options;
   const { named: namedArgDefInputs = [], positional: positionalArgDefInputs = [] } = definitions;
 
   /* Convert string-defined options to `NamedArgumentDef` objects. */
-  const namedArgDefs: NamedArgumentDef[] = namedArgDefInputs
+  const namedArgDefs: ArgumentDefinition[] = namedArgDefInputs
     .map(input => (
       typeof input === 'string' ? { name: input } : input
     ));
   /* Convert string-defined options to `PositionalArgumentDef` objects. */
-  const positionalArgDefs: PositionalArgumentDef[] = positionalArgDefInputs
-    .map((input, i) => (
+  const positionalArgDefs: ArgumentDefinition[] = positionalArgDefInputs
+    .map((input) => (
       typeof input === 'string'
-        ? { name: input }
-        : { ...(useIndicesAsOptionNames ? { name: i.toString() } : {}), ...input }
+        ? { name: input, positional: true }
+        : { ...input, positional: true }
     ));
 
   const configExceptions: ValidationException[] = [
-    ...validateOptionNames(positionalArgDefs, { useIndicesAsOptionNames }),
-    ...validateNamedArgDefs(namedArgDefs),
+    ...validateOptionNames(positionalArgDefs),
+    ...validateArgDefs([...namedArgDefs, ...positionalArgDefs]),
     ...validatePositionalArgDefs(positionalArgDefs),
   ];
 
@@ -76,33 +78,43 @@ export function parseCliArgs(
     );
   }
 
-  const parsedArgs = initialParse(args, { '--': true });
+  const argDefs: ArgumentDefinition[] = [...namedArgDefs, ...positionalArgDefs];
+  const stringArgNames: string[] = argDefs
+    .filter(({ valueType }) => valueType === 'string')
+    .map(({ name }) => name);
+
+  const parsedArgs = initialParse(args, { '--': true, string: stringArgNames });
   const {
     _: positionalArgs = [],
     '--': unparsedArgs = [],
   } = parsedArgs;
 
-  const namedArgsMap = mapNamedArgs(parsedArgs, namedArgDefs);
-  const positionalArgsMap = mapPositionalArgs(positionalArgs, positionalArgDefs, { mapAllArgs });
+  const argsMap = mapArgs(parsedArgs, argDefs, { mapAllNamedArgs });
 
-  const argumentExceptions: ValidationException[] = [
-    ...validateNamedArgs(namedArgsMap, namedArgDefs),
-    ...validatePositionalArgs(positionalArgs, positionalArgDefs),
-  ];
+  if (args.includes('--help') || args.includes('-h')) {
+    showUsage({
+      argsMap,
+      command: scriptName,
+      exitCode: 0,
+      exitProcessWhenTesting,
+    });
+  }
+
+  const argumentExceptions: ValidationException[] = validateArgs(argsMap);
 
   if (argumentExceptions.length) {
     showUsage({
+      argsMap,
       command: scriptName,
+      exceptions: argumentExceptions,
       exitCode: 1,
       exitProcessWhenTesting,
-      exceptions: argumentExceptions,
     });
   }
 
   return {
     _positional: positionalArgs,
     _unparsed: unparsedArgs,
-    ...namedArgsMap,
-    ...positionalArgsMap,
+    ...Object.fromEntries(argsMapToEntries(argsMap)),
   };
 }

@@ -1,15 +1,11 @@
 /* eslint-disable no-console */
 
-import {
-  ArgumentDef,
-  NamedArgumentDef,
-  PositionalArgumentDef,
-  ValidationException,
-} from './_types';
-import { formatNamedArgUse } from './formatNamedArgUse';
+import { Argument, ValidationException } from './_types';
+import { formatNamedArgUse } from './formatters/formatNamedArgUse';
+import { formatPositionalArgsUse } from './formatters/formatPositionalArgsUse';
 
 type ShowUsageOptions = {
-  argumentDefs?: ArgumentDef[];
+  argsMap: Map<string, Argument>;
   command?: string;
   exceptions?: ValidationException[];
   exitCode?: number;
@@ -19,7 +15,7 @@ type ShowUsageOptions = {
 
 export function showUsage(options: ShowUsageOptions): never {
   const {
-    argumentDefs = [],
+    argsMap,
     command = 'command',
     exceptions = [],
     exitCode = 0,
@@ -28,27 +24,30 @@ export function showUsage(options: ShowUsageOptions): never {
   } = options;
   const writeToDisplay = exitCode ? console.log : console.error;
 
-  const namedArgDefs = argumentDefs
-    .filter(({ positional }) => !positional) as NamedArgumentDef[];
-
-  const namedArgString = namedArgDefs
-    .map((argDef) => formatNamedArgUse(argDef))
+  const namedArgUsage = Array.from(argsMap.entries())
+    .filter(([_name, argument]) => !argument.definition.positional)
+    .map(([_name, argument]) => formatNamedArgUse(argument.definition))
     .join(' ');
 
-  const positionalArgDefs = argumentDefs
-    .filter(({ positional }) => !!positional) as PositionalArgumentDef[];
+  const positionalArgDefs = Array.from(argsMap.entries())
+    .filter(([_name, argument]) => !!argument.definition.positional)
+    .map(([_name, argument]) => argument.definition);
+  const positionalArgUsage = formatPositionalArgsUse(positionalArgDefs);
 
-  const positionalArgString = positionalArgDefs.map((argDef, index) => {
-    const { name = `ARG${index + 1}`, required } = argDef;
-    return required ? name.toUpperCase() : `[${name.toUpperCase()}]`;
-  }).join(' ');
+  const usage = [`Usage: ${command}`];
+  if (namedArgUsage) {
+    usage.push(namedArgUsage);
+  }
+  if (positionalArgUsage) {
+    usage.push(positionalArgUsage);
+  }
 
+  console.log(usage.join(' '));
   if ((message || exitCode) && !exitProcessWhenTesting) {
     if (process.env.NODE_ENV === 'test') {
       throw new Error(message);
     }
     writeToDisplay(`Error: ${message}`);
   }
-  console.log(`Usage: ${command} ${namedArgString} ${positionalArgString}`);
   process.exit(exitCode);
 }

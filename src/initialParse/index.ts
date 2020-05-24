@@ -16,6 +16,7 @@ interface Options {
   alias?: object;
   boolean?: boolean | string | string[];
   default?: object;
+  string?: string | string[]; // argument names to treat a strings
   unknown?: Function | null;
 }
 
@@ -35,7 +36,7 @@ export function initialParse(args: string[], options: Options = {}): any {
     }), {} as { [key: string]: boolean });
   }
   const flags: Flags = {
-    allBooleans,
+    allBooleans: true,
     bools: booleanKeys,
     strings: {},
     unknownFn,
