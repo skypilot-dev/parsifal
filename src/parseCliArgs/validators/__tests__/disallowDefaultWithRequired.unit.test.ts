@@ -26,6 +26,7 @@ describe('disallowDefaultWithRequired()', () => {
 
     const expected = [
       {
+        code: 'badDefinition',
         level: 'error',
         message: 'Invalid definition: An option cannot be required and have a default value',
         identifiers: ['option'],

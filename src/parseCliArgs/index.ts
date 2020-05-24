@@ -11,7 +11,7 @@ import {
 import { mapArgs } from './mapArgs';
 import { showUsage } from './showUsage';
 import { validateArgs } from './validateArgs';
-import { validateNamedArgDefs } from './validators/validateNamedArgDefs';
+import { validateArgDefs } from './validators/validateArgDefs';
 import { validateOptionNames } from './validators/validateOptionNames';
 import { validatePositionalArgDefs } from './validators/validatePositionalArgDefs';
 
@@ -69,7 +69,7 @@ export function parseCliArgs(
 
   const configExceptions: ValidationException[] = [
     ...validateOptionNames(positionalArgDefs),
-    ...validateNamedArgDefs(namedArgDefs),
+    ...validateArgDefs([...namedArgDefs, ...positionalArgDefs]),
     ...validatePositionalArgDefs(positionalArgDefs),
   ];
 

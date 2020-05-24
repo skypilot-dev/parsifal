@@ -38,11 +38,13 @@ describe('validateConstrainedArgs()', () => {
 
     const expected = [
       {
+        code: 'unlistedValue',
         level: 'error',
         message: "Invalid value for 'con1': Expected one of '1', got '2'",
         identifiers: ['con1'],
       },
       {
+        code: 'unlistedValue',
         level: 'error',
         message: "Invalid value for 'con3': Expected one of '1', got '1'",
         identifiers: ['con3'],
