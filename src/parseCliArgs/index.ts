@@ -91,6 +91,15 @@ export function parseCliArgs(
 
   const argsMap = mapArgs(parsedArgs, argDefs, { mapAllNamedArgs });
 
+  if (args.includes('--help') || args.includes('-h')) {
+    showUsage({
+      argsMap,
+      command: scriptName,
+      exitCode: 0,
+      exitProcessWhenTesting,
+    });
+  }
+
   const argumentExceptions: ValidationException[] = validateArgs(argsMap);
 
   if (argumentExceptions.length) {
