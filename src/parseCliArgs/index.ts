@@ -11,9 +11,9 @@ import {
 import { mapArgs } from './mapArgs';
 import { showUsage } from './showUsage';
 import { validateArgs } from './validateArgs';
-import { validateNamedArgDefs } from './validateNamedArgDefs';
-import { validateOptionNames } from './validateOptionNames';
-import { validatePositionalArgDefs } from './validatePositionalArgDefs';
+import { validateNamedArgDefs } from './validators/validateNamedArgDefs';
+import { validateOptionNames } from './validators/validateOptionNames';
+import { validatePositionalArgDefs } from './validators/validatePositionalArgDefs';
 
 export interface ParsedArgsResult {
   _positional?: ArgumentValue[];

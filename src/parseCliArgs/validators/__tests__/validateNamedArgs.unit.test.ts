@@ -1,4 +1,4 @@
-import { ArgumentsMap, NamedArgumentDef, ValidationException } from '../_types';
+import { ArgumentsMap, NamedArgumentDef, ValidationException } from '../../_types';
 import { validateNamedArgs } from '../validateNamedArgs';
 
 describe('validateNamedArgs()', () => {

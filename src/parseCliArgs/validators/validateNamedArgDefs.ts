@@ -1,4 +1,4 @@
-import { NamedArgumentDef, ValidationException } from './_types';
+import { NamedArgumentDef, ValidationException } from '../_types';
 
 function validateDefaultAndRequired(
   argDefs: NamedArgumentDef[]

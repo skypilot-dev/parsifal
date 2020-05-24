@@ -1,4 +1,4 @@
-import { PositionalArgDefInput, ValidationException } from '../_types';
+import { PositionalArgDefInput, ValidationException } from '../../_types';
 import { validateOptionNames } from '../validateOptionNames';
 
 describe('validateOptionNames', () => {
