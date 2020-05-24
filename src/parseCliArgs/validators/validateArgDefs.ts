@@ -2,8 +2,7 @@ import { ArgumentDefinition, ValidationException } from '../_types';
 import { disallowDefaultWithRequired } from './disallowDefaultWithRequired';
 import { disallowUnlistedDefault } from './disallowUnlistedDefault';
 import { disallowWrongTypeDefault } from './disallowWrongTypeDefault';
-
-/* TODO: Check that `validValues` and `valueType` are consistent. */
+import { disallowWrongTypeListed } from './disallowWrongTypeListed';
 
 export function validateArgDefs(
   argumentDefs: ArgumentDefinition[]
@@ -12,5 +11,6 @@ export function validateArgDefs(
     ...disallowDefaultWithRequired(argumentDefs),
     ...disallowUnlistedDefault(argumentDefs),
     ...disallowWrongTypeDefault(argumentDefs),
+    ...disallowWrongTypeListed(argumentDefs),
   ];
 }
