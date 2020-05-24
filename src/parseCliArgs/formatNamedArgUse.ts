@@ -1,19 +1,21 @@
 import { ArgumentDefinition } from './_types';
+import { formatValueLabel } from './formatValueLabel';
 
 export function formatNamedArgUse(argDef: ArgumentDefinition): string {
   const {
     name,
     required,
     valueType,
-    valueLabel = valueType || 'value',
   } = argDef;
   const parts = [
     '--',
     name,
   ];
+
   if (!(valueType === 'boolean')) {
-    parts.push(`=<${valueLabel}>`);
+    parts.push(`=${formatValueLabel(argDef)}`);
   }
+
   if (!required) {
     parts.unshift('[');
     parts.push(']');

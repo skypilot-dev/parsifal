@@ -1,4 +1,5 @@
 import { ArgumentDefinition } from './_types';
+import { formatValueLabel } from './formatValueLabel';
 
 export function formatPositionalArgsUse(argDefs: ArgumentDefinition[]): string {
   const requiredArgDefs = argDefs.filter(({ required }) => !!required);
@@ -9,7 +10,7 @@ export function formatPositionalArgsUse(argDefs: ArgumentDefinition[]): string {
     : '';
 
   const optionalArgUsage = optionalArgDefs.length
-    ? `[${optionalArgDefs.map(({ name }) => `<${name}>`).join(' ')}]`
+    ? `[${optionalArgDefs.map((argDef) => formatValueLabel(argDef)).join(' ')}]`
     : '';
 
   const argUsage: string[] = [];
