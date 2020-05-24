@@ -9,7 +9,7 @@ import {
   ValidationException,
 } from './_types';
 import { mapArgs } from './mapArgs';
-import { showUsageV1 } from './showUsageV1';
+import { showUsage } from './showUsage';
 import { validateArgs } from './validateArgs';
 import { validateNamedArgDefs } from './validateNamedArgDefs';
 import { validateOptionNames } from './validateOptionNames';
@@ -94,11 +94,12 @@ export function parseCliArgs(
   const argumentExceptions: ValidationException[] = validateArgs(argsMap);
 
   if (argumentExceptions.length) {
-    showUsageV1({
+    showUsage({
+      argsMap,
       command: scriptName,
+      exceptions: argumentExceptions,
       exitCode: 1,
       exitProcessWhenTesting,
-      exceptions: argumentExceptions,
     });
   }
 

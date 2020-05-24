@@ -1,7 +1,12 @@
-import { NamedArgumentDef } from './_types';
+import { ArgumentDefinition } from './_types';
 
-export function formatNamedArgUse(argDef: NamedArgumentDef): string {
-  const { name, required, valueLabel = 'value', valueType } = argDef;
+export function formatNamedArgUse(argDef: ArgumentDefinition): string {
+  const {
+    name,
+    required,
+    valueType,
+    valueLabel = valueType || 'value',
+  } = argDef;
   const parts = [
     '--',
     name,
