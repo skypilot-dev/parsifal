@@ -1,23 +1,21 @@
 import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
+import { hasCorrectType } from './hasCorrectType';
 
 export function validateTypedValue(
   value: ArgumentValue, argDef: ArgumentDefinition
 ): ValidationException[] {
-  const { valueType } = argDef;
+  const { name, valueType } = argDef;
   if (!valueType) {
     return [];
   }
-  const hasCorrectType = valueType === 'integer'
-    ? typeof value === 'number' && value % 1 === 0
-    : typeof value === valueType;
 
-  if (!hasCorrectType) {
+  if (!hasCorrectType(valueType, value)) {
     const valueString = typeof value === 'string' ? `'${value}'` : `${value}`;
     return [{
       code: 'wrongType',
       level: 'error',
-      message: `Error: ${valueString} is not a valid value for ${argDef.name}`,
-      identifiers: [`'${argDef.name}'`],
+      message: `Error: ${valueString} is not a valid value for ${name}`,
+      identifiers: [`'${name}'`],
     }];
   }
   return [];
