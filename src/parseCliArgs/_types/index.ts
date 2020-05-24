@@ -50,6 +50,7 @@ export interface PositionalArgumentDef extends ArgumentDefV1 {
 export type PositionalArgDefInput = PositionalArgumentDef | string;
 
 export interface ValidationException {
+  code?: 'missing';
   level?: 'warning' | 'error';
   message: string;
   identifiers: string[];

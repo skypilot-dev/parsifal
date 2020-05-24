@@ -11,7 +11,7 @@ describe('validateRequiredArgs()', () => {
     const exceptions = validateRequiredArgs(argsMap);
 
     const expected: ValidationException[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
   it('should return no exceptions if all required args are provided', () => {
@@ -23,10 +23,28 @@ describe('validateRequiredArgs()', () => {
     const exceptions = validateRequiredArgs(argsMap);
 
     const expected: ValidationException[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
-  it('should return exceptions for each missing argument', () => {
+  it('should return an exception for a missing argument', () => {
+    const argsMap = new Map([
+      ['required1', { definition: { name: 'required1', required: true }, value: undefined }],
+    ]);
+
+    const exceptions = validateRequiredArgs(argsMap);
+
+    const expected = [
+      {
+        code: 'missing',
+        level: 'error',
+        message: 'This required argument is missing: required1',
+        identifiers: ['required1'],
+      },
+    ];
+    expect(exceptions).toStrictEqual(expected);
+  });
+
+  it('should return a single exception for missing arguments', () => {
     const argsMap = new Map([
       ['required1', { definition: { name: 'required1', required: true }, value: undefined }],
       ['required2', { definition: { name: 'required2', required: true }, value: 1 }],
@@ -38,16 +56,12 @@ describe('validateRequiredArgs()', () => {
 
     const expected = [
       {
+        code: 'missing',
         level: 'error',
-        message: "'required1' is required",
-        identifiers: ['required1'],
-      },
-      {
-        level: 'error',
-        message: "'required3' is required",
-        identifiers: ['required3'],
+        message: 'These required arguments are missing: required1, required3',
+        identifiers: ['required1', 'required3'],
       },
     ];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 });
