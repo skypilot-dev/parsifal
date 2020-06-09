@@ -1,21 +1,11 @@
 import { filterDuplicates } from '../../lib/functions/array/filterDuplicates';
-import { PositionalArgDefInput, ValidationException } from '../_types';
+import { ArgumentDefinition, ValidationException } from '../_types';
 import { toOptionName } from '../formatters/toOptionName';
 
-interface ValidateOptionNamesOptions {
-  useIndicesAsOptionNames?: boolean;
-}
-
 export function validateOptionNames(
-  positionalArgDefs: PositionalArgDefInput[],
-  options: ValidateOptionNamesOptions = {},
+  positionalArgDefs: ArgumentDefinition[],
 ): ValidationException[] {
-  const { useIndicesAsOptionNames } = options;
   const optionNames = positionalArgDefs
-    .filter((input) => useIndicesAsOptionNames
-      || typeof input === 'string'
-      || input?.name
-    )
     .map((positionalArgDef, i) => toOptionName(positionalArgDef, i));
 
   const duplicateNames = filterDuplicates(optionNames);

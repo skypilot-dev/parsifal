@@ -5,7 +5,7 @@ import {
   Argument,
   ArgumentDefinition,
   ArgumentInput,
-  ArgumentValue,
+  ArgumentValue, PositionalArgumentDef,
   ValidationException,
 } from './_types';
 import { mapArgs } from './mapArgs';
@@ -60,7 +60,7 @@ export function parseCliArgs(
       typeof input === 'string' ? { name: input } : input
     ));
   /* Convert string-defined options to `PositionalArgumentDef` objects. */
-  const positionalArgDefs: ArgumentDefinition[] = positionalArgDefInputs
+  const positionalArgDefs: PositionalArgumentDef[] = positionalArgDefInputs
     .map((input) => (
       typeof input === 'string'
         ? { name: input, positional: true }

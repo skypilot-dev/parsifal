@@ -43,7 +43,7 @@ export interface NamedArgumentDef extends RequireProps<ArgumentDefV1, 'name'> {
 
 export type NamedArgDefInput = NamedArgumentDef | string;
 
-export interface PositionalArgumentDef extends ArgumentDefV1 {
+export interface PositionalArgumentDef extends ArgumentDefinition {
   positional?: true;
 }
 

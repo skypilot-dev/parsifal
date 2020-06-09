@@ -9,34 +9,28 @@ Intelligent and flexible command-line parser
 ## Example
 
 ```javascript
-import { parseCliArgsV1 } from 'parsifal';
+import { parseCliArgs } from 'parsifal';
 
-const parsedArgs = parseCliArgsV1({
-  argumentDefs: [
-    { isPositional: true },
-    { name: 'positional' }
+const parsedArgs = parseCliArgs({
+  named: [
+    { name: 'myNamedArg' }
+  ],
+  positional: [
+    { name: 'myPositionalArg' },
+    { name: 'anotherPositionalArg' },
   ]
 });
 ```
 
 ```console
-$ node my-script.js --named=1 positionalValue 2
-// parsedArgs = { '0': 'positionalValue', '1': 2, named: 1, _: [2] }
-```
-
-
-```javascript
-import { parseCliArgsV1 } from 'parsifal';
-
-const parsedArgs = parseCliArgsV1({
-  argumentDefs: [
-    { name: 'positional', isPositional: true },
-    { name: 'named', aliases:  ['n'] },
-  ]
-});
-```
-
-```console
-$ node my-script.js positionalValue --n 1
-// parsedArgs = { positional: 'positionalValue', named: 1 }
+$ node my-script.js --named=1 2 3 unexpectedArg
+/*
+  parsedArgs = {
+    _positional: [2, 3, 'unexpectedArg'],
+    _unparsed: [],
+    myNamedArg: 1,
+    myPositionalArg: 2,
+    anotherPositionalArg: 3,
+  }
+*/
 ```
