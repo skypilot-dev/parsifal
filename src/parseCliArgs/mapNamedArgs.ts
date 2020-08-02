@@ -1,5 +1,5 @@
 import { getOrDefault } from '../lib/functions/object/getOrDefault';
-import { ArgumentsMap, NamedArgumentDef } from './_types';
+import type { ArgumentsMap, NamedArgumentDef } from './_types';
 
 export function mapNamedArgs(
   argsMap: ArgumentsMap, namedArgDefs: NamedArgumentDef[]

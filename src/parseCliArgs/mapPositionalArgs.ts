@@ -1,5 +1,5 @@
 import { getOrDefault } from '../lib/functions/object/getOrDefault';
-import { ArgumentsMap, ArgumentValue, PositionalArgumentDef } from './_types';
+import type { ArgumentsMap, ArgumentValue, PositionalArgumentDef } from './_types';
 
 interface MapPositionalArgsOptions {
   mapAllArgs?: boolean; // if true, map args without definitions to their indices

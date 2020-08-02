@@ -1,5 +1,5 @@
 import { getOrDefault } from '../lib/functions/object/getOrDefault';
-import { Argument, ArgumentDefinition, ArgumentValue, InitialParsedArgs } from './_types';
+import type { Argument, ArgumentDefinition, ArgumentValue, InitialParsedArgs } from './_types';
 
 interface MapArgsOptions {
   mapAllNamedArgs?: boolean;
