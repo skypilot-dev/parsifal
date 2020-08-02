@@ -15,10 +15,17 @@ import { validateArgDefs } from './validators/validateArgDefs';
 import { validateOptionNames } from './validators/validateOptionNames';
 import { validatePositionalArgDefs } from './validators/validatePositionalArgDefs';
 
-export interface ParsedArgsResult {
+type NamedArgsResult = {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  [key: string]: any;
+}
+
+export interface UnnamedArgsResult {
   _positional?: ArgumentValue[];
   _unparsed?: string[];
 }
+
+export type ParsedArgsResult = NamedArgsResult & UnnamedArgsResult
 
 export interface DefinitionsMap {
   named?: ArgumentInput[];
