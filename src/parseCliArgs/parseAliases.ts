@@ -1,4 +1,4 @@
-import { NamedArgumentDef } from './_types';
+import type { NamedArgumentDef } from './_types';
 
 type AliasMap = {
   [key: string]: string;

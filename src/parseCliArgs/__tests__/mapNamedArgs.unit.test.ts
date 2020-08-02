@@ -1,4 +1,4 @@
-import { ArgumentsMap } from '../_types';
+import type { ArgumentsMap } from '../_types';
 import { mapNamedArgs } from '../mapNamedArgs';
 
 describe('mapNamedArgs(:ArgumentsMap, :NamedArgumentDef[])', () => {

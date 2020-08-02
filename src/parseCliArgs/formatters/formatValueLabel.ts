@@ -1,4 +1,4 @@
-import { ArgumentDefinition } from '../_types';
+import type { ArgumentDefinition } from '../_types';
 
 export function formatValueLabel(argDef: ArgumentDefinition): string {
   const {

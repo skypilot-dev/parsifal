@@ -1,4 +1,4 @@
-import { ArgumentDefinition, InitialParsedArgs } from '../_types';
+import type { ArgumentDefinition, InitialParsedArgs } from '../_types';
 import { mapArgs } from '../mapArgs';
 
 describe('mapArgs(:InitialParsedArgs, :ArgumentDefinition[])', () => {

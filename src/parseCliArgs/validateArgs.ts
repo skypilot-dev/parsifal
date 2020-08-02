@@ -1,4 +1,4 @@
-import { Argument, ValidationException } from './_types';
+import type { Argument, ValidationException } from './_types';
 import { validateConstrainedArgs } from './validators/validateConstrainedArgs';
 import { validateRequiredArgs } from './validators/validateRequiredArgs';
 import { validateTypedArgs } from './validators/validateTypedArgs';

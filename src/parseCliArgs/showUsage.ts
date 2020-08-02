@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { Argument, ValidationException } from './_types';
+import type { Argument, ValidationException } from './_types';
 import { formatNamedArgUse } from './formatters/formatNamedArgUse';
 import { formatPositionalArgsUse } from './formatters/formatPositionalArgsUse';
 

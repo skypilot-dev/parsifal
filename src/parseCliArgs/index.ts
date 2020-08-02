@@ -1,11 +1,12 @@
 import path from 'path';
-import { Integer } from '@skypilot/common-types';
+import type { Integer } from '@skypilot/common-types';
 import { initialParse } from '../initialParse';
-import {
+import type {
   Argument,
   ArgumentDefinition,
   ArgumentInput,
-  ArgumentValue, PositionalArgumentDef,
+  ArgumentValue,
+  PositionalArgumentDef,
   ValidationException,
 } from './_types';
 import { mapArgs } from './mapArgs';
