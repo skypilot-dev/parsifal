@@ -15,10 +15,16 @@ import { validateArgDefs } from './validators/validateArgDefs';
 import { validateOptionNames } from './validators/validateOptionNames';
 import { validatePositionalArgDefs } from './validators/validatePositionalArgDefs';
 
-export interface ParsedArgsResult {
+type NamedArgsResult = {
+  [key: string]: ArgumentValue | ArgumentValue[];
+}
+
+export interface UnnamedArgsResult {
   _positional?: ArgumentValue[];
   _unparsed?: string[];
 }
+
+export type ParsedArgsResult = NamedArgsResult & UnnamedArgsResult
 
 export interface DefinitionsMap {
   named?: ArgumentInput[];
