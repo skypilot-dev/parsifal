@@ -2,6 +2,9 @@
   "name": "@skypilot/parsifal",
   "version": "0.2.0",
   "private": false,
+  "engines": {
+    "node": ">=10"
+  },
   "description": "Intelligent and flexible parser for command-line arguments",
   "keywords": [
     "cli",
