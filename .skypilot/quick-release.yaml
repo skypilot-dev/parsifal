@@ -8,6 +8,8 @@ bot:
 release:
   # access = 'public' or 'restricted'
   access: 'public'
+  # Set the branch that should be tagged as `latest` when published (defaults to the release branch)
+  latestStage: 'alpha'
   publish: true
 prerelease:
   access: 'public'

@@ -91,21 +91,28 @@ jobs:
       - name: Publish
         if: success()
         run: |
-          if [[ $(yarn --silent spqr-option prerelease.publish) == 'true' ]] ; then
-            if test -z "$NPM_READ_AND_PUBLISH_TOKEN" ; then
-              echo "No NPM_READ_AND_PUBLISH_TOKEN found. Skipping publication"
-            else
-              if [[ $(yarn --silent is-published $VERSION) == true ]]; then
-                echo "$VERSION_TAG has already been published. Skipping publication."
-              else
-                yarn config set //registry.yarnpkg.com/:_authToken=$NPM_READ_AND_PUBLISH_TOKEN
-                yarn publish --access $(yarn --silent spqr-option prerelease.access) --non-interactive --tag $VERSION_STAGE
-              fi
-            fi
-          else
-            echo "prerelease.publish = false. Skipping publication."
-            echo "To publish, set \`prerelease.publish: true\` in .skypilot/quick-release.yaml."
-          fi
+               if [[ $(yarn --silent spqr-option prerelease.publish) == 'true' ]] ; then
+               if test -z "$NPM_READ_AND_PUBLISH_TOKEN" ; then
+                echo "No NPM_READ_AND_PUBLISH_TOKEN found. Skipping publication"
+               else
+                if [[ $(yarn --silent is-published $VERSION) == true ]]; then
+                  echo "$VERSION_TAG has already been published. Skipping publication."
+                else
+                  ACCESS=$(yarn --silent spqr-option prerelease.access)
+                  yarn config set //registry.yarnpkg.com/:_authToken=$NPM_READ_AND_PUBLISH_TOKEN
+                  echo "Skipping publication with tag '$VERSION_STAGE"
+                  echo "yarn publish --access $ACCESS --non-interactive --tag $VERSION_STAGE"
+                  LATEST_STAGE=$(yarn --silent spqr-option release.latestStage)
+                  if -n $LATEST_STAGE && [[ $LATEST_STAGE == $VERSION_STAGE ]]; then
+                    echo "Tagging $(yarn info --silent . name)@$(yarn info --silent . version) as 'latest'"
+                    echo "yarn tag add $(yarn info --silent . name)@$(yarn info --silent . version) latest"
+               fi
+               fi
+               fi
+               else
+               echo "prerelease.publish = false. Skipping publication."
+               echo "To publish, set \`prerelease.publish: true\` in .skypilot/quick-release.yaml."
+               fi
       - name: Configure identity
         if: success()
         run: |
@@ -127,7 +134,7 @@ jobs:
           if [[ $(yarn --silent is-tagged $VERSION) == true ]]; then
             echo "$VERSION_TAG has already been tagged. Skipping tagging."
           else
-            git tag -a $VERSION_TAG -m "Prerelease $VERSION"
+            echo "git tag -a $VERSION_TAG -m Prerelease $VERSION"
           fi
       - name: Push tag
         if: success()
