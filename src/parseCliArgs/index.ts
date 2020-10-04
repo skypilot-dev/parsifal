@@ -1,5 +1,6 @@
 import path from 'path';
 import type { Integer } from '@skypilot/common-types';
+import { fromEntries } from 'src/lib/functions/object/fromEntries';
 import { initialParse } from '../initialParse';
 import type {
   Argument,
@@ -123,6 +124,6 @@ export function parseCliArgs(
   return {
     _positional: positionalArgs,
     _unparsed: unparsedArgs,
-    ...Object.fromEntries(argsMapToEntries(argsMap)),
+    ...fromEntries(argsMapToEntries(argsMap)),
   };
 }
