@@ -8,8 +8,8 @@ bot:
 release:
   # access = 'public' or 'restricted'
   access: 'public'
-  latestStage: 'alpha'
   publish: true
 prerelease:
   access: 'public'
+  latestStage: 'alpha'
   publish: true
