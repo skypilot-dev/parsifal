@@ -9,4 +9,4 @@ const parsedArgs = parseCliArgs({
   ],
 });
 
-console.log('parsedArgs:', parsedArgs)
+console.log('parsedArgs:', parsedArgs);

@@ -8,7 +8,7 @@ export function fromEntries<T = any>(entries: Iterable<readonly [string | number
   return [...entries].reduce((obj, [key, value]) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    obj[key] = value
+    obj[key] = value;
     return obj;
   }, {} as { [k: string]: T });
 }

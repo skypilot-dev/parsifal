@@ -13,5 +13,5 @@ export function validateTypedArgs(argsMap: Map<string, Argument>): ValidationExc
       ...accExceptions,
       ...validateTypedValue(value, definition),
     ];
-  }, [] as ValidationException[])
+  }, [] as ValidationException[]);
 }

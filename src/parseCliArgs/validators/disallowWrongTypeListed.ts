@@ -22,5 +22,5 @@ export function disallowWrongTypeListed(
         identifiers: [name],
       },
     ];
-  }, [] as ValidationException[])
+  }, [] as ValidationException[]);
 }

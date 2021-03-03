@@ -24,7 +24,7 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
 
       const expected: ValidationException[] = [];
       expect(exceptions).toEqual(expected);
-    })
+    });
   });
 
   it('when the value is undefined, should return an empty array (because required values are validated elsewhere)', () => {
@@ -54,7 +54,7 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
         console.log(`invalidValue: ${value}`);
       }
       expect(exceptions).toHaveLength(1);
-    })
+    });
   });
 
   it('can handle valid values of mixed types', () => {

@@ -14,10 +14,10 @@ function validateDefaultAndRequired(
           message: 'Invalid definition: An option cannot be required and have default value',
           identifiers: [toOptionName(argDef, i)],
         },
-      ]
+      ];
     }
     return accExceptions;
-  }, [] as ValidationException[])
+  }, [] as ValidationException[]);
 }
 
 function validateRequiredBeforeOptional(

@@ -18,5 +18,5 @@ export function disallowWrongTypeDefault(
         identifiers: [name],
       },
     ];
-  }, [] as ValidationException[])
+  }, [] as ValidationException[]);
 }

@@ -13,8 +13,8 @@ export function disallowDefaultWithRequired(
           message: 'Invalid definition: An option cannot be required and have a default value',
           identifiers: [argDef.name],
         },
-      ]
+      ];
     }
     return accExceptions;
-  }, [] as ValidationException[])
+  }, [] as ValidationException[]);
 }
