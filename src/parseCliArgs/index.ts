@@ -5,6 +5,7 @@ import { fromEntries } from 'src/lib/functions/object/fromEntries';
 import { initialParse } from '../initialParse';
 import { argsMapToEntries } from './argsMapToEntries';
 import type {
+  Argument,
   ArgumentDefinition,
   ArgumentInput,
   ArgumentValue,
@@ -39,7 +40,7 @@ export interface DefinitionsMap {
 interface ParseCliArgsOptions {
   apiVersion?: Integer;
   args?: string[]; // arguments explicitly passed in instead of parsed from the command line
-  echo?: boolean; // if true, echo parsed values to the console
+  echo?: boolean | ((argsMap: Map<string, Argument>) => unknown); // if true, echo parsed values to the console
   exitProcessWhenTesting?: boolean;
   isTest?: boolean;
   mapAllNamedArgs?: boolean;
@@ -121,8 +122,12 @@ export function parseCliArgs(
   }
 
   if (echo) {
-    const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
-    console.log(formatArgsForDisplay(argsMap, unnamedPositionalArgs).join('\n'));
+    const shouldDisplay = (typeof echo === 'boolean' && echo) || echo(argsMap);
+    if (shouldDisplay) {
+      const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
+      // eslint-disable-next-line no-console
+      console.log(formatArgsForDisplay(argsMap, unnamedPositionalArgs).join('\n'));
+    }
   }
 
   return {
