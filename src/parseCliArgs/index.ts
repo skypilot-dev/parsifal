@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import path from 'path';
 import type { Integer } from '@skypilot/common-types';
 
@@ -5,16 +7,17 @@ import { fromEntries } from 'src/lib/functions/object/fromEntries';
 import { initialParse } from '../initialParse';
 import { argsMapToEntries } from './argsMapToEntries';
 import type {
-  Argument,
   ArgumentDefinition,
   ArgumentInput,
   ArgumentValue,
+  EchoOptions,
   PositionalArgumentDef,
   ValidationException,
 } from './_types';
 import { formatArgsForDisplay } from './formatArgsForDisplay';
 import { mapArgs } from './mapArgs';
 import { showUsage } from './showUsage';
+import { toEchoParams } from './utils/toEchoParams';
 import { validateArgs } from './validateArgs';
 import { validateArgDefs } from './validators/validateArgDefs';
 import { validateOptionNames } from './validators/validateOptionNames';
@@ -40,7 +43,7 @@ export interface DefinitionsMap {
 interface ParseCliArgsOptions {
   apiVersion?: Integer;
   args?: string[]; // arguments explicitly passed in instead of parsed from the command line
-  echo?: boolean | ((argsMap: Map<string, Argument>) => unknown); // if true, echo parsed values to the console
+  echo?: boolean | EchoOptions;
   exitProcessWhenTesting?: boolean;
   isTest?: boolean;
   mapAllNamedArgs?: boolean;
@@ -121,13 +124,14 @@ export function parseCliArgs(
     });
   }
 
-  if (echo) {
-    const shouldDisplay = (typeof echo === 'boolean' && echo) || echo(argsMap);
-    if (shouldDisplay) {
-      const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
-      // eslint-disable-next-line no-console
-      console.log(formatArgsForDisplay(argsMap, unnamedPositionalArgs).join('\n'));
-    }
+  const { echoUndefined, shouldEcho } = toEchoParams(argsMap, echo);
+  if (shouldEcho) {
+    const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
+    console.log(formatArgsForDisplay(
+      argsMap,
+      unnamedPositionalArgs,
+      { echoUndefined }
+    ).join('\n'));
   }
 
   return {

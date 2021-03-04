@@ -29,6 +29,16 @@ export interface ArgumentsMap {
 
 export type ArgumentValue = LiteralValue | undefined
 
+export interface EchoOptions {
+  echoIf?: boolean | ((argsMap: Map<string, Argument>) => unknown); // if true, echo parsed values to the console
+  echoUndefined?: boolean;
+}
+
+export interface EchoParams {
+  echoUndefined: boolean;
+  shouldEcho: boolean;
+}
+
 export interface InitialParsedArgs {
   [key: string]: ArgumentValue | ArgumentValue[];
   _: ArgumentValue[];
