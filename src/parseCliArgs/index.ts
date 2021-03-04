@@ -1,9 +1,10 @@
 import path from 'path';
 import type { Integer } from '@skypilot/common-types';
+
 import { fromEntries } from 'src/lib/functions/object/fromEntries';
 import { initialParse } from '../initialParse';
+import { argsMapToEntries } from './argsMapToEntries';
 import type {
-  Argument,
   ArgumentDefinition,
   ArgumentInput,
   ArgumentValue,
@@ -42,11 +43,6 @@ interface ParseCliArgsOptions {
   mapAllNamedArgs?: boolean;
   maxPositionalArgs?: Integer;
   separateAfterStopArgs?: boolean;
-}
-
-function argsMapToEntries(argsMap: Map<string, Argument>): Array<[string, ArgumentValue]> {
-  const entries = Array.from(argsMap.entries());
-  return entries.map(([name, argument]) => [name, argument.value]);
 }
 
 export function parseCliArgs(
