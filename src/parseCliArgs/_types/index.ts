@@ -30,7 +30,8 @@ export interface ArgumentsMap {
 export type ArgumentValue = LiteralValue | undefined
 
 export interface EchoOptions {
-  echoIf?: boolean | ((argsMap: Map<string, Argument>) => unknown); // if true, echo parsed values to the console
+  // If true, echo parsed values to the console
+  echoIf?: boolean | ((argValuesMap: Map<string, ArgumentValue>) => unknown);
   echoUndefined?: boolean;
 }
 

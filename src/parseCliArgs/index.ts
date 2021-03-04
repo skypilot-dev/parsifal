@@ -124,11 +124,14 @@ export function parseCliArgs(
     });
   }
 
-  const { echoUndefined, shouldEcho } = toEchoParams(argsMap, echo);
+  const argValuesMap = new Map(
+    Array.from(argsMap.entries()).map(([name, { value }]) => [name, value])
+  );
+  const { echoUndefined, shouldEcho } = toEchoParams(argValuesMap, echo);
   if (shouldEcho) {
     const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
     console.log(formatArgsForEcho(
-      argsMap,
+      argValuesMap,
       unnamedPositionalArgs,
       { echoUndefined }
     ).join('\n'));

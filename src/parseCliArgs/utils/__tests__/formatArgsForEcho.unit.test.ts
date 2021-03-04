@@ -8,9 +8,9 @@ describe('formatArgsForEcho()', () => {
   });
 
   it('if the map contains resolved arguments, should include a message displaying them', () => {
-    const messages = formatArgsForEcho(new Map([
-      ['numericArg', { definition: { name: 'numericArg' }, value: 1 }],
-      ['stringArg', { definition: { name: 'stringArg' }, value: 'resolved-value' }],
+    const messages = formatArgsForEcho(new Map<string, number | string>([
+      ['numericArg', 1],
+      ['stringArg', 'resolved-value'],
     ]), []);
 
     expect(messages).toStrictEqual([
@@ -29,6 +29,25 @@ describe('formatArgsForEcho()', () => {
 
     expect(messages).toStrictEqual([
       'Unresolved arguments: 1, "unresolved-value"',
+    ]);
+  });
+
+  it('by default should not display undefined values', () => {
+    const messages = formatArgsForEcho(new Map([
+      ['numericArg', undefined],
+    ]), []);
+
+    expect(messages).toStrictEqual([]);
+  });
+
+  it('if `echoUndefined: true`, should display undefined values', () => {
+    const messages = formatArgsForEcho(new Map([
+      ['undefinedArg', undefined],
+    ]), [], { echoUndefined: true });
+
+    expect(messages).toStrictEqual([
+      'Resolved arguments:',
+      '  undefinedArg: undefined',
     ]);
   });
 });
