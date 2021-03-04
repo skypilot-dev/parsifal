@@ -11,6 +11,7 @@ import type {
   PositionalArgumentDef,
   ValidationException,
 } from './_types';
+import { formatArgsForDisplay } from './formatArgsForDisplay';
 import { mapArgs } from './mapArgs';
 import { showUsage } from './showUsage';
 import { validateArgs } from './validateArgs';
@@ -38,6 +39,7 @@ export interface DefinitionsMap {
 interface ParseCliArgsOptions {
   apiVersion?: Integer;
   args?: string[]; // arguments explicitly passed in instead of parsed from the command line
+  echo?: boolean; // if true, echo parsed values to the console
   exitProcessWhenTesting?: boolean;
   isTest?: boolean;
   mapAllNamedArgs?: boolean;
@@ -54,6 +56,7 @@ export function parseCliArgs(
 
   const {
     args = process.argv.slice(2),
+    echo,
     exitProcessWhenTesting = false,
     mapAllNamedArgs = false,
   } = options;
@@ -115,6 +118,11 @@ export function parseCliArgs(
       exitCode: 1,
       exitProcessWhenTesting,
     });
+  }
+
+  if (echo) {
+    const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
+    console.log(formatArgsForDisplay(argsMap, unnamedPositionalArgs).join('\n'));
   }
 
   return {
