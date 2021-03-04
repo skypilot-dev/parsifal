@@ -1,14 +1,14 @@
-import { formatArgsForDisplay } from '../formatArgsForDisplay';
+import { formatArgsForEcho } from '../formatArgsForEcho';
 
-describe('formatArgsForDisplay()', () => {
+describe('formatArgsForEcho()', () => {
   it('if the map is empty, should return an empty array', () => {
-    const messages = formatArgsForDisplay(new Map(), []);
+    const messages = formatArgsForEcho(new Map(), []);
 
     expect(messages).toStrictEqual([]);
   });
 
   it('if the map contains resolved arguments, should include a message displaying them', () => {
-    const messages = formatArgsForDisplay(new Map([
+    const messages = formatArgsForEcho(new Map([
       ['numericArg', { definition: { name: 'numericArg' }, value: 1 }],
       ['stringArg', { definition: { name: 'stringArg' }, value: 'resolved-value' }],
     ]), []);
@@ -22,7 +22,7 @@ describe('formatArgsForDisplay()', () => {
 
   it('if the map contains unresolved values, should include a message displaying them', () => {
     const unresolvedPositionalArgs = [1, 'unresolved-value'];
-    const messages = formatArgsForDisplay(
+    const messages = formatArgsForEcho(
       new Map([]),
       unresolvedPositionalArgs
     );

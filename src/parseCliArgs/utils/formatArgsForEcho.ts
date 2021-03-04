@@ -1,14 +1,14 @@
-import type { Argument } from './_types';
-import { argsMapToEntries } from './argsMapToEntries';
+import type { Argument } from '../_types';
+import { argsMapToEntries } from '../argsMapToEntries';
 
-interface FormatArgsForDisplayOptions {
+interface FormatArgsForEchoOptions {
   echoUndefined?: boolean;
 }
 
-export function formatArgsForDisplay(
+export function formatArgsForEcho(
   argsMap: Map<string, Argument>,
   unresolvedPositionalArgs: Array<boolean | number | string>,
-  options: FormatArgsForDisplayOptions = {}
+  options: FormatArgsForEchoOptions = {}
 ): string[] {
   const { echoUndefined } = options;
   const entries = argsMapToEntries(argsMap);

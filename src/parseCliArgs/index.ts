@@ -14,7 +14,7 @@ import type {
   PositionalArgumentDef,
   ValidationException,
 } from './_types';
-import { formatArgsForDisplay } from './formatArgsForDisplay';
+import { formatArgsForEcho } from './utils/formatArgsForEcho';
 import { mapArgs } from './mapArgs';
 import { showUsage } from './showUsage';
 import { toEchoParams } from './utils/toEchoParams';
@@ -127,7 +127,7 @@ export function parseCliArgs(
   const { echoUndefined, shouldEcho } = toEchoParams(argsMap, echo);
   if (shouldEcho) {
     const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
-    console.log(formatArgsForDisplay(
+    console.log(formatArgsForEcho(
       argsMap,
       unnamedPositionalArgs,
       { echoUndefined }
