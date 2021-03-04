@@ -3,7 +3,7 @@ import { argsMapToEntries } from './argsMapToEntries';
 
 export function formatArgsForDisplay(
   argsMap: Map<string, Argument>,
-  unresolvedPositionalArgs: Array<boolean | number | string> = []
+  unresolvedPositionalArgs: Array<boolean | number | string>
 ): string[] {
   const entries = argsMapToEntries(argsMap);
   return [

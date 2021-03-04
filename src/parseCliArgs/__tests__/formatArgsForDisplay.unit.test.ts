@@ -2,7 +2,7 @@ import { formatArgsForDisplay } from '../formatArgsForDisplay';
 
 describe('formatArgsForDisplay()', () => {
   it('if the map is empty, should return an empty array', () => {
-    const messages = formatArgsForDisplay(new Map());
+    const messages = formatArgsForDisplay(new Map(), []);
 
     expect(messages).toStrictEqual([]);
   });
@@ -11,7 +11,7 @@ describe('formatArgsForDisplay()', () => {
     const messages = formatArgsForDisplay(new Map([
       ['numericArg', { definition: { name: 'numericArg' }, value: 1 }],
       ['stringArg', { definition: { name: 'stringArg' }, value: 'resolved-value' }],
-    ]));
+    ]), []);
 
     expect(messages).toStrictEqual([
       'Resolved arguments:',
