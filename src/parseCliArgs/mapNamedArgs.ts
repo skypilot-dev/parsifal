@@ -9,6 +9,6 @@ export function mapNamedArgs(
     return {
       ...accArgsMap,
       [name]: getOrDefault(argsMap, name, defaultValue),
-    }
+    };
   }, {});
 }

@@ -51,7 +51,7 @@ describe('parseCliArgs() - definitions', () => {
 
   it('if positional-argument defs have invalid required/optional order, should throw an error', () => {
     const definitions = {
-      positional: [{ name: 'pos1', required: false }, {name: 'pos2',  required: true }],
+      positional: [{ name: 'pos1', required: false }, { name: 'pos2',  required: true }],
     };
 
     expect(() => {
@@ -86,7 +86,7 @@ describe('parseCliArgs() - arguments', () => {
       _unparsed: [],
       option1: undefined,
       option2: undefined,
-    }
+    };
     expect(args).toEqual(expected);
   });
 

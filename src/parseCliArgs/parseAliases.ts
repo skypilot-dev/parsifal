@@ -16,7 +16,7 @@ export function parseAliases(namedArgDefs: NamedArgumentDef[]): AliasMap {
     return {
       ...allAliases,
       ...argAliases,
-    }
+    };
   }, {});
   return aliasMap;
 }

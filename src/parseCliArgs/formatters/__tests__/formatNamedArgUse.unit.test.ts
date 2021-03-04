@@ -5,7 +5,7 @@ describe('formatNamedArgUse()', () => {
   it('by default should show that the argument is optional and takes a value', () => {
     const argDef = {
       name: 'option',
-    }
+    };
 
     const argUse = formatNamedArgUse(argDef);
 
@@ -17,7 +17,7 @@ describe('formatNamedArgUse()', () => {
     const argDef = {
       name: 'option',
       required: true,
-    }
+    };
 
     const argUse = formatNamedArgUse(argDef);
 
@@ -30,7 +30,7 @@ describe('formatNamedArgUse()', () => {
       name: 'color',
       required: true,
       valueLabel: 'hexadecimal value',
-    }
+    };
 
     const argUse = formatNamedArgUse(argDef);
 
@@ -42,7 +42,7 @@ describe('formatNamedArgUse()', () => {
     const argDef: NamedArgumentDef = {
       name: 'option',
       valueType: 'boolean',
-    }
+    };
 
     const argUse = formatNamedArgUse(argDef);
 

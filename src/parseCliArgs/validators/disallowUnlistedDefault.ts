@@ -17,8 +17,8 @@ export function disallowUnlistedDefault(
           message: `Bad definition for ${argDef.name}: The default value is not one of the valid values`,
           identifiers: [argDef.name],
         },
-      ]
+      ];
     }
     return accExceptions;
-  }, [] as ValidationException[])
+  }, [] as ValidationException[]);
 }

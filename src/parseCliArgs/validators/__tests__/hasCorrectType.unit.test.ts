@@ -18,7 +18,7 @@ describe('', () => {
         const typeIsCorrect = hasCorrectType(valueType, value);
 
         const goodValuesForType = goodValuesMap.get(valueType);
-        const expected = goodValuesForType?.includes(value)
+        const expected = goodValuesForType?.includes(value);
 
         expect(typeIsCorrect).toStrictEqual(expected);
       });
