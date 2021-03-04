@@ -1,17 +1,23 @@
+/* eslint-disable no-console */
+
 import path from 'path';
 import type { Integer } from '@skypilot/common-types';
+
 import { fromEntries } from 'src/lib/functions/object/fromEntries';
 import { initialParse } from '../initialParse';
+import { argsMapToEntries } from './argsMapToEntries';
 import type {
-  Argument,
   ArgumentDefinition,
   ArgumentInput,
   ArgumentValue,
+  EchoOptions,
   PositionalArgumentDef,
   ValidationException,
 } from './_types';
+import { formatArgsForEcho } from './utils/formatArgsForEcho';
 import { mapArgs } from './mapArgs';
 import { showUsage } from './showUsage';
+import { toEchoParams } from './utils/toEchoParams';
 import { validateArgs } from './validateArgs';
 import { validateArgDefs } from './validators/validateArgDefs';
 import { validateOptionNames } from './validators/validateOptionNames';
@@ -37,16 +43,12 @@ export interface DefinitionsMap {
 interface ParseCliArgsOptions {
   apiVersion?: Integer;
   args?: string[]; // arguments explicitly passed in instead of parsed from the command line
+  echo?: boolean | EchoOptions;
   exitProcessWhenTesting?: boolean;
   isTest?: boolean;
   mapAllNamedArgs?: boolean;
   maxPositionalArgs?: Integer;
   separateAfterStopArgs?: boolean;
-}
-
-function argsMapToEntries(argsMap: Map<string, Argument>): Array<[string, ArgumentValue]> {
-  const entries = Array.from(argsMap.entries());
-  return entries.map(([name, argument]) => [name, argument.value]);
 }
 
 export function parseCliArgs(
@@ -58,6 +60,7 @@ export function parseCliArgs(
 
   const {
     args = process.argv.slice(2),
+    echo,
     exitProcessWhenTesting = false,
     mapAllNamedArgs = false,
   } = options;
@@ -119,6 +122,19 @@ export function parseCliArgs(
       exitCode: 1,
       exitProcessWhenTesting,
     });
+  }
+
+  const argValuesMap = new Map(
+    Array.from(argsMap.entries()).map(([name, { value }]) => [name, value])
+  );
+  const { echoUndefined, shouldEcho } = toEchoParams(argValuesMap, echo);
+  if (shouldEcho) {
+    const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
+    console.log(formatArgsForEcho(
+      argValuesMap,
+      unnamedPositionalArgs,
+      { echoUndefined }
+    ).join('\n'));
   }
 
   return {
