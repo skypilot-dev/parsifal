@@ -45,13 +45,15 @@
     "prepublishOnly": "yarn run typecheck && yarn run lint --quiet && yarn test && yarn run build",
     "publish:default": "yarn publish --non-interactive",
     "tc": "yarn run typecheck",
-    "test": "jest",
+    "test": "jest --config jest.standalone.config.js",
+    "test:all": "jest --config jest.config.js",
+    "test:int": "jest --config jest.integration.config.js",
     "typecheck": "tsc"
   },
   "dependencies": {},
   "devDependencies": {
-    "@skypilot/common-types": "2.1.5",
-    "@skypilot/toolchain": "^5.1.4",
+    "@skypilot/common-types": "2.2.2",
+    "@skypilot/toolchain": "^5.2.3",
     "@types/minimist": "^1.2.1"
   },
   "publishConfig": {
