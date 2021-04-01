@@ -50,8 +50,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@skypilot/common-types": "2.1.5",
-    "@skypilot/toolchain": "^5.1.4",
+    "@skypilot/common-types": "2.2.2",
+    "@skypilot/toolchain": "^5.2.3",
     "@types/minimist": "^1.2.1"
   },
   "publishConfig": {
