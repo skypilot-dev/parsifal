@@ -52,9 +52,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@skypilot/common-types": "2.2.2",
-    "@skypilot/toolchain": "^5.2.3",
-    "@types/minimist": "^1.2.1"
+    "@skypilot/common-types": "2.3.0",
+    "@skypilot/toolchain": "^5.2.3"
   },
   "publishConfig": {
     "access": "restricted"
