@@ -216,4 +216,46 @@ describe('parseCliArgs() - arguments', () => {
     };
     expect(args).toStrictEqual(expectedArgs);
   });
+
+  it("if `valueType: 'stringArray`, should convert the value to a string array", () => {
+    const definitions: DefinitionsMap = {
+      named: [
+        { name: 'alphanumericStringArray', valueType: 'stringArray' },
+        { name: 'numericStringArray', valueType: 'stringArray' },
+      ],
+    };
+    const options = {
+      args: toArgs('--numericStringArray=1,2 --alphanumericStringArray=a,1'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: [],
+      _unparsed: [],
+      alphanumericStringArray: ['a', '1'],
+      numericStringArray: ['1', '2'],
+    };
+    expect(args).toStrictEqual(expectedArgs);
+  });
+
+  it("if `valueType: 'integerArray`, should convert the value to an integer array", () => {
+    const definitions: DefinitionsMap = {
+      named: [
+        { name: 'integerArray', valueType: 'integerArray' },
+      ],
+    };
+    const options = {
+      args: toArgs('--integerArray=1,2'),
+    };
+
+    const args = parseCliArgs(definitions, options);
+
+    const expectedArgs = {
+      _positional: [],
+      _unparsed: [],
+      integerArray: [1, 2],
+    };
+    expect(args).toStrictEqual(expectedArgs);
+  });
 });

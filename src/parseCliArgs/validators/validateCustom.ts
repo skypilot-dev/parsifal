@@ -1,30 +1,41 @@
 import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
 
 export function validateCustom(
-  value: ArgumentValue, argDef: ArgumentDefinition,
+  value: ArgumentValue | ArgumentValue[], argDef: ArgumentDefinition,
 ): ValidationException[] {
-  if (value === undefined) {
+  if (!Array.isArray(value) && typeof value === 'undefined') {
     /* An undefined value, if not permitted, will be flagged as a missing required value,
        so it isn't reported as an exception here. */
     return [];
   }
-  if (argDef.validate) {
-    const validationResult = argDef.validate(value);
-    const resolvedResult = typeof validationResult === 'boolean' ? { ok: validationResult }
-      : validationResult;
 
-    if (!resolvedResult.ok) {
-      const { errors = [] } = resolvedResult;
-      return [{
-        code: 'badValue',
-        level: 'error',
-        message: [
-          `Invalid value for '${argDef.name}'`,
-          ...(errors.length ? [errors.join('; ')] : []),
-        ].join(': '),
-        identifiers: [argDef.name],
-      }];
-    }
+  const { validate } = argDef;
+  if (!validate) {
+    return [];
   }
-  return [];
+
+  const values = Array.isArray(value) ? value : [value];
+
+  function resolveValidationResult<R extends { errors?: string[]; ok: boolean }>(
+    result: boolean | R
+  ): R | { errors?: string[]; ok: boolean } {
+    return typeof result === 'boolean' ? { errors: [], ok: result } : result;
+  }
+
+  const errorValidationResults = values
+    .map(value => resolveValidationResult(validate(value)))
+    .filter(({ ok }) => !ok);
+
+  return errorValidationResults.map(validationResult => {
+    const { errors = [] } = validationResult;
+    return {
+      code: 'badValue',
+      level: 'error',
+      message: [
+        `Invalid value for '${argDef.name}'`,
+        ...(errors.length ? [errors.join('; ')] : []),
+      ].join(': '),
+      identifiers: [argDef.name],
+    };
+  });
 }

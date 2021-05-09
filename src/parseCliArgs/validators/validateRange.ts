@@ -1,9 +1,9 @@
 import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
 
 export function validateRange(
-  value: ArgumentValue, argDef: ArgumentDefinition,
+  value: ArgumentValue | ArgumentValue[], argDef: ArgumentDefinition,
 ): ValidationException[] {
-  if (value === undefined) {
+  if (!Array.isArray(value) && typeof value === 'undefined') {
     /* An undefined value, if not permitted, will be flagged as a missing required value,
        so it isn't reported as an exception here. */
     return [];
@@ -20,14 +20,14 @@ export function validateRange(
   }
 
   const [minValue, maxValue] = validRange;
-  if (value >= minValue && value <= maxValue) {
-    return [];
-  }
+  const values = Array.isArray(value) ? value : [value];
 
-  return [{
-    code: 'outOfRangeValue',
-    level: 'error',
-    message: `Invalid value for '${argDef.name}': Valid range is ${minValue}-${maxValue}`,
-    identifiers: [argDef.name],
-  }];
+  return values
+    .filter(item => typeof item === 'undefined' || item < minValue || item > maxValue)
+    .map(item => ({
+      code: 'outOfRangeValue',
+      level: 'error',
+      message: `Invalid value ${JSON.stringify(item)} for '${argDef.name}': Valid range is ${minValue}-${maxValue}`,
+      identifiers: [argDef.name],
+    }));
 }

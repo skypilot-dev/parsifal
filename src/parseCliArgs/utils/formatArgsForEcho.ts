@@ -5,7 +5,7 @@ interface FormatArgsForEchoOptions {
 }
 
 export function formatArgsForEcho(
-  argValuesMap: Map<string, ArgumentValue>,
+  argValuesMap: Map<string, ArgumentValue | ArgumentValue[]>,
   unresolvedPositionalArgs: Array<boolean | number | string>,
   options: FormatArgsForEchoOptions = {}
 ): string[] {

@@ -2,7 +2,7 @@ import type { ArgumentValue, EchoOptions, EchoParams } from '../_types';
 
 // Given an arguments map and options, return a corresponding `EchoParams` object
 export function toEchoParams(
-  argValuesMap: Map<string, ArgumentValue>,
+  argValuesMap: Map<string, ArgumentValue | ArgumentValue[]>,
   options: EchoOptions | boolean = false
 ): EchoParams {
   if (typeof options === 'boolean') {

@@ -2,12 +2,12 @@ import type { Integer, RequireProps } from '@skypilot/common-types';
 
 export interface Argument {
   definition: ArgumentDefinition;
-  value: ArgumentValue;
+  value: ArgumentValue | ArgumentValue[];
 }
 
 export interface ArgumentDefV1 {
   aliases?: string[];
-  defaultValue?: ArgumentValue;
+  defaultValue?: ArgumentValue | ArgumentValue[];
   name?: string;
   positional?: boolean;
   required?: boolean;
@@ -23,14 +23,14 @@ export type ArgumentDefinition = RequireProps<ArgumentDefV1, 'name'>
 export type ArgumentInput = ArgumentDefinition | string;
 
 export interface ArgumentsMap {
-  [key: string]: ArgumentValue;
+  [key: string]: ArgumentValue | ArgumentValue[];
 }
 
-export type ArgumentValue = LiteralValue | undefined
+export type ArgumentValue = LiteralValue | undefined;
 
 export interface EchoOptions {
   // If true, echo parsed values to the console
-  echoIf?: boolean | ((argValuesMap: Map<string, ArgumentValue>) => unknown);
+  echoIf?: boolean | ((argValuesMap: Map<string, ArgumentValue | ArgumentValue[]>) => unknown);
   echoUndefined?: boolean;
 }
 
@@ -66,6 +66,6 @@ export interface ValidationException {
   identifiers: string[];
 }
 
-export type ValueType = 'boolean' | 'integer' | 'string' | 'number';
+export type ValueType = 'boolean' | 'integer' | 'integerArray' | 'string' | 'stringArray' | 'number';
 
 export type ValueValidator<T = any> = (value: T) => boolean | { errors?: string[]; ok: boolean };
