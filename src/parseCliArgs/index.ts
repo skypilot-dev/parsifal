@@ -23,6 +23,8 @@ import { validateArgDefs } from './validators/validateArgDefs';
 import { validateOptionNames } from './validators/validateOptionNames';
 import { validatePositionalArgDefs } from './validators/validatePositionalArgDefs';
 
+export type { ValueValidator } from './_types';
+
 type NamedArgsResult = {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   [key: string]: any;
