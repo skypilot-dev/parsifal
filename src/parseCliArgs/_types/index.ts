@@ -1,4 +1,4 @@
-import type { RequireProps } from '@skypilot/common-types';
+import type { Integer, RequireProps } from '@skypilot/common-types';
 
 export interface Argument {
   definition: ArgumentDefinition;
@@ -12,6 +12,7 @@ export interface ArgumentDefV1 {
   positional?: boolean;
   required?: boolean;
   validate?: ValueValidator;
+  validRange?: Integer[];
   validValues?: ArgumentValue[];
   valueLabel?: string;
   valueType?: ValueType;
@@ -59,7 +60,7 @@ export type PositionalArgumentDef = ArgumentDefinition & {
 export type PositionalArgDefInput = PositionalArgumentDef | string;
 
 export interface ValidationException {
-  code?: 'badDefinition' | 'badValue' | 'missing' | 'unlistedValue' | 'wrongType';
+  code?: 'badDefinition' | 'badValue' | 'missing' | 'outOfRangeValue' | 'unlistedValue' | 'wrongType';
   level?: 'warning' | 'error';
   message: string;
   identifiers: string[];

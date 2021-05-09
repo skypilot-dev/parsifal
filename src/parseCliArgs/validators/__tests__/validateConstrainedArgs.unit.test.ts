@@ -43,6 +43,7 @@ describe('validateConstrainedArgs()', () => {
       ['con3', { definition: { name: 'con3', validValues: ['1'] }, value: 1 }],
       ['uncon4', { definition: { name: 'uncon4' }, value: undefined }],
       ['detailedValidate', { definition: { name: 'detailedValidate', validate: detailedValidate }, value: 1 }],
+      ['rangeValidate', { definition: { name: 'rangeValidate', validRange: [2, 3] }, value: 1 }],
     ]);
 
     const exceptions = validateConstrainedArgs(argsMap);
@@ -65,6 +66,12 @@ describe('validateConstrainedArgs()', () => {
         level: 'error',
         message: "Invalid value for 'detailedValidate': 1 < 2",
         identifiers: ['detailedValidate'],
+      },
+      {
+        code: 'outOfRangeValue',
+        level: 'error',
+        message: "Invalid value for 'rangeValidate': Valid range is 2-3",
+        identifiers: ['rangeValidate'],
       },
     ];
     expect(exceptions).toStrictEqual(expected);
