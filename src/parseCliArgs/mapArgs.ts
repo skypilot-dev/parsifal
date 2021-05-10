@@ -39,11 +39,27 @@ export function mapArgs(
   });
 
   namedArgDefs.forEach(definition => {
-    const { defaultValue, name } = definition;
-    argsMap.set(name, {
-      definition,
-      value: getOrDefault(initialParsedArgs, name, defaultValue) as ArgumentValue | undefined,
-    });
+    const { defaultValue, name, valueType } = definition;
+    const convertedValue = (() => {
+      const enteredValue = getOrDefault(initialParsedArgs, name, undefined);
+      switch (valueType) {
+        case 'stringArray':
+          console.log('enteredValue:', enteredValue);
+          return typeof enteredValue === 'undefined' ? undefined
+            : typeof enteredValue === 'string' ? enteredValue.split(',')
+              : [`${enteredValue}`];
+        case 'integerArray':
+          return typeof enteredValue === 'undefined' ? undefined
+            : typeof enteredValue === 'number' ? [enteredValue]
+              : typeof enteredValue === 'string' ? enteredValue.split(',').map(integerString => parseInt(integerString, 10))
+                : [`${enteredValue}`];
+        default:
+          return enteredValue;
+      }
+    })();
+    const value = typeof convertedValue === 'undefined' ? defaultValue : convertedValue;
+    const argument: Argument = { definition, value };
+    argsMap.set(name, argument);
   });
 
   if (mapAllNamedArgs) {

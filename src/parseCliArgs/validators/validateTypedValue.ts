@@ -2,7 +2,7 @@ import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_type
 import { hasCorrectType } from './hasCorrectType';
 
 export function validateTypedValue(
-  value: ArgumentValue, argDef: ArgumentDefinition
+  value: ArgumentValue | ArgumentValue[], argDef: ArgumentDefinition
 ): ValidationException[] {
   const { name, valueType } = argDef;
   if (!valueType) {
@@ -14,8 +14,8 @@ export function validateTypedValue(
     return [{
       code: 'wrongType',
       level: 'error',
-      message: `Error: ${valueString} is not a valid value for ${name}`,
-      identifiers: [`'${name}'`],
+      message: `${valueString} is not a valid value for ${name}`,
+      identifiers: [name],
     }];
   }
   return [];
