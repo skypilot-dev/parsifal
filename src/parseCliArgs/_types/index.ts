@@ -13,7 +13,7 @@ export interface ArgumentDefV1 {
   required?: boolean;
   validate?: ValueValidator;
   validRange?: Integer[];
-  validValues?: ArgumentValue[];
+  validValues?: ReadonlyArray<ArgumentValue>;
   valueLabel?: string;
   valueType?: ValueType;
 }
