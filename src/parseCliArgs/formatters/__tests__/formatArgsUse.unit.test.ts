@@ -98,4 +98,26 @@ describe('formatArgsUse', () => {
     const actual = formatArgsUse(argDefs);
     expect(actual).toBe(expected);
   });
+
+  it('should display the value range if defined', () => {
+    const argDefs: ArgumentDefinition[] = [
+      {
+        name: 'stringArrayArg',
+        validValues: ['a', 'b'],
+        valueType: 'stringArray',
+      },
+      {
+        name: 'integerArrayArg',
+        validRange: [1, 100],
+        valueType: 'integerArray',
+      },
+    ];
+    const expected = unindentBy(4)`
+      --stringArrayArg=(a|b)[]
+      --integerArrayArg=(1–100)[]  integerArray
+    `;
+
+    const actual = formatArgsUse(argDefs);
+    expect(actual).toBe(expected);
+  });
 });
