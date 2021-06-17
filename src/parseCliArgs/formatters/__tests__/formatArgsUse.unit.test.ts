@@ -61,4 +61,41 @@ describe('formatArgsUse', () => {
     const actual = formatArgsUse(argDefs);
     expect(actual).toBe(expected);
   });
+
+  it('should display a label if defined', () => {
+    const argDefs: ArgumentDefinition[] = [
+      {
+        name: 'stringArg',
+        valueType: 'string',
+      },
+      {
+        name: 'integerArg',
+        valueType: 'integer',
+        valueLabel: 'description of the integer argument',
+      } as const,
+    ];
+    const expected = unindentBy(4)`
+      --stringArg   string
+      --integerArg  description of the integer argument
+    `;
+
+    const actual = formatArgsUse(argDefs);
+    expect(actual).toBe(expected);
+  });
+
+  it('should display the value range if defined', () => {
+    const argDefs: ArgumentDefinition[] = [
+      {
+        name: 'integerArg',
+        validRange: [1, 100],
+        valueType: 'integer',
+      },
+    ];
+    const expected = unindentBy(4)`
+      --integerArg 1–100  integer
+    `;
+
+    const actual = formatArgsUse(argDefs);
+    expect(actual).toBe(expected);
+  });
 });
