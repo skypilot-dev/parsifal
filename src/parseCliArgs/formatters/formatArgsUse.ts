@@ -14,6 +14,7 @@ function toNameWithValues(name: string, validValues: undefined | ReadonlyArray<a
   ].join(' ');
 }
 
+const gutterWidth = 2;
 const leftIndentWidth = 2;
 
 export function formatArgsUse(argDefinitions: ArgumentDefinition[]): string {
@@ -29,6 +30,7 @@ export function formatArgsUse(argDefinitions: ArgumentDefinition[]): string {
       ' '.repeat(leftIndentWidth),
       '--',
       toNameWithValues(name, validValues).padEnd(leftColWidth),
-      ...(valueLabel ? ['  ', valueLabel] : []),
+      ' '.repeat(gutterWidth),
+      valueLabel || valueType,
     ].join('')).join('\n');
 }
