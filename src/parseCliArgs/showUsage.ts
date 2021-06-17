@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 
 import type { Argument, ValidationException } from './_types';
-import { formatNamedArgUse } from './formatters/formatNamedArgUse';
-import { formatPositionalArgsUse } from './formatters/formatPositionalArgsUse';
+import { formatArgsUse } from './formatters/formatArgsUse';
+import { valueTypeIsArray } from './valueTypeIsArray';
 
 type ShowUsageOptions = {
   argsMap: Map<string, Argument>;
@@ -24,25 +24,52 @@ export function showUsage(options: ShowUsageOptions): never {
   } = options;
   const writeToDisplay = exitCode ? console.log : console.error;
 
-  const namedArgUsage = Array.from(argsMap.entries())
-    .filter(([_name, argument]) => !argument.definition.positional)
-    .map(([_name, argument]) => formatNamedArgUse(argument.definition))
-    .join(' ');
+  const requiredNamedArgUsage = formatArgsUse(Array.from(argsMap.values())
+    .filter(argument => !argument.definition.positional && argument.definition.required)
+    .map(argument => argument.definition));
 
-  const positionalArgDefs = Array.from(argsMap.entries())
-    .filter(([_name, argument]) => !!argument.definition.positional)
-    .map(([_name, argument]) => argument.definition);
-  const positionalArgUsage = formatPositionalArgsUse(positionalArgDefs);
+  const optionalNamedArgUsage = formatArgsUse(Array.from(argsMap.values())
+    .filter(argument => !argument.definition.positional && !argument.definition.required)
+    .map(argument => argument.definition));
 
-  const usage = [`Usage: ${command}`];
-  if (namedArgUsage) {
-    usage.push(namedArgUsage);
+  const positionalArgUsage = formatArgsUse(Array.from(argsMap.values())
+    .filter(argument => !!argument.definition.positional)
+    .map(argument => argument.definition));
+
+  const usageTitle = [`Usage: ${command}`];
+  const usageDetails = [];
+  if (requiredNamedArgUsage) {
+    usageTitle.push('<required arguments>');
+    usageDetails.push('', requiredNamedArgUsage);
   }
+  if (optionalNamedArgUsage) {
+    usageTitle.push('[optional arguments]');
+    usageDetails.push(
+      '\n  optional arguments:',
+      optionalNamedArgUsage
+    );
+  }
+
   if (positionalArgUsage) {
-    usage.push(positionalArgUsage);
+    const positionalArgNames = Array.from(argsMap.values())
+      .filter(argument => argument.definition.positional)
+      .map(argument => argument.definition.name);
+    usageTitle.push(`[--] [${positionalArgNames.join(' ')}]`);
+    usageDetails.push(
+      '\n  positional arguments:',
+      positionalArgUsage
+    );
   }
 
-  console.log(usage.join(' '));
+  const includeArrayExplanation = Array.from(argsMap.values())
+    .some(argument => valueTypeIsArray(argument.definition.valueType));
+
+  const usage = [
+    usageTitle.join(' '),
+    ...usageDetails,
+    ...(includeArrayExplanation ? ['\n(Enter arrays as comma-separated values without spaces; e.g.: --arg=value1,value2)'] : []),
+  ].join('\n');
+  console.log(usage);
   if ((message || exitCode) && !exitProcessWhenTesting) {
     if (process.env.NODE_ENV === 'test') {
       throw new Error(message);
