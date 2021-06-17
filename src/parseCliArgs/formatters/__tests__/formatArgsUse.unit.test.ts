@@ -32,8 +32,8 @@ describe('formatArgsUse', () => {
       },
     ];
     const expected = unindentBy(4)`
-      --stringArg   string
-      --integerArg  integer
+      --stringArg=<string>
+      --integerArg=<integer>
     `;
 
     const actual = formatArgsUse(argDefs);
@@ -54,8 +54,8 @@ describe('formatArgsUse', () => {
       } as const,
     ];
     const expected = unindentBy(4)`
-      --stringArg=a|b   string
-      --integerArg=1|2  integer
+      --stringArg=a|b
+      --integerArg=1|2
     `;
 
     const actual = formatArgsUse(argDefs);
@@ -72,11 +72,11 @@ describe('formatArgsUse', () => {
         name: 'integerArg',
         valueType: 'integer',
         valueLabel: 'description of the integer argument',
-      } as const,
+      },
     ];
     const expected = unindentBy(4)`
-      --stringArg   string
-      --integerArg  description of the integer argument
+      --stringArg=<string>
+      --integerArg=<integer>  description of the integer argument
     `;
 
     const actual = formatArgsUse(argDefs);

@@ -8,11 +8,23 @@ function formatValidValues(validValues: ReadonlyArray<any> | undefined): string 
   return validValues.join('|');
 }
 
-function toNameWithValues(
-  name: string, validRange: number[] | undefined, validValues: undefined | ReadonlyArray<any>
+function getValueLabel(argDefinition: ArgumentDefinition): string {
+  const { validRange, valueLabel, valueType } = argDefinition;
+  if (valueLabel) {
+    return valueLabel;
+  }
+  if (!validRange) {
+    return '';
+  }
+  return valueType || '';
+}
+
+function getNameWithValues(
+  argDefinition: ArgumentDefinition,
 ): string {
+  const { name, validRange, validValues, valueType } = argDefinition;
   if (!validValues && !validRange) {
-    return name;
+    return `${name}=<${valueType}>`;
   }
   const formattedValidValues = validRange ? `${validRange[0]}–${validRange[1]}` : formatValidValues(validValues);
   return [
@@ -25,19 +37,18 @@ const gutterWidth = 2;
 const leftIndentWidth = 2;
 
 function formatArgUse(argDefinition: ArgumentDefinition, options: { leftColWidth: Integer }): string {
-  const { name, valueLabel, validRange, validValues, valueType } = argDefinition;
+  const valueLabel = getValueLabel(argDefinition);
   return [
     ' '.repeat(leftIndentWidth),
     '--',
-    toNameWithValues(name, validRange, validValues).padEnd(options.leftColWidth),
-    ' '.repeat(gutterWidth),
-    valueLabel || valueType,
-  ].join('');
+    getNameWithValues(argDefinition).padEnd(options.leftColWidth),
+    ...(valueLabel ? [' '.repeat(gutterWidth), valueLabel] : []),
+  ].join('').trimEnd();
 }
 
 export function formatArgsUse(argDefinitions: ArgumentDefinition[]): string {
-  const namesWithValues = argDefinitions.map(({ name , validRange, validValues }) => [
-    toNameWithValues(name, validRange, validValues),
+  const namesWithValues = argDefinitions.map(argDefinition => [
+    getNameWithValues(argDefinition),
   ].join(' '));
   const leftColWidth = namesWithValues.reduce(
     (acc, nameWithValues) => Math.max(acc, nameWithValues.length),
