@@ -18,7 +18,7 @@ function toNameWithValues(
   return [
     name,
     formattedValidValues,
-  ].join(' ');
+  ].join('=');
 }
 
 const gutterWidth = 2;

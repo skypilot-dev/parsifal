@@ -54,8 +54,8 @@ describe('formatArgsUse', () => {
       } as const,
     ];
     const expected = unindentBy(4)`
-      --stringArg a|b   string
-      --integerArg 1|2  integer
+      --stringArg=a|b   string
+      --integerArg=1|2  integer
     `;
 
     const actual = formatArgsUse(argDefs);
@@ -92,7 +92,7 @@ describe('formatArgsUse', () => {
       },
     ];
     const expected = unindentBy(4)`
-      --integerArg 1–100  integer
+      --integerArg=1–100  integer
     `;
 
     const actual = formatArgsUse(argDefs);
