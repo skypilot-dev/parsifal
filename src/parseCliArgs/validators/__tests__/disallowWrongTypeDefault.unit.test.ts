@@ -1,4 +1,4 @@
-import { ArgumentDefinition, ValidationException } from '../../_types';
+import type { ArgumentDefinition, ValidationException } from '../../_types';
 import { disallowWrongTypeDefault } from '../disallowWrongTypeDefault';
 
 
@@ -22,6 +22,8 @@ describe('disallowWrongTypeDefault()', () => {
       { name: 'option2', defaultValue: 1, valueType: 'integer' },
       { name: 'option3', defaultValue: 1.2, valueType: 'number' },
       { name: 'option4', defaultValue: 'value', valueType: 'string' },
+      { name: 'option5', defaultValue: [1, 2], valueType: 'integerArray' },
+      { name: 'option6', defaultValue: ['a', 'b'], valueType: 'stringArray' },
     ];
 
     const exceptions = disallowWrongTypeDefault(argDefs);
@@ -36,6 +38,8 @@ describe('disallowWrongTypeDefault()', () => {
       { name: 'integerOpt', defaultValue: 0.1, valueType: 'integer' },
       { name: 'numberOpt', defaultValue: true, valueType: 'number' },
       { name: 'stringOpt', defaultValue: 0, valueType: 'string' },
+      { name: 'integerArrayOpt', defaultValue: 1, valueType: 'integerArray' },
+      { name: 'stringArrayOpt', defaultValue: 'value', valueType: 'stringArray' },
     ];
     const exceptions = disallowWrongTypeDefault(argDefs);
 
@@ -63,6 +67,18 @@ describe('disallowWrongTypeDefault()', () => {
         level: 'error',
         message: 'Bad definition for stringOpt: The default value is not of string type',
         identifiers: ['stringOpt'],
+      },
+      {
+        code: 'badDefinition',
+        level: 'error',
+        message: 'Bad definition for integerArrayOpt: The default value is not an integer array',
+        identifiers: ['integerArrayOpt'],
+      },
+      {
+        code: 'badDefinition',
+        level: 'error',
+        message: 'Bad definition for stringArrayOpt: The default value is not a string array',
+        identifiers: ['stringArrayOpt'],
       },
     ];
 

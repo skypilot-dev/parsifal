@@ -1,4 +1,4 @@
-import { ArgumentDefinition, ValidationException } from '../../_types';
+import type { ArgumentDefinition, ValidationException } from '../../_types';
 import { disallowWrongTypeListed } from '../disallowWrongTypeListed';
 
 
@@ -22,6 +22,8 @@ describe('disallowWrongTypeListed()', () => {
       { name: 'option2', validValues: [1], valueType: 'integer' },
       { name: 'option3', validValues: [1.2], valueType: 'number' },
       { name: 'option4', validValues: ['value'], valueType: 'string' },
+      { name: 'option5', validValues: [1, 2], valueType: 'integerArray' },
+      { name: 'option6', validValues: ['a', 'b'], valueType: 'stringArray' },
     ];
 
     const exceptions = disallowWrongTypeListed(argDefs);
@@ -36,6 +38,8 @@ describe('disallowWrongTypeListed()', () => {
       { name: 'integerOpt', validValues: [0, 1.1], valueType: 'integer' },
       { name: 'numberOpt', validValues: [1.1, true], valueType: 'number' },
       { name: 'stringOpt', validValues: ['value', 0], valueType: 'string' },
+      { name: 'integerArrayOpt', validValues: ['value', 0], valueType: 'integerArray' },
+      { name: 'stringArrayOpt', validValues: ['value', 0], valueType: 'stringArray' },
     ];
     const exceptions = disallowWrongTypeListed(argDefs);
 
@@ -63,6 +67,18 @@ describe('disallowWrongTypeListed()', () => {
         level: 'error',
         message: 'Bad definition for stringOpt: validValues must be of string type',
         identifiers: ['stringOpt'],
+      },
+      {
+        code: 'badDefinition',
+        level: 'error',
+        message: 'Bad definition for integerArrayOpt: validValues must be of integer type',
+        identifiers: ['integerArrayOpt'],
+      },
+      {
+        code: 'badDefinition',
+        level: 'error',
+        message: 'Bad definition for stringArrayOpt: validValues must be of string type',
+        identifiers: ['stringArrayOpt'],
       },
     ];
 
