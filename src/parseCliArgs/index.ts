@@ -46,6 +46,7 @@ interface ParseCliArgsOptions {
   apiVersion?: Integer;
   args?: string[]; // arguments explicitly passed in instead of parsed from the command line
   echo?: boolean | EchoOptions;
+  description?: string;
   exitProcessWhenTesting?: boolean;
   isTest?: boolean;
   mapAllNamedArgs?: boolean;
@@ -62,6 +63,7 @@ export function parseCliArgs(
 
   const {
     args = process.argv.slice(2),
+    description,
     echo,
     exitProcessWhenTesting = false,
     mapAllNamedArgs = false,
@@ -109,6 +111,7 @@ export function parseCliArgs(
     showUsage({
       argsMap,
       command: scriptName,
+      description,
       exitCode: 0,
       exitProcessWhenTesting,
     });
@@ -120,6 +123,7 @@ export function parseCliArgs(
     showUsage({
       argsMap,
       command: scriptName,
+      description,
       exceptions: argumentExceptions,
       exitCode: 1,
       exitProcessWhenTesting,
@@ -132,11 +136,14 @@ export function parseCliArgs(
   const { echoUndefined, shouldEcho } = toEchoParams(argValuesMap, echo);
   if (shouldEcho) {
     const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
-    console.log(formatArgsForEcho(
-      argValuesMap,
-      unnamedPositionalArgs,
-      { echoUndefined }
-    ).join('\n'));
+    console.log([
+      ...(description ? [description].flat() : []),
+      ...formatArgsForEcho(
+        argValuesMap,
+        unnamedPositionalArgs,
+        { echoUndefined }
+      ),
+    ].join('\n'));
   }
 
   return {

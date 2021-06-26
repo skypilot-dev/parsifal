@@ -51,7 +51,7 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
     values.forEach((value) => {
       const exceptions: ValidationException[] = validateConstrainedValue(value, argDef);
       if (exceptions.length < 1) {
-        console.log(`invalidValue: ${value}`);
+        console.warn(`invalidValue: ${value}`);
       }
       expect(exceptions).toHaveLength(1);
     });

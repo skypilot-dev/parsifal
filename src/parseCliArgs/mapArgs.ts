@@ -44,7 +44,6 @@ export function mapArgs(
       const enteredValue = getOrDefault(initialParsedArgs, name, undefined);
       switch (valueType) {
         case 'stringArray':
-          console.log('enteredValue:', enteredValue);
           return typeof enteredValue === 'undefined' ? undefined
             : typeof enteredValue === 'string' ? enteredValue.split(',')
               : [`${enteredValue}`];

@@ -7,16 +7,18 @@ import { valueTypeIsArray } from './valueTypeIsArray';
 type ShowUsageOptions = {
   argsMap: Map<string, Argument>;
   command?: string;
+  description?: string | undefined;
   exceptions?: ValidationException[];
   exitCode?: number;
   exitProcessWhenTesting?: boolean;
   message?: string;
 }
 
-export function showUsage(options: ShowUsageOptions): never {
+export function showUsage(options: ShowUsageOptions): void {
   const {
     argsMap,
     command = 'command',
+    description,
     exceptions = [],
     exitCode = 0,
     exitProcessWhenTesting, // if true, call `process.exit()` even when running in test mode
@@ -36,16 +38,20 @@ export function showUsage(options: ShowUsageOptions): never {
     .filter(argument => !!argument.definition.positional)
     .map(argument => argument.definition));
 
-  const usageTitle = [`Usage: ${command}`];
+  const usageTitle = [`  ${command}`];
   const usageDetails = [];
   if (requiredNamedArgUsage) {
     usageTitle.push('<required arguments>');
-    usageDetails.push('', requiredNamedArgUsage);
+    usageDetails.push(
+      'Arguments',
+      requiredNamedArgUsage,
+      ''
+    );
   }
   if (optionalNamedArgUsage) {
     usageTitle.push('[optional arguments]');
     usageDetails.push(
-      '\n  optional arguments:',
+      'Options:',
       optionalNamedArgUsage
     );
   }
@@ -56,7 +62,8 @@ export function showUsage(options: ShowUsageOptions): never {
       .map(argument => argument.definition.name);
     usageTitle.push(`[--] [${positionalArgNames.join(' ')}]`);
     usageDetails.push(
-      '\n  positional arguments:',
+      '',
+      'Positional arguments:',
       positionalArgUsage
     );
   }
@@ -65,16 +72,23 @@ export function showUsage(options: ShowUsageOptions): never {
     .some(argument => valueTypeIsArray(argument.definition.valueType));
 
   const usage = [
+    ...(description ? [description, ''].flat() : []),
+    'Usage',
     usageTitle.join(' '),
+    '',
     ...usageDetails,
-    ...(includeArrayExplanation ? ['\n(Enter arrays as comma-separated values without spaces; e.g.: --arg=value1,value2)'] : []),
+    '',
+    ...(includeArrayExplanation
+      ? ['(Enter arrays as comma-separated values without spaces; e.g.: --arg=value1,value2)', '']
+      : []
+    ),
   ].join('\n');
   console.log(usage);
   if ((message || exitCode) && !exitProcessWhenTesting) {
     if (process.env.NODE_ENV === 'test') {
       throw new Error(message);
     }
-    writeToDisplay(`Error: ${message}`);
+    writeToDisplay(`Error: ${message}\n`);
   }
   process.exit(exitCode);
 }

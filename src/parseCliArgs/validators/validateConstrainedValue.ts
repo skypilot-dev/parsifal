@@ -1,11 +1,11 @@
-import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
+import type { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
 
 function isValidConstrainedValue<T>(validValues: ReadonlyArray<T>, value: T | undefined): boolean {
   return value !== undefined && validValues.includes(value);
 }
 
 function formatValue(value: unknown): string {
-  return typeof value === 'string' ? `'${value}'` : JSON.stringify(value);
+  return typeof value === 'string' ? `"${value}"` : JSON.stringify(value);
 }
 
 export function validateConstrainedValue(
@@ -16,7 +16,7 @@ export function validateConstrainedValue(
        so it isn't reported as an exception here. */
     return [];
   }
-  const { validValues } = argDef;
+  const { validValues, valueType } = argDef;
   if (!validValues) {
     return [];
   }
@@ -25,14 +25,18 @@ export function validateConstrainedValue(
     ? value.every(item => isValidConstrainedValue(validValues, item))
     : isValidConstrainedValue(validValues, value);
 
+  const isArrayType = ['integerArray', 'stringArray'].includes(valueType || '');
+
   if (!isValid) {
     return [{
       code: 'unlistedValue',
       level: 'error',
-      message: `Invalid value ${formatValue(value)} for '${argDef.name}'. Allowed values: ${
-        validValues
-          .map((validValue) => formatValue(validValue)).join(', ')
-      }`,
+      message: `Invalid value ${formatValue(value)} for '${argDef.name}'. Allowed values: ${[
+        ...(isArrayType ? ['('] : []),
+        ...validValues
+          .map((validValue) => formatValue(validValue)).join('|'),
+        ...(isArrayType ? [')[]'] : []),
+      ].join('')}`,
       identifiers: [argDef.name],
     }];
   }
