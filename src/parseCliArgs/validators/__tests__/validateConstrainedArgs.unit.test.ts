@@ -1,3 +1,5 @@
+/* eslint-disable quotes */
+
 import type { Argument, ValidationException } from 'src/parseCliArgs/_types';
 import { validateConstrainedArgs } from '../validateConstrainedArgs';
 
@@ -53,13 +55,13 @@ describe('validateConstrainedArgs()', () => {
       {
         code: 'unlistedValue',
         level: 'error',
-        message: "Invalid value 3 for 'con1'. Allowed values: 1, 2",
+        message: "Invalid value 3 for 'con1'. Allowed values: 1|2",
         identifiers: ['con1'],
       },
       {
         code: 'unlistedValue',
         level: 'error',
-        message: "Invalid value 1 for 'con3'. Allowed values: 'a', 'b'",
+        message: `Invalid value 1 for 'con3'. Allowed values: "a"|"b"`,
         identifiers: ['con3'],
       },
       {

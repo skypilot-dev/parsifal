@@ -31,9 +31,10 @@ const parsedArgs = parseCliArgs({
       valueLabel: 'display console messages during the request run',
     },
     {
-      name: 'localeCode',
-      valueType: 'string',
-      valueLabel: 'locale code to pass to the request',
+      name: 'localeCodes',
+      valueType: 'stringArray',
+      valueLabel: 'locale codes to pass to the request',
+      validValues: ['en', 'fr'],
     },
     // Database options
     {
