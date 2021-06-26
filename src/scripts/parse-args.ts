@@ -66,6 +66,9 @@ const parsedArgs = parseCliArgs({
     { name: 'file1' },
     { name: 'file2' },
   ],
-}, { echo: { echoIf: argsMap => argsMap.get('verbose') } });
+}, {
+  description: 'Sample script',
+  echo: { echoIf: argsMap => argsMap.get('verbose') },
+});
 
 console.log('parsedArgs:', parsedArgs);
