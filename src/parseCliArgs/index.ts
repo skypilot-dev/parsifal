@@ -4,7 +4,6 @@ import type { Integer } from '@skypilot/common-types';
 
 import { initialParse } from '~src/initialParse/index.ts';
 import { assert } from '~src/lib/functions/assert.ts';
-import { fromEntries } from '~src/lib/functions/object/fromEntries.ts';
 import type {
   ArgumentDefinition,
   ArgumentInput,
@@ -136,6 +135,6 @@ export function parseCliArgs(definitions: DefinitionsMap = {}, options: ParseCli
   return {
     _positional: positionalArgs,
     _unparsed: unparsedArgs,
-    ...fromEntries(argsMapToEntries(argsMap)),
+    ...Object.fromEntries(argsMapToEntries(argsMap)),
   };
 }
