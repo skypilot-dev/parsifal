@@ -7,7 +7,7 @@ export function formatValueLabel(argDef: ArgumentDefinition): string {
     return `<${valueLabel}>`;
   }
 
-  if (validValues.length) {
+  if (validValues.length > 0) {
     return validValues.join('|');
   }
 

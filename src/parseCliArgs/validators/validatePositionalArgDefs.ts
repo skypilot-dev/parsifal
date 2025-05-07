@@ -3,7 +3,7 @@ import type { PositionalArgumentDef, ValidationException } from '~src/parseCliAr
 import { toOptionName } from '~src/parseCliArgs/formatters/toOptionName.ts';
 
 function validateDefaultAndRequired(positionalArgDefs: PositionalArgumentDef[]): ValidationException[] {
-  return positionalArgDefs.reduce((accExceptions, argDef, i) => {
+  return positionalArgDefs.reduce<ValidationException[]>((accExceptions, argDef, i) => {
     if (argDef.required && argDef.defaultValue !== undefined) {
       return [
         ...accExceptions,
@@ -15,16 +15,13 @@ function validateDefaultAndRequired(positionalArgDefs: PositionalArgumentDef[]):
       ];
     }
     return accExceptions;
-  }, [] as ValidationException[]);
+  }, []);
 }
 
 function validateRequiredBeforeOptional(positionalArgDefs: PositionalArgumentDef[]): ValidationException[] {
   let previousArgIsOptional = false;
-  for (let i = 0; i < positionalArgDefs.length; i += 1) {
-    const argDef = positionalArgDefs[i];
-    if (!argDef?.required) {
-      previousArgIsOptional = true;
-    } else {
+  for (const [i, argDef] of positionalArgDefs.entries()) {
+    if (argDef?.required) {
       if (previousArgIsOptional) {
         const previousOrdinal = toOrdinal(i);
         const currentOrdinal = toOrdinal(i + 1);
@@ -36,6 +33,8 @@ function validateRequiredBeforeOptional(positionalArgDefs: PositionalArgumentDef
           },
         ];
       }
+    } else {
+      previousArgIsOptional = true;
     }
   }
   return [];

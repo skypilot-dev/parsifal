@@ -2,7 +2,7 @@ import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/
 import { hasCorrectType } from '~src/parseCliArgs/validators/hasCorrectType.ts';
 
 export function disallowWrongTypeDefault(argDefs: ArgumentDefinition[]): ValidationException[] {
-  return argDefs.reduce((accExceptions, argDef) => {
+  return argDefs.reduce<ValidationException[]>((accExceptions, argDef) => {
     const { defaultValue, name, valueType } = argDef;
 
     if (defaultValue === undefined || valueType === undefined || hasCorrectType(valueType, defaultValue)) {
@@ -29,5 +29,5 @@ export function disallowWrongTypeDefault(argDefs: ArgumentDefinition[]): Validat
         identifiers: [name],
       },
     ];
-  }, [] as ValidationException[]);
+  }, []);
 }

@@ -1,12 +1,12 @@
-/* eslint-disable no-console */
+ 
 
 import path from 'node:path';
+
 import type { Integer } from '@skypilot/common-types';
 
-import { fromEntries } from '~src/lib/functions/object/fromEntries.ts';
-import { assert } from '~src/lib/functions/assert.ts';
 import { initialParse } from '~src/initialParse/index.ts';
-import { argsMapToEntries } from '~src/parseCliArgs/argsMapToEntries.ts';
+import { assert } from '~src/lib/functions/assert.ts';
+import { fromEntries } from '~src/lib/functions/object/fromEntries.ts';
 import type {
   ArgumentDefinition,
   ArgumentInput,
@@ -15,9 +15,10 @@ import type {
   PositionalArgumentDef,
   ValidationException,
 } from '~src/parseCliArgs/_types/index.ts';
-import { formatArgsForEcho } from '~src/parseCliArgs/utils/formatArgsForEcho.ts';
+import { argsMapToEntries } from '~src/parseCliArgs/argsMapToEntries.ts';
 import { mapArgs } from '~src/parseCliArgs/mapArgs.ts';
 import { showUsage } from '~src/parseCliArgs/showUsage.ts';
+import { formatArgsForEcho } from '~src/parseCliArgs/utils/formatArgsForEcho.ts';
 import { toEchoParams } from '~src/parseCliArgs/utils/toEchoParams.ts';
 import { validateArgs } from '~src/parseCliArgs/validateArgs.ts';
 import { validateArgDefs } from '~src/parseCliArgs/validators/validateArgDefs.ts';
@@ -26,9 +27,9 @@ import { validatePositionalArgDefs } from '~src/parseCliArgs/validators/validate
 
 export type { ValueValidator } from '~src/parseCliArgs/_types/index.ts';
 
-type NamedArgsResult = {
+interface NamedArgsResult {
   [key: string]: unknown;
-};
+}
 
 export interface UnnamedArgsResult {
   _positional?: ArgumentValue[];
@@ -87,7 +88,7 @@ export function parseCliArgs(definitions: DefinitionsMap = {}, options: ParseCli
     ...validatePositionalArgDefs(positionalArgDefs),
   ];
 
-  if (configExceptions.length) {
+  if (configExceptions.length > 0) {
     throw new Error(configExceptions.map(({ message }) => message).join('. '));
   }
 
@@ -111,7 +112,7 @@ export function parseCliArgs(definitions: DefinitionsMap = {}, options: ParseCli
 
   const argumentExceptions: ValidationException[] = validateArgs(argsMap);
 
-  if (argumentExceptions.length) {
+  if (argumentExceptions.length > 0) {
     showUsage({
       argsMap,
       command: scriptName,
@@ -122,7 +123,7 @@ export function parseCliArgs(definitions: DefinitionsMap = {}, options: ParseCli
     });
   }
 
-  const argValuesMap = new Map(Array.from(argsMap.entries()).map(([name, { value }]) => [name, value]));
+  const argValuesMap = new Map([...argsMap.entries()].map(([name, { value }]) => [name, value]));
   const { echoUndefined, shouldEcho } = toEchoParams(argValuesMap, echo);
   if (shouldEcho) {
     const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);

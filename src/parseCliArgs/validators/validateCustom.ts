@@ -4,7 +4,7 @@ export function validateCustom(
   value: ArgumentValue | ArgumentValue[],
   argDef: ArgumentDefinition,
 ): ValidationException[] {
-  if (!Array.isArray(value) && typeof value === 'undefined') {
+  if (!Array.isArray(value) && value === undefined) {
     /* An undefined value, if not permitted, will be flagged as a missing required value,
        so it isn't reported as an exception here. */
     return [];
@@ -32,7 +32,7 @@ export function validateCustom(
     return {
       code: 'badValue',
       level: 'error',
-      message: [`Invalid value for '${argDef.name}'`, ...(errors.length ? [errors.join('; ')] : [])].join(': '),
+      message: [`Invalid value for '${argDef.name}'`, ...(errors.length > 0 ? [errors.join('; ')] : [])].join(': '),
       identifiers: [argDef.name],
     };
   });

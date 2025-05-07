@@ -6,12 +6,11 @@ interface MapArgsOptions {
 }
 
 function fixBooleans(argsMap: Map<string, Argument>): Map<string, Argument> {
-  Array.from(argsMap.entries())
+  for (const [_name, argument] of [...argsMap.entries()]
     .filter(([_name, argument]: [string, Argument]) => argument.value === 'true' || argument.value === 'false')
-    .filter(([_name, argument]) => argument && argument.definition.valueType === 'boolean')
-    .forEach(([_name, argument]) => {
+    .filter(([_name, argument]) => argument && argument.definition.valueType === 'boolean')) {
       argument.value = argument.value === 'true';
-    });
+    }
   return argsMap;
 }
 
@@ -36,43 +35,42 @@ export function mapArgs(
     });
   });
 
-  namedArgDefs.forEach((definition) => {
+  for (const definition of namedArgDefs) {
     const { defaultValue, name, valueType } = definition;
     const convertedValue = (() => {
       const enteredValue = getOrDefault(initialParsedArgs, name, undefined);
       switch (valueType) {
         case 'stringArray':
-          return typeof enteredValue === 'undefined'
+          return enteredValue === undefined
             ? undefined
-            : typeof enteredValue === 'string'
+            : (typeof enteredValue === 'string'
               ? enteredValue.split(',')
-              : [`${enteredValue}`];
+              : [`${enteredValue}`]);
         case 'integerArray':
-          return typeof enteredValue === 'undefined'
+          return enteredValue === undefined
             ? undefined
             : typeof enteredValue === 'number'
               ? [enteredValue]
               : typeof enteredValue === 'string'
-                ? enteredValue.split(',').map((integerString) => parseInt(integerString, 10))
+                ? enteredValue.split(',').map((integerString) => Number.parseInt(integerString, 10))
                 : [`${enteredValue}`];
         default:
           return enteredValue;
       }
     })();
-    const value = typeof convertedValue === 'undefined' ? defaultValue : convertedValue;
+    const value = convertedValue === undefined ? defaultValue : convertedValue;
     const argument: Argument = { definition, value };
     argsMap.set(name, argument);
-  });
+  }
 
   if (mapAllNamedArgs) {
-    Object.entries(namedArgsMap)
-      .filter(([name]) => !argsMap.has(name))
-      .forEach(([name, value]) => {
+    for (const [name, value] of Object.entries(namedArgsMap)
+      .filter(([name]) => !argsMap.has(name))) {
         argsMap.set(name, {
           definition: { name }, // create a definition on the fly
           value: value as ArgumentValue,
         });
-      });
+      }
   }
   fixBooleans(argsMap);
   return argsMap;

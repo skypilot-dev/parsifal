@@ -3,8 +3,7 @@ import type { ArgumentDefinition, ArgumentValue, ValidationException } from '~sr
 
 function getIndexOfLastRequired(argDefs: ArgumentDefinition[]): number {
   let highestIndex = -1;
-  for (let i = 0; i < argDefs.length; i += 1) {
-    const argDef = argDefs[i];
+  for (const [i, argDef] of argDefs.entries()) {
     if (!argDef?.required) {
       return highestIndex;
     }
@@ -31,7 +30,7 @@ export function validateRequiredPositionalArgs(
     return [];
   }
 
-  const unsatisfiedArgDefs = argDefs.slice(firstMissingIndex, lastMissingIndex) as ArgumentDefinition[];
+  const unsatisfiedArgDefs = argDefs.slice(firstMissingIndex, lastMissingIndex);
 
   return unsatisfiedArgDefs.map((positionalArgDef, i) => {
     const ordinal = firstMissingIndex + i + 1;

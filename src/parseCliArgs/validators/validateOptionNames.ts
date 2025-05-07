@@ -7,7 +7,7 @@ export function validateOptionNames(positionalArgDefs: ArgumentDefinition[]): Va
 
   const duplicateNames = filterDuplicates(optionNames);
 
-  if (duplicateNames.length) {
+  if (duplicateNames.length > 0) {
     return [
       {
         level: 'error',

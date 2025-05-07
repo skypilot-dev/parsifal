@@ -21,12 +21,12 @@ describe(validateConstrainedValue, () => {
     const argDef: ArgumentDefinition = { name: 'option' };
     const values = [0, 1, 'a', true, false];
 
-    values.forEach((value) => {
+    for (const value of values) {
       const exceptions = validateConstrainedValue(value, argDef);
 
       const expected: ValidationException[] = [];
       expect(exceptions).toEqual(expected);
-    });
+    }
   });
 
   it('when the value is undefined, returns an empty array (because required values are validated elsewhere)', () => {
@@ -49,13 +49,13 @@ describe(validateConstrainedValue, () => {
     };
     const values = [0, 2, 'b', false];
 
-    values.forEach((value) => {
+    for (const value of values) {
       const exceptions: ValidationException[] = validateConstrainedValue(value, argDef);
-      if (exceptions.length < 1) {
+      if (exceptions.length === 0) {
         console.warn(`invalidValue: ${value}`);
       }
       expect(exceptions).toHaveLength(1);
-    });
+    }
   });
 
   it('can handle valid values of mixed types', () => {
@@ -65,8 +65,8 @@ describe(validateConstrainedValue, () => {
     };
     const values = [1, 'a', false];
 
-    values.forEach((value) => {
+    for (const value of values) {
       expect(validateConstrainedValue(value, argDef)).toEqual([]);
-    });
+    }
   });
 });

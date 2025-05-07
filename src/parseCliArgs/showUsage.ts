@@ -1,10 +1,10 @@
-/* eslint-disable no-console */
+ 
 
 import type { Argument, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 import { formatArgsUse } from '~src/parseCliArgs/formatters/formatArgsUse.ts';
 import { valueTypeIsArray } from '~src/parseCliArgs/valueTypeIsArray.ts';
 
-type ShowUsageOptions = {
+interface ShowUsageOptions {
   argsMap: Map<string, Argument>;
   command?: string;
   description?: string | undefined;
@@ -12,7 +12,7 @@ type ShowUsageOptions = {
   exitCode?: number;
   exitProcessWhenTesting?: boolean;
   message?: string;
-};
+}
 
 export function showUsage(options: ShowUsageOptions): void {
   const {
@@ -27,19 +27,19 @@ export function showUsage(options: ShowUsageOptions): void {
   const writeToDisplay = exitCode ? console.log : console.error;
 
   const requiredNamedArgUsage = formatArgsUse(
-    Array.from(argsMap.values())
+    [...argsMap.values()]
       .filter((argument) => !argument.definition.positional && argument.definition.required)
       .map((argument) => argument.definition),
   );
 
   const optionalNamedArgUsage = formatArgsUse(
-    Array.from(argsMap.values())
+    [...argsMap.values()]
       .filter((argument) => !argument.definition.positional && !argument.definition.required)
       .map((argument) => argument.definition),
   );
 
   const positionalArgUsage = formatArgsUse(
-    Array.from(argsMap.values())
+    [...argsMap.values()]
       .filter((argument) => !!argument.definition.positional)
       .map((argument) => argument.definition),
   );
@@ -56,14 +56,14 @@ export function showUsage(options: ShowUsageOptions): void {
   }
 
   if (positionalArgUsage) {
-    const positionalArgNames = Array.from(argsMap.values())
+    const positionalArgNames = [...argsMap.values()]
       .filter((argument) => argument.definition.positional)
       .map((argument) => argument.definition.name);
     usageTitle.push(`[--] [${positionalArgNames.join(' ')}]`);
     usageDetails.push('', 'Positional arguments:', positionalArgUsage);
   }
 
-  const includeArrayExplanation = Array.from(argsMap.values()).some((argument) =>
+  const includeArrayExplanation = [...argsMap.values()].some((argument) =>
     valueTypeIsArray(argument.definition.valueType),
   );
 

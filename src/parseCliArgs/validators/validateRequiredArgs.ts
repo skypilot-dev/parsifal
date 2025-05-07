@@ -19,7 +19,7 @@ function combine(exceptions: ValidationException[]): ValidationException[] {
 
 export function validateRequiredArgs(argsMap: Map<string, Argument>): ValidationException[] {
   return combine(
-    Array.from(argsMap.entries())
+    [...argsMap.entries()]
       .filter(([_name, argument]) => !!argument.definition.required)
       .filter(([name]) => argsMap.get(name)?.value === undefined)
       .map(([name]) => ({

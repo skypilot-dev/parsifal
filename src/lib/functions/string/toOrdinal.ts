@@ -1,4 +1,4 @@
-import { Integer } from '@skypilot/common-types';
+import type { Integer } from '@skypilot/common-types';
 
 export function toOrdinal(int: Integer): string {
   const modulus = int % 10;

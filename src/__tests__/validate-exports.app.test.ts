@@ -7,7 +7,7 @@ const intendedExports: string[] = [
   'parseCliArgs',
 ];
 
-describe('Validate exports', () => {
+describe('validate exports', () => {
   const actualExportNames = Object.keys(actualExports);
 
   it('exports include all intended exports', () => {

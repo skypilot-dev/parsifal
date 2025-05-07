@@ -4,12 +4,12 @@ import { validateCustom } from '~src/parseCliArgs/validators/validateCustom.ts';
 import { validateRange } from '~src/parseCliArgs/validators/validateRange.ts';
 
 export function validateConstrainedArgs(argsMap: Map<string, Argument>): ValidationException[] {
-  return Array.from(argsMap.entries())
+  return [...argsMap.entries()]
     .filter(
       ([_name, argument]) =>
         !!(argument.definition.validate || argument.definition.validRange || argument.definition.validValues),
     )
-    .reduce((accExceptions, [_name, argument]) => {
+    .reduce<ValidationException[]>((accExceptions, [_name, argument]) => {
       const { definition, value } = argument;
       return [
         ...accExceptions,
@@ -17,5 +17,5 @@ export function validateConstrainedArgs(argsMap: Map<string, Argument>): Validat
         ...validateCustom(value, definition),
         ...validateRange(value, definition),
       ];
-    }, [] as ValidationException[]);
+    }, []);
 }

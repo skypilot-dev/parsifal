@@ -14,15 +14,15 @@ describe(hasCorrectType, () => {
       ['string', ['stringValue']],
     ]);
 
-    valueTypes.forEach((valueType) => {
-      sampleValues.forEach((value) => {
+    for (const valueType of valueTypes) {
+      for (const value of sampleValues) {
         const typeIsCorrect = hasCorrectType(valueType, value);
 
         const goodValuesForType = goodValuesMap.get(valueType);
         const expected = goodValuesForType?.includes(value);
 
         expect(typeIsCorrect).toStrictEqual(expected);
-      });
-    });
+      }
+    }
   });
 });

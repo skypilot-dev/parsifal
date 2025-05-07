@@ -1,4 +1,4 @@
-/* eslint-disable quotes */
+ 
 
 import { describe, expect, it } from 'vitest';
 

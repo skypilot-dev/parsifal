@@ -1,5 +1,5 @@
 export function filterDuplicates(items: string[]): string[] {
-  const sortedItems = items.slice(0).sort();
+  const sortedItems = [...items].sort();
   const duplicates: string[] = [];
   let lastItem: string | null = null;
   sortedItems.forEach((item: string) => {

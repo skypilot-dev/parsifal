@@ -4,7 +4,7 @@ export function validateRange(
   value: ArgumentValue | ArgumentValue[],
   argDef: ArgumentDefinition,
 ): ValidationException[] {
-  if (!Array.isArray(value) && typeof value === 'undefined') {
+  if (!Array.isArray(value) && value === undefined) {
     // An undefined value, if not permitted, will be flagged as a missing required value,
     // so it isn't reported as an exception here.
     return [];

@@ -11,13 +11,13 @@ export function formatArgsForEcho(
 ): string[] {
   const { echoUndefined } = options;
 
-  const resolvedArgs = Array.from(argValuesMap.entries())
+  const resolvedArgs = [...argValuesMap.entries()]
     .filter(([_name, value]) => echoUndefined || value !== undefined)
     .map(([name, value]) => `  ${name}: ${JSON.stringify(value)}`);
 
   return [
-    ...(resolvedArgs.length ? ['Resolved arguments:', ...resolvedArgs] : []),
-    ...(unresolvedPositionalArgs.length
+    ...(resolvedArgs.length > 0 ? ['Resolved arguments:', ...resolvedArgs] : []),
+    ...(unresolvedPositionalArgs.length > 0
       ? [`Unresolved arguments: ${unresolvedPositionalArgs.map((arg) => JSON.stringify(arg)).join(', ')}`]
       : []),
   ];

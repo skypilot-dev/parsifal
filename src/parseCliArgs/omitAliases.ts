@@ -1,10 +1,10 @@
-type KeyValues = {
+interface KeyValues {
   [key: string]: boolean | number | string;
-};
+}
 
-type AliasMap = {
+interface AliasMap {
   [key: string]: string;
-};
+}
 
 /* Given an object and an alias map, omit from the object all entries whose keys are aliases
  * defined in the alias map and return the result. */

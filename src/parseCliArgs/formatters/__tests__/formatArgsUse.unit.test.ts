@@ -1,6 +1,5 @@
-import { describe, expect, it } from 'vitest';
-
 import type { Integer } from '@skypilot/common-types';
+import { describe, expect, it } from 'vitest';
 
 import type { ArgumentDefinition } from '~src/parseCliArgs/_types/index.ts';
 import { formatArgsUse } from '~src/parseCliArgs/formatters/formatArgsUse.ts';

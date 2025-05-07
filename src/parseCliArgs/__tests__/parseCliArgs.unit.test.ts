@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { type DefinitionsMap, type ParsedArgsResult, parseCliArgs } from '~src/parseCliArgs/index.ts';
+import { type DefinitionsMap, parseCliArgs,type ParsedArgsResult } from '~src/parseCliArgs/index.ts';
 
 /* TODO: Enable this function to parse quoted strings */
 function toArgs(argString: string): string[] {

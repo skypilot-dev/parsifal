@@ -13,12 +13,12 @@ describe(validateTypedValue, () => {
     const argDef: ArgumentDefinition = { name: 'option' };
     const values = [0, 1, 'a', true, false];
 
-    values.forEach((value) => {
+    for (const value of values) {
       const exceptions = validateTypedValue(value, argDef);
 
       const expected: ValidationException[] = [];
       expect(exceptions).toStrictEqual(expected);
-    });
+    }
   });
 
   it('if the value is of the `valueType`, returns an empty array', () => {
@@ -29,16 +29,16 @@ describe(validateTypedValue, () => {
       { goodValues: ['a'], valueType: 'string' },
     ];
 
-    valuesAndTypes.forEach(({ goodValues, valueType }) => {
-      goodValues.forEach((value) => {
+    for (const { goodValues, valueType } of valuesAndTypes) {
+      for (const value of goodValues) {
         const argDef: ArgumentDefinition = { name: 'option', valueType };
 
         const exceptions = validateTypedValue(value, argDef);
 
         const expected: ValidationException[] = [];
         expect(exceptions).toStrictEqual(expected);
-      });
-    });
+      }
+    }
   });
 
   it('if the value is not of the `valueType`, returns an array containing an exception', () => {
@@ -49,14 +49,14 @@ describe(validateTypedValue, () => {
       { badValues: [0, true], valueType: 'string' },
     ];
 
-    valuesAndTypes.forEach(({ badValues, valueType }) => {
-      badValues.forEach((value) => {
+    for (const { badValues, valueType } of valuesAndTypes) {
+      for (const value of badValues) {
         const argDef: ArgumentDefinition = { name: 'option', valueType };
 
         const exceptions = validateTypedValue(value, argDef);
 
         expect(exceptions).toHaveLength(1);
-      });
-    });
+      }
+    }
   });
 });

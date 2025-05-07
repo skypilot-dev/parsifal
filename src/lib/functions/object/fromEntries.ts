@@ -5,13 +5,13 @@ export function fromEntries<T = any>(entries: Iterable<readonly [string | number
   if (Object.fromEntries) {
     return Object.fromEntries(entries);
   }
-  return [...entries].reduce(
+  return [...entries].reduce<{ [k: string]: T }>(
     (obj, [key, value]) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       obj[key] = value;
       return obj;
     },
-    {} as { [k: string]: T },
+    {},
   );
 }

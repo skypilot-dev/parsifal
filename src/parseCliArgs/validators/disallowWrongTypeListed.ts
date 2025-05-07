@@ -3,10 +3,10 @@ import { hasCorrectType } from '~src/parseCliArgs/validators/hasCorrectType.ts';
 import { parseBaseType } from '~src/parseCliArgs/validators/parseBaseType.ts';
 
 export function disallowWrongTypeListed(argDefs: ArgumentDefinition[]): ValidationException[] {
-  return argDefs.reduce((accExceptions, argDef) => {
+  return argDefs.reduce<ValidationException[]>((accExceptions, argDef) => {
     const { name, validValues, valueType } = argDef;
 
-    if (typeof validValues === 'undefined' || typeof valueType === 'undefined') {
+    if (validValues === undefined || valueType === undefined) {
       return accExceptions;
     }
 
@@ -24,5 +24,5 @@ export function disallowWrongTypeListed(argDefs: ArgumentDefinition[]): Validati
         identifiers: [name],
       },
     ];
-  }, [] as ValidationException[]);
+  }, []);
 }
