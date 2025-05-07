@@ -14,7 +14,7 @@ describe(validateConstrainedValue, () => {
     const exceptions = validateConstrainedValue(value, argDef);
 
     const expected: ValidationException[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
   it('when `validValues` is undefined, always returns an empty array', () => {
@@ -25,7 +25,7 @@ describe(validateConstrainedValue, () => {
       const exceptions = validateConstrainedValue(value, argDef);
 
       const expected: ValidationException[] = [];
-      expect(exceptions).toEqual(expected);
+      expect(exceptions).toStrictEqual(expected);
     }
   });
 
@@ -39,7 +39,7 @@ describe(validateConstrainedValue, () => {
     const exceptions = validateConstrainedValue(value, argDef);
 
     const expected: ValidationException[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
   it('when the value is not among `validValues`, returns an array containing an exception', () => {
@@ -66,7 +66,7 @@ describe(validateConstrainedValue, () => {
     const values = [1, 'a', false];
 
     for (const value of values) {
-      expect(validateConstrainedValue(value, argDef)).toEqual([]);
+      expect(validateConstrainedValue(value, argDef)).toStrictEqual([]);
     }
   });
 });

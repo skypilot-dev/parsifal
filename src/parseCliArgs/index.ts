@@ -1,5 +1,3 @@
- 
-
 import path from 'node:path';
 
 import type { Integer } from '@skypilot/common-types';

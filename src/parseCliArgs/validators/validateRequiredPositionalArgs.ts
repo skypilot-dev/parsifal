@@ -4,7 +4,7 @@ import type { ArgumentDefinition, ArgumentValue, ValidationException } from '~sr
 function getIndexOfLastRequired(argDefs: ArgumentDefinition[]): number {
   let highestIndex = -1;
   for (const [i, argDef] of argDefs.entries()) {
-    if (!argDef?.required) {
+    if (!argDef.required) {
       return highestIndex;
     }
     highestIndex = i;
@@ -13,7 +13,7 @@ function getIndexOfLastRequired(argDefs: ArgumentDefinition[]): number {
 }
 
 function getArgName(argDef: ArgumentDefinition, ordinal: number): string {
-  return argDef?.name ? `'${argDef.name}'` : `the ${toOrdinal(ordinal)} argument`;
+  return argDef.name ? `'${argDef.name}'` : `the ${toOrdinal(ordinal)} argument`;
 }
 
 export function validateRequiredPositionalArgs(
@@ -37,7 +37,7 @@ export function validateRequiredPositionalArgs(
     return {
       level: 'error',
       message: `${getArgName(positionalArgDef, ordinal)} is required`,
-      identifiers: [positionalArgDef?.name || (firstMissingIndex + i).toString()],
+      identifiers: [positionalArgDef.name || (firstMissingIndex + i).toString()],
     };
   });
 }

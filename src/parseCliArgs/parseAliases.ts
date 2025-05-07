@@ -9,9 +9,7 @@ interface AliasMap {
 export function parseAliases(namedArgDefs: NamedArgumentDef[]): AliasMap {
   const aliasMap = namedArgDefs.reduce((allAliases, def) => {
     const { aliases = [], name } = def;
-    const argAliases = Object.fromEntries(aliases.map(
-      ( alias) => [alias, name],
-    ));
+    const argAliases = Object.fromEntries(aliases.map((alias) => [alias, name]));
     return {
       ...allAliases,
       ...argAliases,

@@ -3,5 +3,5 @@ export function getOrDefault<T>(
   key: string,
   defaultValue: T | undefined = undefined,
 ): T | undefined {
-  return Object.prototype.hasOwnProperty.call(map, key) ? (map[key] as T | undefined) : defaultValue;
+  return Object.prototype.hasOwnProperty.call(map, key) ? map[key] : defaultValue;
 }

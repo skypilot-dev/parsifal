@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { type DefinitionsMap, parseCliArgs,type ParsedArgsResult } from '~src/parseCliArgs/index.ts';
+import { type DefinitionsMap, parseCliArgs, type ParsedArgsResult } from '~src/parseCliArgs/index.ts';
 
 /* TODO: Enable this function to parse quoted strings */
 function toArgs(argString: string): string[] {
@@ -18,7 +18,7 @@ describe(parseCliArgs, () => {
         _positional: ['a', 1, 'quoted value'], // all positional args
         _unparsed: [],
       };
-      expect(parsedArgs).toEqual(expected);
+      expect(parsedArgs).toStrictEqual(expected);
     });
 
     it("should treat arguments after '--' as unparsed arguments", () => {
@@ -30,7 +30,7 @@ describe(parseCliArgs, () => {
         _positional: [1], // all positional args
         _unparsed: ['2', '3'],
       };
-      expect(parsedArgs).toEqual(expected);
+      expect(parsedArgs).toStrictEqual(expected);
     });
 
     it('can assign a name to an argument', () => {
@@ -48,7 +48,7 @@ describe(parseCliArgs, () => {
         a: 1,
         b: 2,
       };
-      expect(parsedArgs).toEqual(expected);
+      expect(parsedArgs).toStrictEqual(expected);
     });
 
     it('if positional-argument defs have invalid required/optional order, should throw an error', () => {
@@ -61,7 +61,7 @@ describe(parseCliArgs, () => {
 
       expect(() => {
         parseCliArgs(definitions);
-      }).toThrow();
+      }).toThrow(/required args must precede optional args/i);
     });
 
     it('if positional-argument defs have conflicting names, should throw an error', () => {
@@ -71,7 +71,7 @@ describe(parseCliArgs, () => {
 
       expect(() => {
         parseCliArgs(definitions);
-      }).toThrow();
+      }).toThrow(/option names cannot conflict with indices/i);
     });
   });
 
@@ -92,7 +92,7 @@ describe(parseCliArgs, () => {
         option1: undefined,
         option2: undefined,
       };
-      expect(args).toEqual(expected);
+      expect(args).toStrictEqual(expected);
     });
 
     it('if not enough required positional arguments are given, should report the error', () => {
@@ -105,7 +105,7 @@ describe(parseCliArgs, () => {
 
       expect(() => {
         parseCliArgs(definitions, options);
-      }).toThrow();
+      }).toThrow(/required argument is missing: positional/i);
     });
 
     it('if any required named argument is not given, should report the error', () => {
@@ -118,10 +118,10 @@ describe(parseCliArgs, () => {
 
       expect(() => {
         parseCliArgs(definitions, options);
-      }).toThrow();
+      }).toThrow(/required argument is missing: option1/i);
     });
 
-    it('if any argument has an invalid value, should report the error', () => {
+    it('if any argument has an invalid value, reports the error', () => {
       const definitions: DefinitionsMap = {
         named: [{ name: 'option1', validValues: [1] }],
       };
@@ -131,7 +131,7 @@ describe(parseCliArgs, () => {
 
       expect(() => {
         parseCliArgs(definitions, options);
-      }).toThrow();
+      }).toThrow(/invalid value/i);
     });
 
     it('by default should treat any double-hyphenated argument as a boolean', () => {

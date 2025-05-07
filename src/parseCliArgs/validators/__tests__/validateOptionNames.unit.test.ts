@@ -10,7 +10,7 @@ describe(validateOptionNames, () => {
     const exceptions = validateOptionNames(argDefInputs);
 
     const expected: ValidationException[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
   it('given nonconflicting option names, should return an empty array', () => {
@@ -19,7 +19,7 @@ describe(validateOptionNames, () => {
     const exceptions = validateOptionNames(argDefInputs);
 
     const expected: ValidationException[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
   it('given an array containing duplicate names, should return an exception', () => {

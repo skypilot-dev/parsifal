@@ -8,9 +8,9 @@ interface MapArgsOptions {
 function fixBooleans(argsMap: Map<string, Argument>): Map<string, Argument> {
   for (const [_name, argument] of [...argsMap.entries()]
     .filter(([_name, argument]: [string, Argument]) => argument.value === 'true' || argument.value === 'false')
-    .filter(([_name, argument]) => argument && argument.definition.valueType === 'boolean')) {
-      argument.value = argument.value === 'true';
-    }
+    .filter(([_name, argument]) => argument.definition.valueType === 'boolean')) {
+    argument.value = argument.value === 'true';
+  }
   return argsMap;
 }
 
@@ -27,14 +27,13 @@ export function mapArgs(
   const namedArgDefs = argDefs.filter(({ positional }) => !positional);
   const positionalArgDefs = argDefs.filter(({ positional }) => !!positional);
 
-  positionalArgDefs.forEach((definition: ArgumentDefinition, index) => {
+  for (const [index, definition] of positionalArgDefs.entries()) {
     const { defaultValue, name } = definition;
     argsMap.set(name, {
       definition,
       value: positionalArgs.length > index ? positionalArgs[index] : defaultValue,
     });
-  });
-
+  }
   for (const definition of namedArgDefs) {
     const { defaultValue, name, valueType } = definition;
     const convertedValue = (() => {
@@ -64,13 +63,12 @@ export function mapArgs(
   }
 
   if (mapAllNamedArgs) {
-    for (const [name, value] of Object.entries(namedArgsMap)
-      .filter(([name]) => !argsMap.has(name))) {
-        argsMap.set(name, {
-          definition: { name }, // create a definition on the fly
-          value: value as ArgumentValue,
-        });
-      }
+    for (const [name, value] of Object.entries(namedArgsMap).filter(([name]) => !argsMap.has(name))) {
+      argsMap.set(name, {
+        definition: { name }, // create a definition on the fly
+        value,
+      });
+    }
   }
   fixBooleans(argsMap);
   return argsMap;

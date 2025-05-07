@@ -5,8 +5,8 @@ export function validateCustom(
   argDef: ArgumentDefinition,
 ): ValidationException[] {
   if (!Array.isArray(value) && value === undefined) {
-    /* An undefined value, if not permitted, will be flagged as a missing required value,
-       so it isn't reported as an exception here. */
+    // An undefined value, if not permitted, will be flagged as a missing required value,
+    // so it isn't reported as an exception here.
     return [];
   }
 
@@ -16,12 +16,6 @@ export function validateCustom(
   }
 
   const values = Array.isArray(value) ? value : [value];
-
-  function resolveValidationResult<R extends { errors?: string[]; ok: boolean }>(
-    result: boolean | R,
-  ): R | { errors?: string[]; ok: boolean } {
-    return typeof result === 'boolean' ? { errors: [], ok: result } : result;
-  }
 
   const errorValidationResults = values
     .map((value) => resolveValidationResult(validate(value)))
@@ -36,4 +30,10 @@ export function validateCustom(
       identifiers: [argDef.name],
     };
   });
+}
+
+function resolveValidationResult<R extends { errors?: string[]; ok: boolean }>(
+  result: boolean | R,
+): R | { errors?: string[]; ok: boolean } {
+  return typeof result === 'boolean' ? { errors: [], ok: result } : result;
 }

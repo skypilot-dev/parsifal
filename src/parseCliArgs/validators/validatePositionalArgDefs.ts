@@ -21,7 +21,7 @@ function validateDefaultAndRequired(positionalArgDefs: PositionalArgumentDef[]):
 function validateRequiredBeforeOptional(positionalArgDefs: PositionalArgumentDef[]): ValidationException[] {
   let previousArgIsOptional = false;
   for (const [i, argDef] of positionalArgDefs.entries()) {
-    if (argDef?.required) {
+    if (argDef.required) {
       if (previousArgIsOptional) {
         const previousOrdinal = toOrdinal(i);
         const currentOrdinal = toOrdinal(i + 1);

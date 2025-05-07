@@ -1,5 +1,3 @@
- 
-
 import type { Argument, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 import { formatArgsUse } from '~src/parseCliArgs/formatters/formatArgsUse.ts';
 import { valueTypeIsArray } from '~src/parseCliArgs/valueTypeIsArray.ts';
@@ -39,9 +37,7 @@ export function showUsage(options: ShowUsageOptions): void {
   );
 
   const positionalArgUsage = formatArgsUse(
-    [...argsMap.values()]
-      .filter((argument) => !!argument.definition.positional)
-      .map((argument) => argument.definition),
+    [...argsMap.values()].filter((argument) => !!argument.definition.positional).map((argument) => argument.definition),
   );
 
   const usageTitle = [`  ${command}`];

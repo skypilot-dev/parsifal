@@ -29,10 +29,11 @@ describe(toEchoParams, () => {
   });
 
   it('if `options: echoIf` is a function, returns `shouldEcho: [evaluated function]`', () => {
-    const echoIfVerbose = (argsDict: Map<string, ArgumentValue | ArgumentValue[]>): boolean | undefined =>
-      !!argsDict.get('verbose');
-
     const echoParams = toEchoParams(argValuesMap, { echoIf: echoIfVerbose });
     expect(echoParams).toStrictEqual({ echoUndefined: false, shouldEcho: true });
   });
 });
+
+function echoIfVerbose(argsDict: Map<string, ArgumentValue | ArgumentValue[]>): boolean | undefined {
+  return !!argsDict.get('verbose');
+}

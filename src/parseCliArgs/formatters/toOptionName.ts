@@ -6,7 +6,7 @@ export function toOptionName(argDefInput: ArgumentDefV1 | string | undefined, in
   if (typeof argDefInput === 'string') {
     return argDefInput;
   }
-  if (typeof argDefInput === 'object' && argDefInput?.name) {
+  if (typeof argDefInput === 'object' && argDefInput.name) {
     return argDefInput.name;
   }
   return index.toString();

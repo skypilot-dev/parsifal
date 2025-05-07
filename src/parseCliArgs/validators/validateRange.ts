@@ -17,16 +17,16 @@ export function validateRange(
   }
 
   if (validRange.length !== 2) {
-    throw new Error(`Invalid range: ${validRange}`);
+    const rangeDescription = Array.isArray(validRange) ? validRange.join(', ') : validRange;
+    throw new Error(`Invalid range: ${rangeDescription}`);
   }
 
   const [minValue, maxValue] = validRange;
   const values = Array.isArray(value) ? value : [value];
 
-  // FIXME: According to the types, numbers can be compared to strings and vice versa.
   return (
     values
-      // @ts-ignore
+      // @ts-expect-error - Types need to be adjusted to reflect that comparands will be of the same type.
       .filter((item) => item === undefined || item < minValue || item > maxValue)
       .map((item) => ({
         code: 'outOfRangeValue',

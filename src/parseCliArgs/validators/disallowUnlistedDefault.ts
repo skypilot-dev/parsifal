@@ -9,7 +9,7 @@ export function disallowUnlistedDefault(argDefs: ArgumentDefinition[]): Validati
     }
 
     const defaultValues = Array.isArray(defaultValue) ? defaultValue : [defaultValue];
-    const invalidValues = defaultValues.filter((value: any) => !validValues.includes(value));
+    const invalidValues = defaultValues.filter((value: unknown) => !validValues.includes(value));
 
     if (invalidValues.length > 0) {
       return [

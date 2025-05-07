@@ -10,7 +10,7 @@ describe(validatePositionalArgDefs, () => {
     const exceptions = validatePositionalArgDefs(argDefs);
 
     const expected: string[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
   it('returns no exceptions when no definitions were given', () => {
@@ -19,7 +19,7 @@ describe(validatePositionalArgDefs, () => {
     const exceptions = validatePositionalArgDefs(argDefs);
 
     const expected: string[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
   it('returns an exception when a required arg follows an optional arg', () => {
@@ -38,6 +38,6 @@ describe(validatePositionalArgDefs, () => {
         identifiers: ['option2'],
       },
     ];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 });

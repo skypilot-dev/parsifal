@@ -13,8 +13,8 @@ export function validateConstrainedValue(
   argDef: ArgumentDefinition,
 ): ValidationException[] {
   if (value === undefined) {
-    /* An undefined value, if not permitted, will be flagged as a missing required value,
-       so it isn't reported as an exception here. */
+    // An undefined value, if not permitted, will be flagged as a missing required value,
+    // so it isn't reported as an exception here.
     return [];
   }
   const { validValues, valueType } = argDef;

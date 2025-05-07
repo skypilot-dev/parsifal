@@ -1,5 +1,3 @@
- 
-
 import { describe, expect, it } from 'vitest';
 
 import type { Argument, ValidationException } from '~src/parseCliArgs/_types/index.ts';
@@ -15,7 +13,7 @@ describe(validateConstrainedArgs, () => {
     const exceptions = validateConstrainedArgs(argsMap);
 
     const expected: ValidationException[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
   it('returns no exceptions if all constrained args are satisfied', () => {
@@ -37,12 +35,10 @@ describe(validateConstrainedArgs, () => {
     const exceptions = validateConstrainedArgs(argsMap);
 
     const expected: ValidationException[] = [];
-    expect(exceptions).toEqual(expected);
+    expect(exceptions).toStrictEqual(expected);
   });
 
   it('returns exceptions for each invalid argument', () => {
-    const detailedValidate = (value: number): { ok: boolean; errors?: string[] } =>
-      value < 2 ? { ok: false, errors: [`${value} < 2`] } : { ok: true };
     const argsMap = new Map([
       ['con1', { definition: { name: 'con1', validValues: [1, 2] }, value: 3 }],
       ['con2', { definition: { name: 'con2', validValues: [1] }, value: 1 }],
@@ -96,3 +92,7 @@ describe(validateConstrainedArgs, () => {
     expect(exceptions).toStrictEqual(expected);
   });
 });
+
+function detailedValidate(value: number): { ok: boolean; errors?: string[] } {
+  return value < 2 ? { ok: false, errors: [`${value} < 2`] } : { ok: true };
+}

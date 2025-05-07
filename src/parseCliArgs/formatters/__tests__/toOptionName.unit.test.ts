@@ -25,7 +25,7 @@ describe(toOptionName, () => {
   });
 
   it('given an argument definition with `name:undefined` and an index, returns the index as a string', () => {
-    const argDef = {} as PositionalArgumentDef;
+    const argDef = {};
     const index = 1;
 
     const optionName = toOptionName(argDef, index);

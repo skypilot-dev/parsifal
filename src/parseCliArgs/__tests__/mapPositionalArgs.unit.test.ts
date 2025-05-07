@@ -10,7 +10,7 @@ describe(mapPositionalArgs, () => {
     const argsMap = mapPositionalArgs(values);
 
     const expected = {};
-    expect(argsMap).toEqual(expected);
+    expect(argsMap).toStrictEqual(expected);
   });
 
   it('if `mapAllArgs:true`, should map all arguments to indices', () => {
@@ -22,7 +22,7 @@ describe(mapPositionalArgs, () => {
       '0': 1,
       '1': 'b',
     };
-    expect(argsMap).toEqual(expected);
+    expect(argsMap).toStrictEqual(expected);
   });
 
   it('maps an array of arguments to an array of strings and return the map', () => {
@@ -36,7 +36,7 @@ describe(mapPositionalArgs, () => {
       stringOption: 'a',
     };
 
-    expect(args).toEqual(expected);
+    expect(args).toStrictEqual(expected);
   });
 
   it('if there are more strings than args, maps undefined to the remaining strings', () => {
@@ -50,7 +50,7 @@ describe(mapPositionalArgs, () => {
       extraOption: undefined,
     };
 
-    expect(args).toEqual(expected);
+    expect(args).toStrictEqual(expected);
   });
 
   it('if there are more args than strings & `mapAllArgs:true`, maps the remaining args to indices', () => {
@@ -65,7 +65,7 @@ describe(mapPositionalArgs, () => {
       '2': 3,
     };
 
-    expect(args).toEqual(expected);
+    expect(args).toStrictEqual(expected);
   });
 
   it('can use definition objects along with strings', () => {
@@ -79,7 +79,7 @@ describe(mapPositionalArgs, () => {
       numberDefOption: 3,
     };
 
-    expect(args).toEqual(expected);
+    expect(args).toStrictEqual(expected);
   });
 
   it('given an empty array of arguments & no definitions, returns an empty object', () => {
@@ -89,7 +89,7 @@ describe(mapPositionalArgs, () => {
 
     const expected = {};
 
-    expect(args).toEqual(expected);
+    expect(args).toStrictEqual(expected);
   });
 
   it('should fall back to default values, if set', () => {
@@ -107,6 +107,6 @@ describe(mapPositionalArgs, () => {
       option2: 'a',
       option3: undefined,
     };
-    expect(namedArgsMap).toEqual(expected);
+    expect(namedArgsMap).toStrictEqual(expected);
   });
 });

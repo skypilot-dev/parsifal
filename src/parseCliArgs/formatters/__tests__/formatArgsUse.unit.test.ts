@@ -68,7 +68,7 @@ describe(formatArgsUse, () => {
     expect(actual).toBe(expected);
   });
 
-  it('should display the value range if defined', () => {
+  it('displays an integer value range if defined', () => {
     const argDefs: ArgumentDefinition[] = [
       {
         name: 'integerArg',
@@ -84,7 +84,7 @@ describe(formatArgsUse, () => {
     expect(actual).toBe(expected);
   });
 
-  it('should display the value range if defined', () => {
+  it('can display multiple value ranges', () => {
     const argDefs: ArgumentDefinition[] = [
       {
         name: 'stringArrayArg',

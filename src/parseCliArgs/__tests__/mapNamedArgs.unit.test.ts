@@ -18,7 +18,7 @@ describe(mapNamedArgs, () => {
       option1: 1,
       option3: 'a',
     };
-    expect(namedArgsMap).toEqual(expected);
+    expect(namedArgsMap).toStrictEqual(expected);
   });
 
   it('should map `undefined` to options that are undefined', () => {
@@ -31,7 +31,7 @@ describe(mapNamedArgs, () => {
       option1: undefined,
       option2: undefined,
     };
-    expect(namedArgsMap).toEqual(expected);
+    expect(namedArgsMap).toStrictEqual(expected);
   });
 
   it('should fall back to default values, if set', () => {
@@ -49,6 +49,6 @@ describe(mapNamedArgs, () => {
       option2: 'a',
       option3: undefined,
     };
-    expect(namedArgsMap).toEqual(expected);
+    expect(namedArgsMap).toStrictEqual(expected);
   });
 });

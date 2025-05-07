@@ -21,6 +21,6 @@ describe(omitAliases, () => {
       actual1: 1,
       actual2: 'two',
     };
-    expect(noAliases).toEqual(expected);
+    expect(noAliases).toStrictEqual(expected);
   });
 });

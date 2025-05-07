@@ -17,6 +17,6 @@ describe(parseAliases, () => {
       alias1b: 'actual1',
       alias3: 'actual3',
     };
-    expect(aliasMap).toEqual(expected);
+    expect(aliasMap).toStrictEqual(expected);
   });
 });
