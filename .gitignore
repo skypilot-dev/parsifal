@@ -1,63 +1,46 @@
-# Cached files
-.cache/
-
-# Compiled & transpiled files
-/dist/
-/lib/
-
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.sw?
-
-# ESLint
+# Code-quality tools
 .eslintcache
 
-# Local-only files
-.env.local
-.env.*.local
-/local/
-/private/
-/secret/
+# Editor directories and files
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/*
+!.vscode/extensions.json
+
+# Generated files
+dist/
+dist-ssr/
+
+# Local-only directories & files
+local/
+tmp/
+*.local
+*.private.env.json
+*.tmp
+
+# Logs
+logs
+*.log
+
+# Monorepo
 
 # Node
-/node_modules/
-.lock-wscript
-.node_repl_history
-.npm
-npm-debug.log
-npm-debug.log*
+node_modules/
 
 # OS files
 .DS_Store
-Thumbs.db
 
-# Runtime data
-/pids/
-*.pid
-*.seed
-
-# Temporary files
-/tmp/
-*.tmp
-*.tmp.*
-
-# Tests & coverage
-.nyc_output/
-/coverage/
-lib-cov/
-
-# Yarn
+# Package managers
+.pnpm-debug.log*
+lerna-debug.log*
+npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.yarn/cache
-.yarn/unplugged
 
-# Don't exclude these if Yarn Zero-Installs are being used
-/.pnp/
-/.yarn/build-state.yml
-.pnp.*
-
-# Allow .gitkeep to prevent otherwise empty directories from being deleted
-!.gitkeep
+# Testing
+coverage/
+.vitest-result.json

@@ -12,6 +12,10 @@
     "rootDir": "./src",
     "sourceMap": false,
   },
-  "exclude": ["**/__tests__"],
-  "include": ["src"],
+  "exclude": [
+    "**/__tests__", //
+  ],
+  "include": [
+    "src", //
+  ],
 }
