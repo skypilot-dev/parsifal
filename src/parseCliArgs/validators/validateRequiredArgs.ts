@@ -1,5 +1,5 @@
 import { isNonNullable } from '~src/lib/functions/isNonNullable.ts';
-import { Argument, ValidationException } from '../_types';
+import type { Argument, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 
 function combine(exceptions: ValidationException[]): ValidationException[] {
   const missing = exceptions.filter(({ code }) => code === 'missing');

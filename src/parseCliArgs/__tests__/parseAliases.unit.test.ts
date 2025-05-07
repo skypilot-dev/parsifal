@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseAliases } from '../parseAliases';
+import { parseAliases } from '~src/parseCliArgs/parseAliases.ts';
 
 describe(parseAliases, () => {
   it('returns a lookup in which aliases are mapped to names', () => {

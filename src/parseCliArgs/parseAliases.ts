@@ -1,4 +1,4 @@
-import type { NamedArgumentDef } from './_types';
+import type { NamedArgumentDef } from '~src/parseCliArgs/_types/index.ts';
 
 type AliasMap = {
   [key: string]: string;

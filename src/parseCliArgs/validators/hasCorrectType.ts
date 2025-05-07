@@ -1,4 +1,4 @@
-import { ArgumentValue, ValueType } from '../_types';
+import type { ArgumentValue, ValueType } from '~src/parseCliArgs/_types/index.ts';
 
 function isInteger(value: unknown): boolean {
   return typeof value === 'number' && value % 1 === 0;

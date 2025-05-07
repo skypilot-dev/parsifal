@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ValidationException } from '../../_types';
-import { validateRequiredArgs } from '../validateRequiredArgs';
+import type { ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { validateRequiredArgs } from '~src/parseCliArgs/validators/validateRequiredArgs.ts';
 
 describe(validateRequiredArgs, () => {
   it('returns no exceptions if no args are required', () => {

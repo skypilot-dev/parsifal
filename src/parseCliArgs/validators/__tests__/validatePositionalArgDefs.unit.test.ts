@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { PositionalArgumentDef } from '../../_types';
-import { validatePositionalArgDefs } from '../validatePositionalArgDefs';
+import type { PositionalArgumentDef } from '~src/parseCliArgs/_types/index.ts';
+import { validatePositionalArgDefs } from '~src/parseCliArgs/validators/validatePositionalArgDefs.ts';
 
 describe(validatePositionalArgDefs, () => {
   it('returns no exceptions when the definitions are valid', () => {

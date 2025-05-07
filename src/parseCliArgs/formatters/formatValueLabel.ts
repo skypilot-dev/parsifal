@@ -1,4 +1,4 @@
-import type { ArgumentDefinition } from '../_types';
+import type { ArgumentDefinition } from '~src/parseCliArgs/_types/index.ts';
 
 export function formatValueLabel(argDef: ArgumentDefinition): string {
   const {

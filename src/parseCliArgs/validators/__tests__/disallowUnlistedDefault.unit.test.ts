@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ArgumentDefinition, ValidationException } from '../../_types';
-import { disallowUnlistedDefault } from '../disallowUnlistedDefault';
+import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { disallowUnlistedDefault } from '~src/parseCliArgs/validators/disallowUnlistedDefault.ts';
 
 
 describe(disallowUnlistedDefault, () => {

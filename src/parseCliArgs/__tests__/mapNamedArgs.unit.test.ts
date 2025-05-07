@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import type { ArgumentsMap } from '../_types';
-import { mapNamedArgs } from '../mapNamedArgs';
+import type { ArgumentsMap } from '~src/parseCliArgs/_types/index.ts';
+import { mapNamedArgs } from '~src/parseCliArgs/mapNamedArgs.ts';
 
 describe(mapNamedArgs, () => {
   it('returns an object containing the entries whose keys are among the option names', () => {

@@ -1,6 +1,6 @@
-import { toOrdinal } from '../../lib/functions/string/toOrdinal';
-import { PositionalArgumentDef, ValidationException } from '../_types';
-import { toOptionName } from '../formatters/toOptionName';
+import { toOrdinal } from '~src/lib/functions/string/toOrdinal.ts';
+import type { PositionalArgumentDef, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { toOptionName } from '~src/parseCliArgs/formatters/toOptionName.ts';
 
 function validateDefaultAndRequired(
   positionalArgDefs: PositionalArgumentDef[]

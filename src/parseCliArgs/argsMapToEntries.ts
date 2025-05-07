@@ -1,4 +1,4 @@
-import { Argument, ArgumentValue } from './_types';
+import type { Argument, ArgumentValue } from '~src/parseCliArgs/_types/index.ts';
 
 export function argsMapToEntries(argsMap: Map<string, Argument>): Array<[string, ArgumentValue | ArgumentValue[]]> {
   const entries = Array.from(argsMap.entries());

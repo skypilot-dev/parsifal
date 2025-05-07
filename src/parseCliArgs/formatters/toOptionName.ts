@@ -1,5 +1,5 @@
 import type { Integer } from '@skypilot/common-types';
-import type { ArgumentDefV1 } from '../_types';
+import type { ArgumentDefV1 } from '~src/parseCliArgs/_types/index.ts';
 
 export function toOptionName(
   argDefInput: ArgumentDefV1 | string | undefined,

@@ -1,5 +1,5 @@
-import { getOrDefault } from '../lib/functions/object/getOrDefault';
-import type { ArgumentsMap, ArgumentValue, PositionalArgumentDef } from './_types';
+import { getOrDefault } from '~src/lib/functions/object/getOrDefault.ts';
+import type { ArgumentsMap, ArgumentValue, PositionalArgumentDef } from '~src/parseCliArgs/_types/index.ts';
 
 interface MapPositionalArgsOptions {
   mapAllArgs?: boolean; // if true, map args without definitions to their indices

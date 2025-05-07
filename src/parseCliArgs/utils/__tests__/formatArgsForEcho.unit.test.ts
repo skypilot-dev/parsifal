@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatArgsForEcho } from '../formatArgsForEcho';
+import { formatArgsForEcho } from '~src/parseCliArgs/utils/formatArgsForEcho.ts';
 
 describe(formatArgsForEcho, () => {
   it('if the map is empty, returns an empty array', () => {

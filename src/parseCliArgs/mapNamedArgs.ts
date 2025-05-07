@@ -1,5 +1,5 @@
-import { getOrDefault } from '../lib/functions/object/getOrDefault';
-import type { ArgumentsMap, NamedArgumentDef } from './_types';
+import { getOrDefault } from '~src/lib/functions/object/getOrDefault.ts';
+import type { ArgumentsMap, NamedArgumentDef } from '~src/parseCliArgs/_types/index.ts';
 
 export function mapNamedArgs(
   argsMap: ArgumentsMap, namedArgDefs: NamedArgumentDef[]

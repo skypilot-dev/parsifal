@@ -1,5 +1,5 @@
-import { getOrDefault } from '../lib/functions/object/getOrDefault';
-import type { Argument, ArgumentDefinition, ArgumentValue, InitialParsedArgs } from './_types';
+import { getOrDefault } from '~src/lib/functions/object/getOrDefault.ts';
+import type { Argument, ArgumentDefinition, ArgumentValue, InitialParsedArgs } from '~src/parseCliArgs/_types/index.ts';
 
 interface MapArgsOptions {
   mapAllNamedArgs?: boolean;

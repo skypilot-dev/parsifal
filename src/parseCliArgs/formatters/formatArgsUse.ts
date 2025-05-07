@@ -1,7 +1,7 @@
 import type { Integer } from '@skypilot/common-types';
-import type { ArgumentDefinition } from '../_types';
+import type { ArgumentDefinition } from '~src/parseCliArgs/_types/index.ts';
 
-import { valueTypeIsArray } from '../valueTypeIsArray';
+import { valueTypeIsArray } from '~src/parseCliArgs/valueTypeIsArray.ts';
 
 function formatValidValues(validValues: ReadonlyArray<any> | undefined): string {
   if (!validValues) {

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { NamedArgumentDef } from '../../_types';
-import { formatNamedArgUse } from '../formatNamedArgUse';
+import type { NamedArgumentDef } from '~src/parseCliArgs/_types/index.ts';
+import { formatNamedArgUse } from '~src/parseCliArgs/formatters/formatNamedArgUse.ts';
 
 describe(formatNamedArgUse, () => {
   it('by default should show that the argument is optional and takes a value', () => {

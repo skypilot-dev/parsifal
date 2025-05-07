@@ -1,6 +1,6 @@
-import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
-import { validateConstrainedValue } from './validateConstrainedValue';
-import { validateRequiredPositionalArgs } from './validateRequiredPositionalArgs';
+import type { ArgumentDefinition, ArgumentValue, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { validateConstrainedValue } from '~src/parseCliArgs/validators/validateConstrainedValue.ts';
+import { validateRequiredPositionalArgs } from '~src/parseCliArgs/validators/validateRequiredPositionalArgs.ts';
 
 function validateConstrainedArgs(
   positionalArgs: ArgumentValue[], argDefs: ArgumentDefinition[]

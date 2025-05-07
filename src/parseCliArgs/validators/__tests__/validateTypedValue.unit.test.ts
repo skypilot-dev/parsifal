@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ArgumentDefinition, ArgumentValue, ValidationException, ValueType } from '../../_types';
-import { validateTypedValue } from '../validateTypedValue';
+import type { ArgumentDefinition, ArgumentValue, ValidationException, ValueType } from '~src/parseCliArgs/_types/index.ts';
+import { validateTypedValue } from '~src/parseCliArgs/validators/validateTypedValue.ts';
 
 describe(validateTypedValue, () => {
   it('if no `valueType` is set, returns an empty array', () => {

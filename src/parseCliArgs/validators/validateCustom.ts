@@ -1,4 +1,4 @@
-import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
+import type { ArgumentDefinition, ArgumentValue, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 
 export function validateCustom(
   value: ArgumentValue | ArgumentValue[], argDef: ArgumentDefinition,

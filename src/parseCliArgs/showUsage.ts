@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 
-import type { Argument, ValidationException } from './_types';
-import { formatArgsUse } from './formatters/formatArgsUse';
-import { valueTypeIsArray } from './valueTypeIsArray';
+import type { Argument, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { formatArgsUse } from '~src/parseCliArgs/formatters/formatArgsUse.ts';
+import { valueTypeIsArray } from '~src/parseCliArgs/valueTypeIsArray.ts';
 
 type ShowUsageOptions = {
   argsMap: Map<string, Argument>;

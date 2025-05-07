@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ArgumentDefinition } from '../../_types';
-import { formatValueLabel } from '../formatValueLabel';
+import type { ArgumentDefinition } from '~src/parseCliArgs/_types/index.ts';
+import { formatValueLabel } from '~src/parseCliArgs/formatters/formatValueLabel.ts';
 
 describe(formatValueLabel, () => {
   it('given a value label, returns the label enclosed in angle brackets', () => {

@@ -1,6 +1,6 @@
-import type { ArgumentDefinition, ValidationException } from '../_types';
-import { hasCorrectType } from './hasCorrectType';
-import { parseBaseType } from './parseBaseType';
+import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { hasCorrectType } from '~src/parseCliArgs/validators/hasCorrectType.ts';
+import { parseBaseType } from '~src/parseCliArgs/validators/parseBaseType.ts';
 
 export function disallowWrongTypeListed(
   argDefs: ArgumentDefinition[]

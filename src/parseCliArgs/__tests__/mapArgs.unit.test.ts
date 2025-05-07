@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import type { ArgumentDefinition, InitialParsedArgs } from '../_types';
-import { mapArgs } from '../mapArgs';
+import type { ArgumentDefinition, InitialParsedArgs } from '~src/parseCliArgs/_types/index.ts';
+import { mapArgs } from '~src/parseCliArgs/mapArgs.ts';
 
 describe(mapArgs, () => {
   it('returns a map of values & argument definitions to argument names', () => {

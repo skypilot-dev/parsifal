@@ -2,8 +2,8 @@
 
 import { describe, expect, it } from 'vitest';
 
-import type { Argument, ValidationException } from 'src/parseCliArgs/_types';
-import { validateConstrainedArgs } from '../validateConstrainedArgs';
+import type { Argument, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { validateConstrainedArgs } from '~src/parseCliArgs/validators/validateConstrainedArgs.ts';
 
 describe(validateConstrainedArgs, () => {
   it('returns no exceptions if no args are constrained', () => {

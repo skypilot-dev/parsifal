@@ -1,5 +1,5 @@
-import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
-import { hasCorrectType } from './hasCorrectType';
+import type { ArgumentDefinition, ArgumentValue, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { hasCorrectType } from '~src/parseCliArgs/validators/hasCorrectType.ts';
 
 export function validateTypedValue(
   value: ArgumentValue | ArgumentValue[], argDef: ArgumentDefinition

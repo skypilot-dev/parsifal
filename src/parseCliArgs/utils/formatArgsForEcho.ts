@@ -1,4 +1,4 @@
-import type { ArgumentValue } from '../_types';
+import type { ArgumentValue } from '~src/parseCliArgs/_types/index.ts';
 
 interface FormatArgsForEchoOptions {
   echoUndefined?: boolean;

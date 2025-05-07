@@ -1,5 +1,5 @@
-import { Argument, ValidationException } from '../_types';
-import { validateTypedValue } from './validateTypedValue';
+import type { Argument, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { validateTypedValue } from '~src/parseCliArgs/validators/validateTypedValue.ts';
 
 export function validateTypedArgs(argsMap: Map<string, Argument>): ValidationException[] {
   const typedArgDefs = Array.from(argsMap.entries())

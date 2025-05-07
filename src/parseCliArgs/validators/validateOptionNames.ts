@@ -1,6 +1,6 @@
-import { filterDuplicates } from '../../lib/functions/array/filterDuplicates';
-import { ArgumentDefinition, ValidationException } from '../_types';
-import { toOptionName } from '../formatters/toOptionName';
+import { filterDuplicates } from '~src/lib/functions/array/filterDuplicates.ts';
+import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { toOptionName } from '~src/parseCliArgs/formatters/toOptionName.ts';
 
 export function validateOptionNames(
   positionalArgDefs: ArgumentDefinition[],

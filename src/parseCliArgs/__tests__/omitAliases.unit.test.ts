@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { omitAliases } from '../omitAliases';
+import { omitAliases } from '~src/parseCliArgs/omitAliases.ts';
 
 describe(omitAliases, () => {
   it('omits entries whose keys are aliases', () => {

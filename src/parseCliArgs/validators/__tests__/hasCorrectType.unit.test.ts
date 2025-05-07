@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ArgumentValue, ValueType } from '../../_types';
-import { hasCorrectType } from '../hasCorrectType';
+import type { ArgumentValue, ValueType } from '~src/parseCliArgs/_types/index.ts';
+import { hasCorrectType } from '~src/parseCliArgs/validators/hasCorrectType.ts';
 
 describe(hasCorrectType, () => {
   it("returns true if valueType is 'string', 'boolean', or 'number' & value is of that type", () => {

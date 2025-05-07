@@ -1,4 +1,4 @@
-import { parseCliArgs } from '../parseCliArgs';
+import { parseCliArgs } from '~src/parseCliArgs/index.ts';
 
 const parsedArgs = parseCliArgs({
   named: [

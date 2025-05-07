@@ -3,10 +3,10 @@
 import path from 'node:path';
 import type { Integer } from '@skypilot/common-types';
 
-import { fromEntries } from 'src/lib/functions/object/fromEntries';
-import { assert } from 'src/lib/functions/assert';
-import { initialParse } from '../initialParse';
-import { argsMapToEntries } from './argsMapToEntries';
+import { fromEntries } from '~src/lib/functions/object/fromEntries.ts';
+import { assert } from '~src/lib/functions/assert.ts';
+import { initialParse } from '~src/initialParse/index.ts';
+import { argsMapToEntries } from '~src/parseCliArgs/argsMapToEntries.ts';
 import type {
   ArgumentDefinition,
   ArgumentInput,
@@ -14,17 +14,17 @@ import type {
   EchoOptions,
   PositionalArgumentDef,
   ValidationException,
-} from './_types';
-import { formatArgsForEcho } from './utils/formatArgsForEcho';
-import { mapArgs } from './mapArgs';
-import { showUsage } from './showUsage';
-import { toEchoParams } from './utils/toEchoParams';
-import { validateArgs } from './validateArgs';
-import { validateArgDefs } from './validators/validateArgDefs';
-import { validateOptionNames } from './validators/validateOptionNames';
-import { validatePositionalArgDefs } from './validators/validatePositionalArgDefs';
+} from '~src/parseCliArgs/_types/index.ts';
+import { formatArgsForEcho } from '~src/parseCliArgs/utils/formatArgsForEcho.ts';
+import { mapArgs } from '~src/parseCliArgs/mapArgs.ts';
+import { showUsage } from '~src/parseCliArgs/showUsage.ts';
+import { toEchoParams } from '~src/parseCliArgs/utils/toEchoParams.ts';
+import { validateArgs } from '~src/parseCliArgs/validateArgs.ts';
+import { validateArgDefs } from '~src/parseCliArgs/validators/validateArgDefs.ts';
+import { validateOptionNames } from '~src/parseCliArgs/validators/validateOptionNames.ts';
+import { validatePositionalArgDefs } from '~src/parseCliArgs/validators/validatePositionalArgDefs.ts';
 
-export type { ValueValidator } from './_types';
+export type { ValueValidator } from '~src/parseCliArgs/_types/index.ts';
 
 type NamedArgsResult = {
   [key: string]: unknown;

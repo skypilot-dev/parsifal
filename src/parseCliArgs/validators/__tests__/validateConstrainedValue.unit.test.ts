@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ArgumentDefinition, ValidationException } from '../../_types';
-import { validateConstrainedValue } from '../validateConstrainedValue';
+import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { validateConstrainedValue } from '~src/parseCliArgs/validators/validateConstrainedValue.ts';
 
 describe(validateConstrainedValue, () => {
   it('when the value is among the valid values, returns an empty array', () => {

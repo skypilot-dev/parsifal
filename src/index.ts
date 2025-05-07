@@ -1,1 +1,1 @@
-export { parseCliArgs } from './parseCliArgs';
+export { parseCliArgs } from '~src/parseCliArgs/index.ts';

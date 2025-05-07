@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { PositionalArgumentDef, ValidationException } from '../../_types';
-import { validateOptionNames } from '../validateOptionNames';
+import type { PositionalArgumentDef, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { validateOptionNames } from '~src/parseCliArgs/validators/validateOptionNames.ts';
 
 describe(validateOptionNames, () => {
   it('given no definitions, should return no exceptions', () => {

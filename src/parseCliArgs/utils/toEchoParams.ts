@@ -1,4 +1,4 @@
-import type { ArgumentValue, EchoOptions, EchoParams } from '../_types';
+import type { ArgumentValue, EchoOptions, EchoParams } from '~src/parseCliArgs/_types/index.ts';
 
 // Given an arguments map and options, return a corresponding `EchoParams` object
 export function toEchoParams(

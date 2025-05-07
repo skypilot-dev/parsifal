@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ArgumentValue } from '../_types';
-import { mapPositionalArgs } from '../mapPositionalArgs';
+import type { ArgumentValue } from '~src/parseCliArgs/_types/index.ts';
+import { mapPositionalArgs } from '~src/parseCliArgs/mapPositionalArgs.ts';
 
 describe(mapPositionalArgs, () => {
   it('by default does not map arguments to indices', () => {

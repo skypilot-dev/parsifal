@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import type { ArgumentDefinition, ValidationException } from '../../_types';
-import { disallowWrongTypeDefault } from '../disallowWrongTypeDefault';
+import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { disallowWrongTypeDefault } from '~src/parseCliArgs/validators/disallowWrongTypeDefault.ts';
 
 
 describe(disallowWrongTypeDefault, () => {

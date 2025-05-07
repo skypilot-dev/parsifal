@@ -1,4 +1,4 @@
-import { ArgumentDefinition, ValidationException } from '../_types';
+import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 
 export function disallowDefaultWithRequired(
   argDefs: ArgumentDefinition[]

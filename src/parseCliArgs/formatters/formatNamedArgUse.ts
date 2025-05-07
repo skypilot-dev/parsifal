@@ -1,5 +1,5 @@
-import type { ArgumentDefinition } from '../_types';
-import { formatValueLabel } from './formatValueLabel';
+import type { ArgumentDefinition } from '~src/parseCliArgs/_types/index.ts';
+import { formatValueLabel } from '~src/parseCliArgs/formatters/formatValueLabel.ts';
 
 export function formatNamedArgUse(argDef: ArgumentDefinition): string {
   const {

@@ -1,4 +1,4 @@
-import type { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
+import type { ArgumentDefinition, ArgumentValue, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 
 function isValidConstrainedValue<T>(validValues: ReadonlyArray<T>, value: T | undefined): boolean {
   return value !== undefined && validValues.includes(value);

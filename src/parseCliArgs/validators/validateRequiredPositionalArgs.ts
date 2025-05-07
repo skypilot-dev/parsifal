@@ -1,8 +1,7 @@
-import { Integer } from '@skypilot/common-types';
-import { toOrdinal } from 'src/lib/functions/string/toOrdinal';
-import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
+import { toOrdinal } from '~src/lib/functions/string/toOrdinal.ts';
+import type { ArgumentDefinition, ArgumentValue, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 
-function getIndexOfLastRequired(argDefs: ArgumentDefinition[]): Integer {
+function getIndexOfLastRequired(argDefs: ArgumentDefinition[]): number {
   let highestIndex = -1;
   for (let i = 0; i < argDefs.length; i += 1) {
     const argDef = argDefs[i];
@@ -14,7 +13,7 @@ function getIndexOfLastRequired(argDefs: ArgumentDefinition[]): Integer {
   return highestIndex;
 }
 
-function getArgName(argDef: ArgumentDefinition, ordinal: Integer): string {
+function getArgName(argDef: ArgumentDefinition, ordinal: number): string {
   return argDef?.name
     ? `'${argDef.name}'`
     : `the ${toOrdinal(ordinal)} argument`;

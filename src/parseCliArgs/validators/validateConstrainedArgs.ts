@@ -1,7 +1,7 @@
-import { Argument, ValidationException } from '../_types';
-import { validateConstrainedValue } from './validateConstrainedValue';
-import { validateCustom } from './validateCustom';
-import { validateRange } from './validateRange';
+import type { Argument, ValidationException } from '~src/parseCliArgs/_types/index.ts';
+import { validateConstrainedValue } from '~src/parseCliArgs/validators/validateConstrainedValue.ts';
+import { validateCustom } from '~src/parseCliArgs/validators/validateCustom.ts';
+import { validateRange } from '~src/parseCliArgs/validators/validateRange.ts';
 
 export function validateConstrainedArgs(argsMap: Map<string, Argument>): ValidationException[] {
   return Array.from(argsMap.entries())

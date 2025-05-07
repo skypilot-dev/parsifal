@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { PositionalArgDefInput, PositionalArgumentDef } from '../../_types';
-import { toOptionName } from '../toOptionName';
+import type { PositionalArgDefInput, PositionalArgumentDef } from '~src/parseCliArgs/_types/index.ts';
+import { toOptionName } from '~src/parseCliArgs/formatters/toOptionName.ts';
 
 describe(toOptionName, () => {
   it('given a string, returns the string', () => {

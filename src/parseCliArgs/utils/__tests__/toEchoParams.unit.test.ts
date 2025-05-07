@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ArgumentValue } from '../../_types';
-import { toEchoParams } from '../toEchoParams';
+import type { ArgumentValue } from '~src/parseCliArgs/_types/index.ts';
+import { toEchoParams } from '~src/parseCliArgs/utils/toEchoParams.ts';
 
 const argValuesMap = new Map([
   ['verbose', true],

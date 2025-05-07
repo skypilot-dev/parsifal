@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import * as actualExports from '../index';
+import * as actualExports from '~src/index.ts';
 
 const intendedExports: string[] = [
   /* Parser */

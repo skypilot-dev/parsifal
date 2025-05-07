@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { fromEntries } from '../fromEntries';
+import { fromEntries } from '~src/lib/functions/object/fromEntries.ts';
 
-describe('fromEntries(entries)', () => {
+describe(fromEntries, () => {
   it('should create an object from the entries and return it', () => {
     const entries = [
       ['a', 1],

@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import type { Integer } from '@skypilot/common-types';
 
-import type { ArgumentDefinition } from '../../_types';
-import { formatArgsUse } from '../formatArgsUse';
+import type { ArgumentDefinition } from '~src/parseCliArgs/_types/index.ts';
+import { formatArgsUse } from '~src/parseCliArgs/formatters/formatArgsUse.ts';
 
 describe(formatArgsUse, () => {
   it('should list argument names in the left column and types in the right', () => {
