@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { fromEntries } from '../fromEntries';
 
 describe('fromEntries(entries)', () => {

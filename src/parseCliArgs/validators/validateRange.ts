@@ -1,11 +1,11 @@
-import { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
+import type { ArgumentDefinition, ArgumentValue, ValidationException } from '../_types';
 
 export function validateRange(
   value: ArgumentValue | ArgumentValue[], argDef: ArgumentDefinition,
 ): ValidationException[] {
   if (!Array.isArray(value) && typeof value === 'undefined') {
-    /* An undefined value, if not permitted, will be flagged as a missing required value,
-       so it isn't reported as an exception here. */
+    // An undefined value, if not permitted, will be flagged as a missing required value,
+    // so it isn't reported as an exception here.
     return [];
   }
 
@@ -22,8 +22,10 @@ export function validateRange(
   const [minValue, maxValue] = validRange;
   const values = Array.isArray(value) ? value : [value];
 
+  // FIXME: According to the types, numbers can be compared to strings and vice versa.
   return values
-    .filter(item => typeof item === 'undefined' || item < minValue || item > maxValue)
+    // @ts-ignore
+    .filter(item => item === undefined || item < minValue || item > maxValue)
     .map(item => ({
       code: 'outOfRangeValue',
       level: 'error',

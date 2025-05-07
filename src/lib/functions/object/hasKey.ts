@@ -6,5 +6,5 @@ export function hasKey (obj: { [key: string]: any }, keys: string[]): boolean {
   });
 
   const key = keys[keys.length - 1];
-  return key in o;
+  return key === undefined ? false : Object.hasOwn(o, key);
 }

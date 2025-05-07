@@ -1,8 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import { ArgumentDefinition, ArgumentValue, ValidationException, ValueType } from '../../_types';
 import { validateTypedValue } from '../validateTypedValue';
 
-describe('validateTypedValue', () => {
-  it('if no `valueType` is set, should return an empty array', () => {
+describe(validateTypedValue, () => {
+  it('if no `valueType` is set, returns an empty array', () => {
     const argDef: ArgumentDefinition = { name: 'option' };
     const values = [0, 1, 'a', true, false];
 
@@ -14,7 +16,7 @@ describe('validateTypedValue', () => {
     });
   });
 
-  it('if the value is of the `valueType`, should return an empty array', () => {
+  it('if the value is of the `valueType`, returns an empty array', () => {
     const valuesAndTypes: { goodValues: ArgumentValue[]; valueType: ValueType }[] = [
       { goodValues: [false, true], valueType: 'boolean' },
       { goodValues: [0, 1], valueType: 'integer' },
@@ -34,7 +36,7 @@ describe('validateTypedValue', () => {
     });
   });
 
-  it('if the value is not of the `valueType`, should return an array containing an exception', () => {
+  it('if the value is not of the `valueType`, returns an array containing an exception', () => {
     const valuesAndTypes: { badValues: ArgumentValue[]; valueType: ValueType }[] = [
       { badValues: [0, 1, '', 'a'], valueType: 'boolean' },
       { badValues: [0.1, '0'], valueType: 'integer' },

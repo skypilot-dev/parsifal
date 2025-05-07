@@ -1,19 +1,17 @@
+// TSConfig for monorepo root
+// Adapted from https://blog.logrocket.com/setting-up-monorepo-with-lerna-typescript/
 {
-  "extends": "@skypilot/toolchain/configs/tsconfig.generate-typings.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./src",
-    "outDir": "lib",
-    "paths": {
-      "root/*": ["../*"],
-      "src/*": ["./*"]
-    },
-    "rootDir": "src"
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "outDir": "./dist/esm",
+    "rootDir": "./src",
+    "sourceMap": false,
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/__tests__"
-  ]
+  "exclude": ["**/__tests__"],
+  "include": ["src"],
 }

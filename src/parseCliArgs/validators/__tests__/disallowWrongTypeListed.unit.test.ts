@@ -1,9 +1,11 @@
+import { describe, expect, it } from 'vitest';
+
 import type { ArgumentDefinition, ValidationException } from '../../_types';
 import { disallowWrongTypeListed } from '../disallowWrongTypeListed';
 
 
-describe('disallowWrongTypeListed()', () => {
-  it('should return no exceptions when `validValues` or `valueType` is undefined', () => {
+describe(disallowWrongTypeListed, () => {
+  it('returns no exceptions when `validValues` or `valueType` is undefined', () => {
     const argDefs: ArgumentDefinition[] = [
       { name: 'option1' },
       { name: 'option2', validValues: [1] },
@@ -16,7 +18,7 @@ describe('disallowWrongTypeListed()', () => {
     expect(exceptions).toStrictEqual(expected);
   });
 
-  it('should return no exceptions when all `validValues` are of `valueType', () => {
+  it('returns no exceptions when all `validValues` are of `valueType', () => {
     const argDefs: ArgumentDefinition[] = [
       { name: 'option1', validValues: [true], valueType: 'boolean' },
       { name: 'option2', validValues: [1], valueType: 'integer' },
@@ -32,7 +34,7 @@ describe('disallowWrongTypeListed()', () => {
     expect(exceptions).toStrictEqual(expected);
   });
 
-  it('should return an exception if not all `validValues` are of `valueType`', () => {
+  it('returns an exception if not all `validValues` are of `valueType`', () => {
     const argDefs: ArgumentDefinition[] = [
       { name: 'booleanOpt', validValues: [false, 'value'], valueType: 'boolean' },
       { name: 'integerOpt', validValues: [0, 1.1], valueType: 'integer' },

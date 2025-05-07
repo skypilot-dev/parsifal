@@ -1,7 +1,9 @@
+import { describe, expect, it } from 'vitest';
+
 import { parseAliases } from '../parseAliases';
 
-describe('parseAliases()', () => {
-  it('should', () => {
+describe(parseAliases, () => {
+  it('returns a lookup in which aliases are mapped to names', () => {
     const aliasDefs = [
       { name: 'actual1', aliases: ['alias1a', 'alias1b'] },
       { name: 'unaliased' },

@@ -1,9 +1,11 @@
+import { describe, expect, it } from 'vitest';
+
 import { ArgumentDefinition, ValidationException } from '../../_types';
 import { disallowDefaultWithRequired } from '../disallowDefaultWithRequired';
 
 
-describe('disallowDefaultWithRequired()', () => {
-  it('should return no exceptions when `required: true` is never combined with `defaultValue`', () => {
+describe(disallowDefaultWithRequired, () => {
+  it('returns no exceptions when `required: true` is never combined with `defaultValue`', () => {
     const argDefs: ArgumentDefinition[] = [
       { name: 'option1', defaultValue: 1 },
       { name: 'option2', required: true },
@@ -15,7 +17,7 @@ describe('disallowDefaultWithRequired()', () => {
     expect(exceptions).toStrictEqual(expected);
   });
 
-  it('should return an exception when an arg def specifies both `required: true` and a default value', () => {
+  it('returns an exception when an arg def specifies both `required: true` and a default value', () => {
     const argDefs: ArgumentDefinition[] = [{
       defaultValue: 1,
       name: 'option',

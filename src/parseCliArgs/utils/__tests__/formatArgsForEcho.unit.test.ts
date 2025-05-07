@@ -1,13 +1,15 @@
+import { describe, expect, it } from 'vitest';
+
 import { formatArgsForEcho } from '../formatArgsForEcho';
 
-describe('formatArgsForEcho()', () => {
-  it('if the map is empty, should return an empty array', () => {
+describe(formatArgsForEcho, () => {
+  it('if the map is empty, returns an empty array', () => {
     const messages = formatArgsForEcho(new Map(), []);
 
     expect(messages).toStrictEqual([]);
   });
 
-  it('if the map contains resolved arguments, should include a message displaying them', () => {
+  it('if the map contains resolved arguments, includes a message displaying them', () => {
     const messages = formatArgsForEcho(new Map<string, number | string>([
       ['numericArg', 1],
       ['stringArg', 'resolved-value'],
@@ -20,7 +22,7 @@ describe('formatArgsForEcho()', () => {
     ]);
   });
 
-  it('if the map contains unresolved values, should include a message displaying them', () => {
+  it('if the map contains unresolved values, includes a message displaying them', () => {
     const unresolvedPositionalArgs = [1, 'unresolved-value'];
     const messages = formatArgsForEcho(
       new Map([]),
@@ -32,7 +34,7 @@ describe('formatArgsForEcho()', () => {
     ]);
   });
 
-  it('by default should not display undefined values', () => {
+  it('by default does not display undefined values', () => {
     const messages = formatArgsForEcho(new Map([
       ['numericArg', undefined],
     ]), []);
@@ -40,7 +42,7 @@ describe('formatArgsForEcho()', () => {
     expect(messages).toStrictEqual([]);
   });
 
-  it('if `echoUndefined: true`, should display undefined values', () => {
+  it('if `echoUndefined: true`, displays undefined values', () => {
     const messages = formatArgsForEcho(new Map([
       ['undefinedArg', undefined],
     ]), [], { echoUndefined: true });

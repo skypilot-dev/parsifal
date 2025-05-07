@@ -1,7 +1,9 @@
+import { describe, expect, it } from 'vitest';
+
 import { NamedArgumentDef } from '../../_types';
 import { formatNamedArgUse } from '../formatNamedArgUse';
 
-describe('formatNamedArgUse()', () => {
+describe(formatNamedArgUse, () => {
   it('by default should show that the argument is optional and takes a value', () => {
     const argDef = {
       name: 'option',

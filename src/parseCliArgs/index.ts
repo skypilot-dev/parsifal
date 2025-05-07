@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 
-import path from 'path';
+import path from 'node:path';
 import type { Integer } from '@skypilot/common-types';
 
 import { fromEntries } from 'src/lib/functions/object/fromEntries';
+import { assert } from 'src/lib/functions/assert';
 import { initialParse } from '../initialParse';
 import { argsMapToEntries } from './argsMapToEntries';
 import type {
@@ -26,8 +27,7 @@ import { validatePositionalArgDefs } from './validators/validatePositionalArgDef
 export type { ValueValidator } from './_types';
 
 type NamedArgsResult = {
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface UnnamedArgsResult {
@@ -57,9 +57,13 @@ interface ParseCliArgsOptions {
 export function parseCliArgs(
   definitions: DefinitionsMap = {}, options: ParseCliArgsOptions = {}
 ): ParsedArgsResult {
-  const scriptName = options.args
-    ? path.parse(process.argv.slice(-1)[0]).base // Get the name of the test file
-    : path.parse(process.argv[1]).base; // Get the name of the script file
+  const [testFilePath] = process.argv.slice(-1);
+  const [_, scriptFilePath] = process.argv;
+
+  const filePath = options.args ? testFilePath : scriptFilePath;
+  assert(filePath, 'File path could not be determined.');
+
+  const scriptName = path.parse(filePath).base;
 
   const {
     args = process.argv.slice(2),

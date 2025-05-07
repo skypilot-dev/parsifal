@@ -1,8 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import { ArgumentValue } from '../_types';
 import { mapPositionalArgs } from '../mapPositionalArgs';
 
-describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => {
-  it('by default should not map arguments to indices', () => {
+describe(mapPositionalArgs, () => {
+  it('by default does not map arguments to indices', () => {
     const values = [1, 'b'];
 
     const argsMap = mapPositionalArgs(values);
@@ -23,7 +25,7 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
     expect(argsMap).toEqual(expected);
   });
 
-  it('should map an array of arguments to an array of strings and return the map', () => {
+  it('maps an array of arguments to an array of strings and return the map', () => {
     const argDefs = [{ name: 'numberOption' }, { name: 'stringOption' }];
     const values = [1, 'a'];
 
@@ -37,7 +39,7 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
     expect(args).toEqual(expected);
   });
 
-  it('if there are more strings than args, should map undefined to the remaining strings', () => {
+  it('if there are more strings than args, maps undefined to the remaining strings', () => {
     const argDefs = [{ name: 'option' }, { name: 'extraOption' }];
     const values = [1];
 
@@ -51,7 +53,7 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
     expect(args).toEqual(expected);
   });
 
-  it('if there are more args than strings & `mapAllArgs:true`, should map the remaining args to indices', () => {
+  it('if there are more args than strings & `mapAllArgs:true`, maps the remaining args to indices', () => {
     const argDefs = [{ name: 'option' }];
     const values = [1, 2, 3];
 
@@ -80,7 +82,7 @@ describe('mapPositionalArgs(:ArgumentValue[]), :PositionalArgumentDef[]', () => 
     expect(args).toEqual(expected);
   });
 
-  it('given an empty array of arguments & no definitions, should return an empty object', () => {
+  it('given an empty array of arguments & no definitions, returns an empty object', () => {
     const values: ArgumentValue[] = [];
 
     const args = mapPositionalArgs(values);

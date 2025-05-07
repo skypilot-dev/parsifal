@@ -1,3 +1,4 @@
+import { isNonNullable } from '~src/lib/functions/isNonNullable.ts';
 import { Argument, ValidationException } from '../_types';
 
 function combine(exceptions: ValidationException[]): ValidationException[] {
@@ -11,7 +12,9 @@ function combine(exceptions: ValidationException[]): ValidationException[] {
     code: 'missing',
     level: 'error',
     message: `These required arguments are missing: ${combinedIdentifiers.join(', ')}`,
-    identifiers: missing.map(({ identifiers }) => identifiers[0]),
+    identifiers: missing
+      .map(({ identifiers }) => identifiers[0])
+      .filter(isNonNullable),
   };
   return [
     ...notMissing,

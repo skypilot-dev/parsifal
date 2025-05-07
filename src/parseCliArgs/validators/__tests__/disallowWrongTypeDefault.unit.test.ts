@@ -1,9 +1,11 @@
+import { describe, expect, it } from 'vitest';
+
 import type { ArgumentDefinition, ValidationException } from '../../_types';
 import { disallowWrongTypeDefault } from '../disallowWrongTypeDefault';
 
 
-describe('disallowWrongTypeDefault()', () => {
-  it('should return no exceptions when `defaultValue` or `valueType` is undefined', () => {
+describe(disallowWrongTypeDefault, () => {
+  it('returns no exceptions when `defaultValue` or `valueType` is undefined', () => {
     const argDefs: ArgumentDefinition[] = [
       { name: 'option1' },
       { name: 'option2', defaultValue: 1 },
@@ -16,7 +18,7 @@ describe('disallowWrongTypeDefault()', () => {
     expect(exceptions).toStrictEqual(expected);
   });
 
-  it('should return no exceptions when `defaultValue` is of `valueType', () => {
+  it('returns no exceptions when `defaultValue` is of `valueType', () => {
     const argDefs: ArgumentDefinition[] = [
       { name: 'option1', defaultValue: true, valueType: 'boolean' },
       { name: 'option2', defaultValue: 1, valueType: 'integer' },
@@ -32,7 +34,7 @@ describe('disallowWrongTypeDefault()', () => {
     expect(exceptions).toStrictEqual(expected);
   });
 
-  it('should return an exception if `defaultValue` is not of `valueType`', () => {
+  it('returns an exception if `defaultValue` is not of `valueType`', () => {
     const argDefs: ArgumentDefinition[] = [
       { name: 'booleanOpt', defaultValue: 0, valueType: 'boolean' },
       { name: 'integerOpt', defaultValue: 0.1, valueType: 'integer' },

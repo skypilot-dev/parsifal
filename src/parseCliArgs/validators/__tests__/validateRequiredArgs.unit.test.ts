@@ -1,8 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import { ValidationException } from '../../_types';
 import { validateRequiredArgs } from '../validateRequiredArgs';
 
-describe('validateRequiredArgs()', () => {
-  it('should return no exceptions if no args are required', () => {
+describe(validateRequiredArgs, () => {
+  it('returns no exceptions if no args are required', () => {
     const argsMap = new Map([
       ['optional1', { definition: { name: 'optional1' }, value: undefined }],
       ['optional2', { definition: { name: 'optional2' }, value: undefined }],
@@ -14,7 +16,7 @@ describe('validateRequiredArgs()', () => {
     expect(exceptions).toStrictEqual(expected);
   });
 
-  it('should return no exceptions if all required args are provided', () => {
+  it('returns no exceptions if all required args are provided', () => {
     const argsMap = new Map([
       ['required1', { definition: { name: 'optional1', required: true }, value: 1 }],
       ['optional2', { definition: { name: 'optional2' }, value: undefined }],
@@ -26,7 +28,7 @@ describe('validateRequiredArgs()', () => {
     expect(exceptions).toStrictEqual(expected);
   });
 
-  it('should return an exception for a missing argument', () => {
+  it('returns an exception for a missing argument', () => {
     const argsMap = new Map([
       ['required1', { definition: { name: 'required1', required: true }, value: undefined }],
     ]);
@@ -44,7 +46,7 @@ describe('validateRequiredArgs()', () => {
     expect(exceptions).toStrictEqual(expected);
   });
 
-  it('should return a single exception for missing arguments', () => {
+  it('returns a single exception for missing arguments', () => {
     const argsMap = new Map([
       ['required1', { definition: { name: 'required1', required: true }, value: undefined }],
       ['required2', { definition: { name: 'required2', required: true }, value: 1 }],

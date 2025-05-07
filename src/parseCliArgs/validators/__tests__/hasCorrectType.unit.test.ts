@@ -1,8 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import { ArgumentValue, ValueType } from '../../_types';
 import { hasCorrectType } from '../hasCorrectType';
 
-describe('', () => {
-  it("should return true if valueType is 'string', 'boolean', or 'number' & value is of that type", () => {
+describe(hasCorrectType, () => {
+  it("returns true if valueType is 'string', 'boolean', or 'number' & value is of that type", () => {
     const valueTypes: readonly ValueType[] = ['boolean', 'integer', 'number', 'string'] as const;
     const sampleValues: ArgumentValue[] = [0, 1.1, 'stringValue', true, false];
     const goodValuesMap = new Map<typeof valueTypes[number], ArgumentValue[]>([

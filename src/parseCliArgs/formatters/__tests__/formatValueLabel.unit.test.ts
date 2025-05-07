@@ -1,8 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import { ArgumentDefinition } from '../../_types';
 import { formatValueLabel } from '../formatValueLabel';
 
-describe('formatValueLabel', () => {
-  it('given a value label, should return the label enclosed in angle brackets', () => {
+describe(formatValueLabel, () => {
+  it('given a value label, returns the label enclosed in angle brackets', () => {
     const argDef: ArgumentDefinition = {
       name: 'option',
       valueLabel: 'value label',
@@ -14,7 +16,7 @@ describe('formatValueLabel', () => {
     expect(valueLabel).toBe(expected);
   });
 
-  it('given no valueLabel but a non-empty array of validValues, should return the valid values', () => {
+  it('given no valueLabel but a non-empty array of validValues, returns the valid values', () => {
     const argDef: ArgumentDefinition = {
       name: 'option',
       validValues: ['1', '2'],
@@ -26,7 +28,7 @@ describe('formatValueLabel', () => {
     expect(valueLabel).toBe(expected);
   });
 
-  it('given neither valueLabel nor validValues but given valueType, should use valueType', () => {
+  it('given neither valueLabel nor validValues but given valueType, uses valueType', () => {
     const argDef: ArgumentDefinition = {
       name: 'option',
       validValues: [],
@@ -39,7 +41,7 @@ describe('formatValueLabel', () => {
     expect(valueLabel).toBe(expected);
   });
 
-  it('for a positional argument, given neither valueLabel, validValues, nor valueType, should use the argument name', () => {
+  it('for a positional argument, given neither valueLabel, validValues, nor valueType, uses the argument name', () => {
     const argDef: ArgumentDefinition = {
       name: 'option',
       positional: true,
@@ -52,7 +54,7 @@ describe('formatValueLabel', () => {
     expect(valueLabel).toBe(expected);
   });
 
-  it("for a named argument, given neither valueLabel, validValues, nor valueType, should use 'value'", () => {
+  it("for a named argument, given neither valueLabel, validValues, nor valueType, uses 'value'", () => {
     const argDef: ArgumentDefinition = {
       name: 'option',
       positional: false,

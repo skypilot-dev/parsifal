@@ -1,10 +1,12 @@
 /* eslint-disable quotes */
 
+import { describe, expect, it } from 'vitest';
+
 import type { Argument, ValidationException } from 'src/parseCliArgs/_types';
 import { validateConstrainedArgs } from '../validateConstrainedArgs';
 
-describe('validateConstrainedArgs()', () => {
-  it('should return no exceptions if no args are constrained', () => {
+describe(validateConstrainedArgs, () => {
+  it('returns no exceptions if no args are constrained', () => {
     const argsMap = new Map([
       ['uncon1', { definition: { name: 'uncon1' }, value: undefined }],
       ['uncon2', { definition: { name: 'uncon2' }, value: undefined }],
@@ -16,7 +18,7 @@ describe('validateConstrainedArgs()', () => {
     expect(exceptions).toEqual(expected);
   });
 
-  it('should return no exceptions if all constrained args are satisfied', () => {
+  it('returns no exceptions if all constrained args are satisfied', () => {
     const argsMap = new Map<string, Argument>([
       ['uncon1', { definition: { name: 'uncon1' }, value: undefined }],
       ['con2', { definition: { name: 'con2', validValues: [1] }, value: 1 }],
@@ -35,7 +37,7 @@ describe('validateConstrainedArgs()', () => {
     expect(exceptions).toEqual(expected);
   });
 
-  it('should return exceptions for each invalid argument', () => {
+  it('returns exceptions for each invalid argument', () => {
     const detailedValidate = (value: number): { ok: boolean; errors?: string[] } => value < 2
       ? { ok: false, errors: [`${value} < 2`] }
       : { ok: true };

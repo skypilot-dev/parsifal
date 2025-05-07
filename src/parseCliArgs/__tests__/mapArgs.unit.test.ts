@@ -1,8 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import type { ArgumentDefinition, InitialParsedArgs } from '../_types';
 import { mapArgs } from '../mapArgs';
 
-describe('mapArgs(:InitialParsedArgs, :ArgumentDefinition[])', () => {
-  it('should return a map of values & argument definitions to argument names', () => {
+describe(mapArgs, () => {
+  it('returns a map of values & argument definitions to argument names', () => {
     const argDefs: ArgumentDefinition[] = [
       { name: 'named1', positional: false },
       { name: 'positional1', positional: true },

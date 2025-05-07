@@ -1,7 +1,9 @@
+import { describe, expect, it } from 'vitest';
+
 import { omitAliases } from '../omitAliases';
 
-describe('omitAliases(:KeyValues, :AliasMap)', () => {
-  it('should omit entries whose keys are aliases', () => {
+describe(omitAliases, () => {
+  it('omits entries whose keys are aliases', () => {
     const keyValues = {
       actual1: 1,
       actual2: 'two',

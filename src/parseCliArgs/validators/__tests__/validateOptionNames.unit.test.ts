@@ -1,7 +1,9 @@
+import { describe, expect, it } from 'vitest';
+
 import { PositionalArgumentDef, ValidationException } from '../../_types';
 import { validateOptionNames } from '../validateOptionNames';
 
-describe('validateOptionNames', () => {
+describe(validateOptionNames, () => {
   it('given no definitions, should return no exceptions', () => {
     const argDefInputs: PositionalArgumentDef[] = [];
 

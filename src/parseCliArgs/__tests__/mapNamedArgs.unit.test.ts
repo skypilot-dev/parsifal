@@ -1,8 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import type { ArgumentsMap } from '../_types';
 import { mapNamedArgs } from '../mapNamedArgs';
 
-describe('mapNamedArgs(:ArgumentsMap, :NamedArgumentDef[])', () => {
-  it('should return an object containing the entries whose keys are among the option names', () => {
+describe(mapNamedArgs, () => {
+  it('returns an object containing the entries whose keys are among the option names', () => {
     const definitions = [{ name: 'option1' }, { name: 'option3' }];
     const argsMap: ArgumentsMap = {
       option1: 1,

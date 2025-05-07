@@ -45,9 +45,9 @@
     "prepublishOnly": "pnpm run typecheck && pnpm run lint --quiet && pnpm test && pnpm run build",
     "publish:default": "pnpm publish --non-interactive",
     "tc": "pnpm run typecheck",
-    "test": "jest --config jest.standalone.config.js",
-    "test:all": "jest --config jest.config.js",
-    "test:int": "jest --config jest.integration.config.js",
+    "test": "vitest --config vitest.standalone.config.ts",
+    "test:all": "vitest",
+    "test:int": "vitest --config vitest.integration.config.ts",
     "typecheck": "tsc"
   },
   "devDependencies": {

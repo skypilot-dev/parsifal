@@ -1,8 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
 import { ArgumentDefinition, ValidationException } from '../../_types';
 import { validateConstrainedValue } from '../validateConstrainedValue';
 
-describe('validateConstrainedValue(value, :ArgumentDef)', () => {
-  it('when the value is among the valid values, should return an empty array', () => {
+describe(validateConstrainedValue, () => {
+  it('when the value is among the valid values, returns an empty array', () => {
     const argDef: ArgumentDefinition = {
       name: 'option',
       validValues: [1, 2],
@@ -15,7 +17,7 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
     expect(exceptions).toEqual(expected);
   });
 
-  it('when `validValues` is undefined, should always return an empty array', () => {
+  it('when `validValues` is undefined, always returns an empty array', () => {
     const argDef: ArgumentDefinition = { name: 'option' };
     const values = [0, 1, 'a', true, false];
 
@@ -27,7 +29,7 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
     });
   });
 
-  it('when the value is undefined, should return an empty array (because required values are validated elsewhere)', () => {
+  it('when the value is undefined, returns an empty array (because required values are validated elsewhere)', () => {
     const argDef: ArgumentDefinition = {
       name: 'option',
       validValues: [],
@@ -40,7 +42,7 @@ describe('validateConstrainedValue(value, :ArgumentDef)', () => {
     expect(exceptions).toEqual(expected);
   });
 
-  it('when the value is not among `validValues`, should return an array containing an exception', () => {
+  it('when the value is not among `validValues`, returns an array containing an exception', () => {
     const argDef: ArgumentDefinition = {
       name: 'option',
       validValues: [1, 'a', true],
