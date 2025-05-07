@@ -4,5 +4,5 @@ import { formatValueLabel } from '~src/parseCliArgs/formatters/formatValueLabel.
 /* FIXME: Add tests */
 
 export function formatPositionalArgsUse(argDefs: ArgumentDefinition[]): string {
-  return argDefs.map(argDef => formatValueLabel(argDef)).join(' ');
+  return argDefs.map((argDef) => formatValueLabel(argDef)).join(' ');
 }

@@ -14,13 +14,12 @@ function getIndexOfLastRequired(argDefs: ArgumentDefinition[]): number {
 }
 
 function getArgName(argDef: ArgumentDefinition, ordinal: number): string {
-  return argDef?.name
-    ? `'${argDef.name}'`
-    : `the ${toOrdinal(ordinal)} argument`;
+  return argDef?.name ? `'${argDef.name}'` : `the ${toOrdinal(ordinal)} argument`;
 }
 
 export function validateRequiredPositionalArgs(
-  positionalArgs: ArgumentValue[], argDefs: ArgumentDefinition[]
+  positionalArgs: ArgumentValue[],
+  argDefs: ArgumentDefinition[],
 ): ValidationException[] {
   const howManyRequired = getIndexOfLastRequired(argDefs) + 1;
   const howManyReceived = positionalArgs.length;
@@ -32,16 +31,14 @@ export function validateRequiredPositionalArgs(
     return [];
   }
 
-  const unsatisfiedArgDefs = argDefs
-    .slice(firstMissingIndex, lastMissingIndex) as ArgumentDefinition[];
+  const unsatisfiedArgDefs = argDefs.slice(firstMissingIndex, lastMissingIndex) as ArgumentDefinition[];
 
-  return unsatisfiedArgDefs
-    .map((positionalArgDef, i) => {
-      const ordinal = (firstMissingIndex + i + 1);
-      return {
-        level: 'error',
-        message: `${getArgName(positionalArgDef, ordinal)} is required`,
-        identifiers: [positionalArgDef?.name || (firstMissingIndex + i).toString()],
-      };
-    });
+  return unsatisfiedArgDefs.map((positionalArgDef, i) => {
+    const ordinal = firstMissingIndex + i + 1;
+    return {
+      level: 'error',
+      message: `${getArgName(positionalArgDef, ordinal)} is required`,
+      identifiers: [positionalArgDef?.name || (firstMissingIndex + i).toString()],
+    };
+  });
 }

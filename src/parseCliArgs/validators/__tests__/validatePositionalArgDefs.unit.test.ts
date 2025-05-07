@@ -30,11 +30,14 @@ describe(validatePositionalArgDefs, () => {
 
     const exceptions = validatePositionalArgDefs(argDefs);
 
-    const expected = [{
-      level: 'error',
-      message: 'Invalid definitions: Required args must precede optional args (the 1st is optional, but the 2nd is required)',
-      identifiers: ['option2'],
-    }];
+    const expected = [
+      {
+        level: 'error',
+        message:
+          'Invalid definitions: Required args must precede optional args (the 1st is optional, but the 2nd is required)',
+        identifiers: ['option2'],
+      },
+    ];
     expect(exceptions).toEqual(expected);
   });
 });

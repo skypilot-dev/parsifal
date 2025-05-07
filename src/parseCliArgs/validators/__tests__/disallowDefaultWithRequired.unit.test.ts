@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 import { disallowDefaultWithRequired } from '~src/parseCliArgs/validators/disallowDefaultWithRequired.ts';
 
-
 describe(disallowDefaultWithRequired, () => {
   it('returns no exceptions when `required: true` is never combined with `defaultValue`', () => {
     const argDefs: ArgumentDefinition[] = [
@@ -18,11 +17,13 @@ describe(disallowDefaultWithRequired, () => {
   });
 
   it('returns an exception when an arg def specifies both `required: true` and a default value', () => {
-    const argDefs: ArgumentDefinition[] = [{
-      defaultValue: 1,
-      name: 'option',
-      required: true,
-    }];
+    const argDefs: ArgumentDefinition[] = [
+      {
+        defaultValue: 1,
+        name: 'option',
+        required: true,
+      },
+    ];
 
     const exceptions = disallowDefaultWithRequired(argDefs);
 

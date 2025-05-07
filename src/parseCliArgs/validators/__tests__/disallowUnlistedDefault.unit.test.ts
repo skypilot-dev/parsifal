@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 import { disallowUnlistedDefault } from '~src/parseCliArgs/validators/disallowUnlistedDefault.ts';
 
-
 describe(disallowUnlistedDefault, () => {
   it('returns no exceptions when `defaultValue` or `validValues` is undefined', () => {
     const argDefs: ArgumentDefinition[] = [
@@ -19,11 +18,13 @@ describe(disallowUnlistedDefault, () => {
   });
 
   it('returns an exception when an arg def specifies `validValues` and a default value that is not among them', () => {
-    const argDefs: ArgumentDefinition[] = [{
-      defaultValue: 1,
-      name: 'option',
-      validValues: ['a', 2],
-    }];
+    const argDefs: ArgumentDefinition[] = [
+      {
+        defaultValue: 1,
+        name: 'option',
+        validValues: ['a', 2],
+      },
+    ];
 
     const exceptions = disallowUnlistedDefault(argDefs);
 

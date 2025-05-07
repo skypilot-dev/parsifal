@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 import { disallowWrongTypeListed } from '~src/parseCliArgs/validators/disallowWrongTypeListed.ts';
 
-
 describe(disallowWrongTypeListed, () => {
   it('returns no exceptions when `validValues` or `valueType` is undefined', () => {
     const argDefs: ArgumentDefinition[] = [

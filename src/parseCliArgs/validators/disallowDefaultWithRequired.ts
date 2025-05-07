@@ -1,8 +1,6 @@
 import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 
-export function disallowDefaultWithRequired(
-  argDefs: ArgumentDefinition[]
-): ValidationException[] {
+export function disallowDefaultWithRequired(argDefs: ArgumentDefinition[]): ValidationException[] {
   return argDefs.reduce((accExceptions, argDef) => {
     if (argDef.required && argDef.defaultValue !== undefined) {
       return [

@@ -5,11 +5,10 @@ import { validateRange } from '~src/parseCliArgs/validators/validateRange.ts';
 
 export function validateConstrainedArgs(argsMap: Map<string, Argument>): ValidationException[] {
   return Array.from(argsMap.entries())
-    .filter(([_name, argument]) => !!(
-      argument.definition.validate
-      || argument.definition.validRange
-      || argument.definition.validValues
-    ))
+    .filter(
+      ([_name, argument]) =>
+        !!(argument.definition.validate || argument.definition.validRange || argument.definition.validValues),
+    )
     .reduce((accExceptions, [_name, argument]) => {
       const { definition, value } = argument;
       return [

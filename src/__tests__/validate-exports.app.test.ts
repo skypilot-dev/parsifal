@@ -8,7 +8,6 @@ const intendedExports: string[] = [
 ];
 
 describe('Validate exports', () => {
-
   const actualExportNames = Object.keys(actualExports);
 
   it('exports include all intended exports', () => {
@@ -16,7 +15,6 @@ describe('Validate exports', () => {
       expect(actualExportNames).toContain(exportName);
     }
   });
-
 
   it('exports do not include any unintended exports', () => {
     for (const exportName of actualExportNames) {

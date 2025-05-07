@@ -53,7 +53,10 @@ describe(parseCliArgs, () => {
 
     it('if positional-argument defs have invalid required/optional order, should throw an error', () => {
       const definitions = {
-        positional: [{ name: 'pos1', required: false }, { name: 'pos2',  required: true }],
+        positional: [
+          { name: 'pos1', required: false },
+          { name: 'pos2', required: true },
+        ],
       };
 
       expect(() => {
@@ -151,10 +154,7 @@ describe(parseCliArgs, () => {
 
     it("if `valueType` is anything other than 'boolean', the arg should not be treated as a boolean", () => {
       const definitions: DefinitionsMap = {
-        named: [
-          { name: 'trueString' },
-          { name: 'falseString' },
-        ],
+        named: [{ name: 'trueString' }, { name: 'falseString' }],
       };
       const options = {
         args: toArgs('--trueString=true --falseString=false true false'),
@@ -243,9 +243,7 @@ describe(parseCliArgs, () => {
 
     it("if `valueType: 'integerArray`, should convert the value to an integer array", () => {
       const definitions: DefinitionsMap = {
-        named: [
-          { name: 'integerArray', valueType: 'integerArray' },
-        ],
+        named: [{ name: 'integerArray', valueType: 'integerArray' }],
       };
       const options = {
         args: toArgs('--integerArray=1,2'),

@@ -1,13 +1,7 @@
 import type { ArgumentDefinition } from '~src/parseCliArgs/_types/index.ts';
 
 export function formatValueLabel(argDef: ArgumentDefinition): string {
-  const {
-    name,
-    positional,
-    validValues = [],
-    valueType,
-    valueLabel,
-  } = argDef;
+  const { name, positional, validValues = [], valueType, valueLabel } = argDef;
 
   if (valueLabel) {
     return `<${valueLabel}>`;

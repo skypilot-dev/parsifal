@@ -3,9 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { ArgumentValue } from '~src/parseCliArgs/_types/index.ts';
 import { toEchoParams } from '~src/parseCliArgs/utils/toEchoParams.ts';
 
-const argValuesMap = new Map([
-  ['verbose', true],
-]);
+const argValuesMap = new Map([['verbose', true]]);
 
 describe(toEchoParams, () => {
   it('if `options` is boolean, returns `shouldEcho: !!options`', () => {
@@ -31,7 +29,8 @@ describe(toEchoParams, () => {
   });
 
   it('if `options: echoIf` is a function, returns `shouldEcho: [evaluated function]`', () => {
-    const echoIfVerbose = (argsDict: Map<string, ArgumentValue | ArgumentValue[]>): boolean | undefined => !!argsDict.get('verbose');
+    const echoIfVerbose = (argsDict: Map<string, ArgumentValue | ArgumentValue[]>): boolean | undefined =>
+      !!argsDict.get('verbose');
 
     const echoParams = toEchoParams(argValuesMap, { echoIf: echoIfVerbose });
     expect(echoParams).toStrictEqual({ echoUndefined: false, shouldEcho: true });

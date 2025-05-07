@@ -66,5 +66,4 @@ describe(formatValueLabel, () => {
     const expected = '<value>';
     expect(valueLabel).toBe(expected);
   });
-
 });

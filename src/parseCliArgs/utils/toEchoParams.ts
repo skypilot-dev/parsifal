@@ -3,7 +3,7 @@ import type { ArgumentValue, EchoOptions, EchoParams } from '~src/parseCliArgs/_
 // Given an arguments map and options, return a corresponding `EchoParams` object
 export function toEchoParams(
   argValuesMap: Map<string, ArgumentValue | ArgumentValue[]>,
-  options: EchoOptions | boolean = false
+  options: EchoOptions | boolean = false,
 ): EchoParams {
   if (typeof options === 'boolean') {
     return { echoUndefined: false, shouldEcho: options };

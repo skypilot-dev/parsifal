@@ -110,13 +110,16 @@ describe(formatArgsUse, () => {
 
 function unindent(templateStringsArray: TemplateStringsArray, indentSize: Integer): string {
   return templateStringsArray
-    .map(
-      block => block.split('\n').map(line => line.slice(indentSize)).join('\n')
+    .map((block) =>
+      block
+        .split('\n')
+        .map((line) => line.slice(indentSize))
+        .join('\n'),
     )
     .join('')
     .split('\n')
     .filter((line, index) => index > 0 || !!line)
-    .filter((line, index) => index < (line.length - 1) || !!line)
+    .filter((line, index) => index < line.length - 1 || !!line)
     .join('\n');
 }
 

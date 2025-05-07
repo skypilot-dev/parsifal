@@ -22,13 +22,16 @@ describe(validateConstrainedArgs, () => {
     const argsMap = new Map<string, Argument>([
       ['uncon1', { definition: { name: 'uncon1' }, value: undefined }],
       ['con2', { definition: { name: 'con2', validValues: [1] }, value: 1 }],
-      ['simpleValidate', {
-        definition: {
-          name: 'simpleValidate',
-          validate: value => typeof value === 'number' && value < 2,
+      [
+        'simpleValidate',
+        {
+          definition: {
+            name: 'simpleValidate',
+            validate: (value) => typeof value === 'number' && value < 2,
+          },
+          value: 1,
         },
-        value: 1,
-      }],
+      ],
     ]);
 
     const exceptions = validateConstrainedArgs(argsMap);
@@ -38,9 +41,8 @@ describe(validateConstrainedArgs, () => {
   });
 
   it('returns exceptions for each invalid argument', () => {
-    const detailedValidate = (value: number): { ok: boolean; errors?: string[] } => value < 2
-      ? { ok: false, errors: [`${value} < 2`] }
-      : { ok: true };
+    const detailedValidate = (value: number): { ok: boolean; errors?: string[] } =>
+      value < 2 ? { ok: false, errors: [`${value} < 2`] } : { ok: true };
     const argsMap = new Map([
       ['con1', { definition: { name: 'con1', validValues: [1, 2] }, value: 3 }],
       ['con2', { definition: { name: 'con2', validValues: [1] }, value: 1 }],
@@ -48,7 +50,7 @@ describe(validateConstrainedArgs, () => {
       ['uncon4', { definition: { name: 'uncon4' }, value: undefined }],
       ['detailedValidate', { definition: { name: 'detailedValidate', validate: detailedValidate }, value: 1 }],
       ['rangeValidate', { definition: { name: 'rangeValidate', validRange: [2, 3] }, value: 1 }],
-      ['arrayRangeValidate', { definition: { name: 'arrayRangeValidate', validRange: [1, 2] }, value: [3, 4] }]
+      ['arrayRangeValidate', { definition: { name: 'arrayRangeValidate', validRange: [1, 2] }, value: [3, 4] }],
     ]);
 
     const exceptions = validateConstrainedArgs(argsMap);

@@ -1,7 +1,8 @@
 import type { ArgumentDefinition, ArgumentValue, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 
 export function validateCustom(
-  value: ArgumentValue | ArgumentValue[], argDef: ArgumentDefinition,
+  value: ArgumentValue | ArgumentValue[],
+  argDef: ArgumentDefinition,
 ): ValidationException[] {
   if (!Array.isArray(value) && typeof value === 'undefined') {
     /* An undefined value, if not permitted, will be flagged as a missing required value,
@@ -17,24 +18,21 @@ export function validateCustom(
   const values = Array.isArray(value) ? value : [value];
 
   function resolveValidationResult<R extends { errors?: string[]; ok: boolean }>(
-    result: boolean | R
+    result: boolean | R,
   ): R | { errors?: string[]; ok: boolean } {
     return typeof result === 'boolean' ? { errors: [], ok: result } : result;
   }
 
   const errorValidationResults = values
-    .map(value => resolveValidationResult(validate(value)))
+    .map((value) => resolveValidationResult(validate(value)))
     .filter(({ ok }) => !ok);
 
-  return errorValidationResults.map(validationResult => {
+  return errorValidationResults.map((validationResult) => {
     const { errors = [] } = validationResult;
     return {
       code: 'badValue',
       level: 'error',
-      message: [
-        `Invalid value for '${argDef.name}'`,
-        ...(errors.length ? [errors.join('; ')] : []),
-      ].join(': '),
+      message: [`Invalid value for '${argDef.name}'`, ...(errors.length ? [errors.join('; ')] : [])].join(': '),
       identifiers: [argDef.name],
     };
   });

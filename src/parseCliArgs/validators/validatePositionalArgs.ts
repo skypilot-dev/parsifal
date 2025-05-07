@@ -3,7 +3,8 @@ import { validateConstrainedValue } from '~src/parseCliArgs/validators/validateC
 import { validateRequiredPositionalArgs } from '~src/parseCliArgs/validators/validateRequiredPositionalArgs.ts';
 
 function validateConstrainedArgs(
-  positionalArgs: ArgumentValue[], argDefs: ArgumentDefinition[]
+  positionalArgs: ArgumentValue[],
+  argDefs: ArgumentDefinition[],
 ): ValidationException[] {
   return argDefs.reduce((accExceptions, argDef, i) => {
     const value = positionalArgs[i];
@@ -18,7 +19,8 @@ function validateConstrainedArgs(
 }
 
 export function validatePositionalArgs(
-  positionalArgs: ArgumentValue[], argDefs: ArgumentDefinition[]
+  positionalArgs: ArgumentValue[],
+  argDefs: ArgumentDefinition[],
 ): ValidationException[] {
   return [
     ...validateConstrainedArgs(positionalArgs, argDefs),

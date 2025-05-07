@@ -1,9 +1,7 @@
 import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 import { hasCorrectType } from '~src/parseCliArgs/validators/hasCorrectType.ts';
 
-export function disallowWrongTypeDefault(
-  argDefs: ArgumentDefinition[]
-): ValidationException[] {
+export function disallowWrongTypeDefault(argDefs: ArgumentDefinition[]): ValidationException[] {
   return argDefs.reduce((accExceptions, argDef) => {
     const { defaultValue, name, valueType } = argDef;
 

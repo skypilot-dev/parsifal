@@ -4,9 +4,7 @@ import { disallowUnlistedDefault } from '~src/parseCliArgs/validators/disallowUn
 import { disallowWrongTypeDefault } from '~src/parseCliArgs/validators/disallowWrongTypeDefault.ts';
 import { disallowWrongTypeListed } from '~src/parseCliArgs/validators/disallowWrongTypeListed.ts';
 
-export function validateArgDefs(
-  argumentDefs: ArgumentDefinition[]
-): ValidationException[] {
+export function validateArgDefs(argumentDefs: ArgumentDefinition[]): ValidationException[] {
   return [
     ...disallowDefaultWithRequired(argumentDefs),
     ...disallowUnlistedDefault(argumentDefs),

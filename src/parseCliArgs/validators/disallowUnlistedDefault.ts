@@ -1,8 +1,6 @@
 import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/_types/index.ts';
 
-export function disallowUnlistedDefault(
-  argDefs: ArgumentDefinition[]
-): ValidationException[] {
+export function disallowUnlistedDefault(argDefs: ArgumentDefinition[]): ValidationException[] {
   return argDefs.reduce((accExceptions, argDef) => {
     const { defaultValue, validValues } = argDef;
 

@@ -2,9 +2,7 @@ import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/
 import { hasCorrectType } from '~src/parseCliArgs/validators/hasCorrectType.ts';
 import { parseBaseType } from '~src/parseCliArgs/validators/parseBaseType.ts';
 
-export function disallowWrongTypeListed(
-  argDefs: ArgumentDefinition[]
-): ValidationException[] {
+export function disallowWrongTypeListed(argDefs: ArgumentDefinition[]): ValidationException[] {
   return argDefs.reduce((accExceptions, argDef) => {
     const { name, validValues, valueType } = argDef;
 
@@ -13,7 +11,7 @@ export function disallowWrongTypeListed(
     }
 
     const baseType = parseBaseType(valueType);
-    if (validValues.every(value => hasCorrectType(baseType, value))) {
+    if (validValues.every((value) => hasCorrectType(baseType, value))) {
       return accExceptions;
     }
 

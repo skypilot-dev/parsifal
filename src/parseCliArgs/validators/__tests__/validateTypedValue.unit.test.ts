@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import type { ArgumentDefinition, ArgumentValue, ValidationException, ValueType } from '~src/parseCliArgs/_types/index.ts';
+import type {
+  ArgumentDefinition,
+  ArgumentValue,
+  ValidationException,
+  ValueType,
+} from '~src/parseCliArgs/_types/index.ts';
 import { validateTypedValue } from '~src/parseCliArgs/validators/validateTypedValue.ts';
 
 describe(validateTypedValue, () => {
@@ -8,7 +13,7 @@ describe(validateTypedValue, () => {
     const argDef: ArgumentDefinition = { name: 'option' };
     const values = [0, 1, 'a', true, false];
 
-    values.forEach(value => {
+    values.forEach((value) => {
       const exceptions = validateTypedValue(value, argDef);
 
       const expected: ValidationException[] = [];
@@ -25,7 +30,7 @@ describe(validateTypedValue, () => {
     ];
 
     valuesAndTypes.forEach(({ goodValues, valueType }) => {
-      goodValues.forEach(value => {
+      goodValues.forEach((value) => {
         const argDef: ArgumentDefinition = { name: 'option', valueType };
 
         const exceptions = validateTypedValue(value, argDef);
@@ -45,7 +50,7 @@ describe(validateTypedValue, () => {
     ];
 
     valuesAndTypes.forEach(({ badValues, valueType }) => {
-      badValues.forEach(value => {
+      badValues.forEach((value) => {
         const argDef: ArgumentDefinition = { name: 'option', valueType };
 
         const exceptions = validateTypedValue(value, argDef);

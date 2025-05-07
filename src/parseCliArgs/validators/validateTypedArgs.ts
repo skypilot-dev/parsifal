@@ -9,9 +9,6 @@ export function validateTypedArgs(argsMap: Map<string, Argument>): ValidationExc
 
   return typedArgDefs.reduce((accExceptions, [_name, argument]) => {
     const { definition, value } = argument;
-    return [
-      ...accExceptions,
-      ...validateTypedValue(value, definition),
-    ];
+    return [...accExceptions, ...validateTypedValue(value, definition)];
   }, [] as ValidationException[]);
 }

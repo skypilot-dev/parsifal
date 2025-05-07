@@ -14,11 +14,7 @@ describe(validateOptionNames, () => {
   });
 
   it('given nonconflicting option names, should return an empty array', () => {
-    const argDefInputs: PositionalArgumentDef[] = [
-      { name: 'option1' },
-      { name: 'option2' },
-      { name: 'option3' },
-    ];
+    const argDefInputs: PositionalArgumentDef[] = [{ name: 'option1' }, { name: 'option2' }, { name: 'option3' }];
 
     const exceptions = validateOptionNames(argDefInputs);
 
@@ -27,10 +23,7 @@ describe(validateOptionNames, () => {
   });
 
   it('given an array containing duplicate names, should return an exception', () => {
-    const argDefStrings: PositionalArgumentDef[] = [
-      { name: 'option1' },
-      { name: 'option1' },
-    ];
+    const argDefStrings: PositionalArgumentDef[] = [{ name: 'option1' }, { name: 'option1' }];
 
     const exceptions = validateOptionNames(argDefStrings);
 

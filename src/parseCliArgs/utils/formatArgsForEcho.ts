@@ -7,7 +7,7 @@ interface FormatArgsForEchoOptions {
 export function formatArgsForEcho(
   argValuesMap: Map<string, ArgumentValue | ArgumentValue[]>,
   unresolvedPositionalArgs: Array<boolean | number | string>,
-  options: FormatArgsForEchoOptions = {}
+  options: FormatArgsForEchoOptions = {},
 ): string[] {
   const { echoUndefined } = options;
 
@@ -16,11 +16,9 @@ export function formatArgsForEcho(
     .map(([name, value]) => `  ${name}: ${JSON.stringify(value)}`);
 
   return [
-    ...(resolvedArgs.length
-      ? ['Resolved arguments:', ...resolvedArgs]
-      : []),
+    ...(resolvedArgs.length ? ['Resolved arguments:', ...resolvedArgs] : []),
     ...(unresolvedPositionalArgs.length
-      ? [`Unresolved arguments: ${unresolvedPositionalArgs.map(arg => JSON.stringify(arg)).join(', ')}`]
+      ? [`Unresolved arguments: ${unresolvedPositionalArgs.map((arg) => JSON.stringify(arg)).join(', ')}`]
       : []),
   ];
 }

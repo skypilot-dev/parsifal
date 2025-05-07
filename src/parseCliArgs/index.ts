@@ -28,14 +28,14 @@ export type { ValueValidator } from '~src/parseCliArgs/_types/index.ts';
 
 type NamedArgsResult = {
   [key: string]: unknown;
-}
+};
 
 export interface UnnamedArgsResult {
   _positional?: ArgumentValue[];
   _unparsed?: string[];
 }
 
-export type ParsedArgsResult = NamedArgsResult & UnnamedArgsResult
+export type ParsedArgsResult = NamedArgsResult & UnnamedArgsResult;
 
 export interface DefinitionsMap {
   named?: ArgumentInput[];
@@ -54,9 +54,7 @@ interface ParseCliArgsOptions {
   separateAfterStopArgs?: boolean;
 }
 
-export function parseCliArgs(
-  definitions: DefinitionsMap = {}, options: ParseCliArgsOptions = {}
-): ParsedArgsResult {
+export function parseCliArgs(definitions: DefinitionsMap = {}, options: ParseCliArgsOptions = {}): ParsedArgsResult {
   const [testFilePath] = process.argv.slice(-1);
   const [_, scriptFilePath] = process.argv;
 
@@ -75,17 +73,13 @@ export function parseCliArgs(
   const { named: namedArgDefInputs = [], positional: positionalArgDefInputs = [] } = definitions;
 
   /* Convert string-defined options to `NamedArgumentDef` objects. */
-  const namedArgDefs: ArgumentDefinition[] = namedArgDefInputs
-    .map(input => (
-      typeof input === 'string' ? { name: input } : input
-    ));
+  const namedArgDefs: ArgumentDefinition[] = namedArgDefInputs.map((input) =>
+    typeof input === 'string' ? { name: input } : input,
+  );
   /* Convert string-defined options to `PositionalArgumentDef` objects. */
-  const positionalArgDefs: PositionalArgumentDef[] = positionalArgDefInputs
-    .map((input) => (
-      typeof input === 'string'
-        ? { name: input, positional: true }
-        : { ...input, positional: true }
-    ));
+  const positionalArgDefs: PositionalArgumentDef[] = positionalArgDefInputs.map((input) =>
+    typeof input === 'string' ? { name: input, positional: true } : { ...input, positional: true },
+  );
 
   const configExceptions: ValidationException[] = [
     ...validateOptionNames(positionalArgDefs),
@@ -94,20 +88,14 @@ export function parseCliArgs(
   ];
 
   if (configExceptions.length) {
-    throw new Error(configExceptions.map(({ message }) => message).join('. ')
-    );
+    throw new Error(configExceptions.map(({ message }) => message).join('. '));
   }
 
   const argDefs: ArgumentDefinition[] = [...namedArgDefs, ...positionalArgDefs];
-  const stringArgNames: string[] = argDefs
-    .filter(({ valueType }) => valueType === 'string')
-    .map(({ name }) => name);
+  const stringArgNames: string[] = argDefs.filter(({ valueType }) => valueType === 'string').map(({ name }) => name);
 
   const parsedArgs = initialParse(args, { '--': true, string: stringArgNames });
-  const {
-    _: positionalArgs = [],
-    '--': unparsedArgs = [],
-  } = parsedArgs;
+  const { _: positionalArgs = [], '--': unparsedArgs = [] } = parsedArgs;
 
   const argsMap = mapArgs(parsedArgs, argDefs, { mapAllNamedArgs });
 
@@ -134,20 +122,16 @@ export function parseCliArgs(
     });
   }
 
-  const argValuesMap = new Map(
-    Array.from(argsMap.entries()).map(([name, { value }]) => [name, value])
-  );
+  const argValuesMap = new Map(Array.from(argsMap.entries()).map(([name, { value }]) => [name, value]));
   const { echoUndefined, shouldEcho } = toEchoParams(argValuesMap, echo);
   if (shouldEcho) {
     const unnamedPositionalArgs = positionalArgs.slice(positionalArgDefInputs.length);
-    console.log([
-      ...(description ? [description].flat() : []),
-      ...formatArgsForEcho(
-        argValuesMap,
-        unnamedPositionalArgs,
-        { echoUndefined }
-      ),
-    ].join('\n'));
+    console.log(
+      [
+        ...(description ? [description].flat() : []),
+        ...formatArgsForEcho(argValuesMap, unnamedPositionalArgs, { echoUndefined }),
+      ].join('\n'),
+    );
   }
 
   return {

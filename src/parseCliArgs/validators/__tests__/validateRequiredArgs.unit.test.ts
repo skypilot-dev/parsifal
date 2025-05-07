@@ -29,9 +29,7 @@ describe(validateRequiredArgs, () => {
   });
 
   it('returns an exception for a missing argument', () => {
-    const argsMap = new Map([
-      ['required1', { definition: { name: 'required1', required: true }, value: undefined }],
-    ]);
+    const argsMap = new Map([['required1', { definition: { name: 'required1', required: true }, value: undefined }]]);
 
     const exceptions = validateRequiredArgs(argsMap);
 

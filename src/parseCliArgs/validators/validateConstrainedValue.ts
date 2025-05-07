@@ -9,7 +9,8 @@ function formatValue(value: unknown): string {
 }
 
 export function validateConstrainedValue(
-  value: ArgumentValue | ArgumentValue[], argDef: ArgumentDefinition,
+  value: ArgumentValue | ArgumentValue[],
+  argDef: ArgumentDefinition,
 ): ValidationException[] {
   if (value === undefined) {
     /* An undefined value, if not permitted, will be flagged as a missing required value,
@@ -22,23 +23,24 @@ export function validateConstrainedValue(
   }
 
   const isValid = Array.isArray(value)
-    ? value.every(item => isValidConstrainedValue(validValues, item))
+    ? value.every((item) => isValidConstrainedValue(validValues, item))
     : isValidConstrainedValue(validValues, value);
 
   const isArrayType = ['integerArray', 'stringArray'].includes(valueType || '');
 
   if (!isValid) {
-    return [{
-      code: 'unlistedValue',
-      level: 'error',
-      message: `Invalid value ${formatValue(value)} for '${argDef.name}'. Allowed values: ${[
-        ...(isArrayType ? ['('] : []),
-        ...validValues
-          .map((validValue) => formatValue(validValue)).join('|'),
-        ...(isArrayType ? [')[]'] : []),
-      ].join('')}`,
-      identifiers: [argDef.name],
-    }];
+    return [
+      {
+        code: 'unlistedValue',
+        level: 'error',
+        message: `Invalid value ${formatValue(value)} for '${argDef.name}'. Allowed values: ${[
+          ...(isArrayType ? ['('] : []),
+          ...validValues.map((validValue) => formatValue(validValue)).join('|'),
+          ...(isArrayType ? [')[]'] : []),
+        ].join('')}`,
+        identifiers: [argDef.name],
+      },
+    ];
   }
   return [];
 }

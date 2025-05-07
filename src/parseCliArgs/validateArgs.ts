@@ -4,9 +4,5 @@ import { validateRequiredArgs } from '~src/parseCliArgs/validators/validateRequi
 import { validateTypedArgs } from '~src/parseCliArgs/validators/validateTypedArgs.ts';
 
 export function validateArgs(argsMap: Map<string, Argument>): ValidationException[] {
-  return [
-    ...validateRequiredArgs(argsMap),
-    ...validateConstrainedArgs(argsMap),
-    ...validateTypedArgs(argsMap),
-  ];
+  return [...validateRequiredArgs(argsMap), ...validateConstrainedArgs(argsMap), ...validateTypedArgs(argsMap)];
 }

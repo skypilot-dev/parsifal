@@ -11,10 +11,7 @@ export function mapPositionalArgs(
   argDefs: PositionalArgumentDef[] = [],
   options: MapPositionalArgsOptions = {},
 ): ArgumentsMap {
-  const {
-    mapAllArgs = false,
-    useIndicesAsOptionNames = false,
-  } = options;
+  const { mapAllArgs = false, useIndicesAsOptionNames = false } = options;
 
   let argsMap: ArgumentsMap = {};
 

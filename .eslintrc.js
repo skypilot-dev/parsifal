@@ -1,5 +1,3 @@
 module.exports = {
-  extends: [
-    '@skypilot/eslint-config-typescript',
-  ],
+  extends: ['@skypilot/eslint-config-typescript'],
 };

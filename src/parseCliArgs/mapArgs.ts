@@ -7,9 +7,7 @@ interface MapArgsOptions {
 
 function fixBooleans(argsMap: Map<string, Argument>): Map<string, Argument> {
   Array.from(argsMap.entries())
-    .filter(([_name, argument]: [string, Argument]) => (
-      argument.value === 'true' || argument.value === 'false'
-    ))
+    .filter(([_name, argument]: [string, Argument]) => argument.value === 'true' || argument.value === 'false')
     .filter(([_name, argument]) => argument && argument.definition.valueType === 'boolean')
     .forEach(([_name, argument]) => {
       argument.value = argument.value === 'true';
@@ -20,7 +18,7 @@ function fixBooleans(argsMap: Map<string, Argument>): Map<string, Argument> {
 export function mapArgs(
   initialParsedArgs: InitialParsedArgs,
   argDefs: ArgumentDefinition[],
-  options: MapArgsOptions = {}
+  options: MapArgsOptions = {},
 ): Map<string, Argument> {
   const { mapAllNamedArgs = false } = options;
 
@@ -38,19 +36,24 @@ export function mapArgs(
     });
   });
 
-  namedArgDefs.forEach(definition => {
+  namedArgDefs.forEach((definition) => {
     const { defaultValue, name, valueType } = definition;
     const convertedValue = (() => {
       const enteredValue = getOrDefault(initialParsedArgs, name, undefined);
       switch (valueType) {
         case 'stringArray':
-          return typeof enteredValue === 'undefined' ? undefined
-            : typeof enteredValue === 'string' ? enteredValue.split(',')
+          return typeof enteredValue === 'undefined'
+            ? undefined
+            : typeof enteredValue === 'string'
+              ? enteredValue.split(',')
               : [`${enteredValue}`];
         case 'integerArray':
-          return typeof enteredValue === 'undefined' ? undefined
-            : typeof enteredValue === 'number' ? [enteredValue]
-              : typeof enteredValue === 'string' ? enteredValue.split(',').map(integerString => parseInt(integerString, 10))
+          return typeof enteredValue === 'undefined'
+            ? undefined
+            : typeof enteredValue === 'number'
+              ? [enteredValue]
+              : typeof enteredValue === 'string'
+                ? enteredValue.split(',').map((integerString) => parseInt(integerString, 10))
                 : [`${enteredValue}`];
         default:
           return enteredValue;

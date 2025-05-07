@@ -12,13 +12,8 @@ Intelligent and flexible command-line parser
 import { parseCliArgs } from 'parsifal';
 
 const parsedArgs = parseCliArgs({
-  named: [
-    { name: 'myNamedArg' }
-  ],
-  positional: [
-    { name: 'myPositionalArg' },
-    { name: 'anotherPositionalArg' },
-  ]
+  named: [{ name: 'myNamedArg' }],
+  positional: [{ name: 'myPositionalArg' }, { name: 'anotherPositionalArg' }],
 });
 ```
 

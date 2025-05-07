@@ -49,7 +49,6 @@ describe(validateConstrainedValue, () => {
     };
     const values = [0, 2, 'b', false];
 
-
     values.forEach((value) => {
       const exceptions: ValidationException[] = validateConstrainedValue(value, argDef);
       if (exceptions.length < 1) {

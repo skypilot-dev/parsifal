@@ -11,14 +11,14 @@ export interface ArgumentDefV1 {
   name?: string;
   positional?: boolean;
   required?: boolean;
-  validate?:  ValueValidator;
+  validate?: ValueValidator;
   validRange?: Integer[];
   validValues?: ReadonlyArray<ArgumentValue>;
   valueLabel?: string;
   valueType?: ValueType;
 }
 
-export type ArgumentDefinition = RequireProps<ArgumentDefV1, 'name'>
+export type ArgumentDefinition = RequireProps<ArgumentDefV1, 'name'>;
 
 export type ArgumentInput = ArgumentDefinition | string;
 
@@ -55,7 +55,7 @@ export type NamedArgDefInput = NamedArgumentDef | string;
 
 export type PositionalArgumentDef = ArgumentDefinition & {
   positional?: true;
-}
+};
 
 export type PositionalArgDefInput = PositionalArgumentDef | string;
 

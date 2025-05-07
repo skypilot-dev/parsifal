@@ -12,7 +12,7 @@ type ShowUsageOptions = {
   exitCode?: number;
   exitProcessWhenTesting?: boolean;
   message?: string;
-}
+};
 
 export function showUsage(options: ShowUsageOptions): void {
   const {
@@ -26,50 +26,46 @@ export function showUsage(options: ShowUsageOptions): void {
   } = options;
   const writeToDisplay = exitCode ? console.log : console.error;
 
-  const requiredNamedArgUsage = formatArgsUse(Array.from(argsMap.values())
-    .filter(argument => !argument.definition.positional && argument.definition.required)
-    .map(argument => argument.definition));
+  const requiredNamedArgUsage = formatArgsUse(
+    Array.from(argsMap.values())
+      .filter((argument) => !argument.definition.positional && argument.definition.required)
+      .map((argument) => argument.definition),
+  );
 
-  const optionalNamedArgUsage = formatArgsUse(Array.from(argsMap.values())
-    .filter(argument => !argument.definition.positional && !argument.definition.required)
-    .map(argument => argument.definition));
+  const optionalNamedArgUsage = formatArgsUse(
+    Array.from(argsMap.values())
+      .filter((argument) => !argument.definition.positional && !argument.definition.required)
+      .map((argument) => argument.definition),
+  );
 
-  const positionalArgUsage = formatArgsUse(Array.from(argsMap.values())
-    .filter(argument => !!argument.definition.positional)
-    .map(argument => argument.definition));
+  const positionalArgUsage = formatArgsUse(
+    Array.from(argsMap.values())
+      .filter((argument) => !!argument.definition.positional)
+      .map((argument) => argument.definition),
+  );
 
   const usageTitle = [`  ${command}`];
   const usageDetails = [];
   if (requiredNamedArgUsage) {
     usageTitle.push('<required arguments>');
-    usageDetails.push(
-      'Arguments',
-      requiredNamedArgUsage,
-      ''
-    );
+    usageDetails.push('Arguments', requiredNamedArgUsage, '');
   }
   if (optionalNamedArgUsage) {
     usageTitle.push('[optional arguments]');
-    usageDetails.push(
-      'Options:',
-      optionalNamedArgUsage
-    );
+    usageDetails.push('Options:', optionalNamedArgUsage);
   }
 
   if (positionalArgUsage) {
     const positionalArgNames = Array.from(argsMap.values())
-      .filter(argument => argument.definition.positional)
-      .map(argument => argument.definition.name);
+      .filter((argument) => argument.definition.positional)
+      .map((argument) => argument.definition.name);
     usageTitle.push(`[--] [${positionalArgNames.join(' ')}]`);
-    usageDetails.push(
-      '',
-      'Positional arguments:',
-      positionalArgUsage
-    );
+    usageDetails.push('', 'Positional arguments:', positionalArgUsage);
   }
 
-  const includeArrayExplanation = Array.from(argsMap.values())
-    .some(argument => valueTypeIsArray(argument.definition.valueType));
+  const includeArrayExplanation = Array.from(argsMap.values()).some((argument) =>
+    valueTypeIsArray(argument.definition.valueType),
+  );
 
   const usage = [
     ...(description ? [description, ''].flat() : []),
@@ -80,8 +76,7 @@ export function showUsage(options: ShowUsageOptions): void {
     '',
     ...(includeArrayExplanation
       ? ['(Enter arrays as comma-separated values without spaces; e.g.: --arg=value1,value2)', '']
-      : []
-    ),
+      : []),
   ].join('\n');
   console.log(usage);
   if ((message || exitCode) && !exitProcessWhenTesting) {
