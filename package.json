@@ -41,13 +41,14 @@
     "dist"
   ],
   "scripts": {
-    "all-ci-checks": "pnpm run all-cq-checks && pnpm run build",
     "all-cq-checks": "pnpm run typecheck && pnpm run lint --quiet && pnpm run test",
     "build": "pnpm run clean && pnpm run compile && pnpm run generate-typings",
-    "ci": "pnpm run all-ci-checks",
+    "check": "pnpm run typecheck && pnpm run fmt:check && pnpm run test",
+    "ci": "pnpm run check && pnpm run build",
     "clean": "rimraf dist/*",
     "compile": "tsx config/build.ts",
-    "cq": "pnpm run all-cq-checks",
+    "fmt": "prettier --list-different --write .",
+    "fmt:check": "prettier --check .",
     "generate-typings": "tsc --project tsconfig.generate-typings.json",
     "lint": "eslint --cache '**/*.{js,ts}'",
     "parse-args": "tsx src/scripts/parse-args.ts",
