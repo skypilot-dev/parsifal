@@ -50,64 +50,64 @@ jobs:
       - name: Install
         run: |
           echo "//registry.npmjs.org/:_authToken=$NPM_READ_TOKEN" > .npmrc
-          yarn install --frozen-lockfile --production=false
-          yarn add @skypilot/quick-release --production=false
+          pnpm install --frozen-lockfile --production=false
+          pnpm add @skypilot/quick-release --production=false
           git checkout -- .
       - name: Check types
         if: success()
         run: |
-          if [[ $(yarn --silent spqr-option 'prerelease.check-code') == 'true' ]] ; then
-            yarn run typecheck
+          if [[ $(pnpm --silent spqr-option 'prerelease.check-code') == 'true' ]] ; then
+            pnpm run typecheck
           fi
       - name: Lint
         if: success()
         run: |
-          if [[ $(yarn --silent spqr-option 'prerelease.check-code') == 'true' ]] ; then
-            yarn run lint --no-cache --quiet
+          if [[ $(pnpm --silent spqr-option 'prerelease.check-code') == 'true' ]] ; then
+            pnpm run lint --no-cache --quiet
           fi
       - name: Test
         if: success()
         run: |
-          if [[ $(yarn --silent spqr-option 'prerelease.check-code') == 'true' ]] ; then
-            yarn test
+          if [[ $(pnpm --silent spqr-option 'prerelease.check-code') == 'true' ]] ; then
+            pnpm test
           fi
       - name: Gather published versions
         run: |
           mkdir -p local
-          yarn info --silent . versions > local/published-versions.txt
+          pnpm info --silent . versions > local/published-versions.txt
       - name: Bump version
         if: success()
         run: |
-          yarn --silent bump-version
-          echo "VERSION=$(yarn --silent get-current-version)" >> $GITHUB_ENV
-          echo "VERSION_TAG=v$(yarn --silent get-current-version)" >> $GITHUB_ENV
+          pnpm --silent bump-version
+          echo "VERSION=$(pnpm --silent get-current-version)" >> $GITHUB_ENV
+          echo "VERSION_TAG=v$(pnpm --silent get-current-version)" >> $GITHUB_ENV
           echo "VERSION_STAGE=$(git symbolic-ref --short HEAD)" >> $GITHUB_ENV
       - name: Build
         if: success()
         run: |
-          if [[ $(yarn --silent spqr-option 'prerelease.build') == 'true' ]] ; then
-            yarn run build
+          if [[ $(pnpm --silent spqr-option 'prerelease.build') == 'true' ]] ; then
+            pnpm run build
           fi
       - name: Publish
         if: success()
         run: |
-          if [[ $(yarn --silent spqr-option prerelease.publish) == 'true' ]] ; then
+          if [[ $(pnpm --silent spqr-option prerelease.publish) == 'true' ]] ; then
             if test -z "$NPM_READ_AND_PUBLISH_TOKEN" ; then
               echo "No NPM_READ_AND_PUBLISH_TOKEN found. Skipping publication"
             else
-              if [[ $(yarn --silent is-published $VERSION) == true ]]; then
+              if [[ $(pnpm --silent is-published $VERSION) == true ]]; then
                 echo "$VERSION_TAG has already been published. Skipping publication."
               else
-                ACCESS=$(yarn --silent spqr-option prerelease.access)
-                yarn config set //registry.yarnpkg.com/:_authToken=$NPM_READ_AND_PUBLISH_TOKEN
-                yarn publish --access $ACCESS --non-interactive --tag $VERSION_STAGE
+                ACCESS=$(pnpm --silent spqr-option prerelease.access)
+                pnpm config set //registry.pnpmpkg.com/:_authToken=$NPM_READ_AND_PUBLISH_TOKEN
+                pnpm publish --access $ACCESS --non-interactive --tag $VERSION_STAGE
 
                 # If this stage is designated as the latest stage, tag it as 'latest' in NPM
                 # (typically used with alpha or beta prereleases prior to the publication of the first release)
-                LATEST_STAGE=$(yarn --silent spqr-option prerelease.latestStage)
+                LATEST_STAGE=$(pnpm --silent spqr-option prerelease.latestStage)
                 if test -n $LATEST_STAGE && [[ $LATEST_STAGE == $VERSION_STAGE ]]; then
                   # Yarn (as at v1.22.5) throws an error when adding a tag, but the operation does succeed
-                  yarn tag add "$(yarn info --silent . name)@$VERSION" latest || true
+                  pnpm tag add "$(pnpm info --silent . name)@$VERSION" latest || true
                 fi
               fi
             fi
@@ -118,8 +118,8 @@ jobs:
       - name: Configure identity
         if: success()
         run: |
-          git config --global user.email "$(yarn --silent spqr-option bot.email)"
-          git config --global user.name "$(yarn --silent spqr-option bot.name)"
+          git config --global user.email "$(pnpm --silent spqr-option bot.email)"
+          git config --global user.name "$(pnpm --silent spqr-option bot.name)"
           if test -n "$GPG_KEY" && test -n "$GPG_KEY_ID"; then
             echo "$GPG_KEY" | base64 -d > private.key
             gpg --import ./private.key
@@ -133,7 +133,7 @@ jobs:
       - name: Tag
         if: success()
         run: |
-          if [[ $(yarn --silent is-tagged $VERSION) == true ]]; then
+          if [[ $(pnpm --silent is-tagged $VERSION) == true ]]; then
             echo "$VERSION_TAG has already been tagged. Skipping tagging."
           else
             git tag -a $VERSION_TAG -m "Prerelease $VERSION"
