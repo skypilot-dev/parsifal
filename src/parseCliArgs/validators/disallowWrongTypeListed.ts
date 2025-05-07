@@ -3,26 +3,27 @@ import { hasCorrectType } from '~src/parseCliArgs/validators/hasCorrectType.ts';
 import { parseBaseType } from '~src/parseCliArgs/validators/parseBaseType.ts';
 
 export function disallowWrongTypeListed(argDefs: ArgumentDefinition[]): ValidationException[] {
-  return argDefs.reduce<ValidationException[]>((accExceptions, argDef) => {
+  const exceptions: ValidationException[] = [];
+
+  for (const argDef of argDefs) {
     const { name, validValues, valueType } = argDef;
 
     if (validValues === undefined || valueType === undefined) {
-      return accExceptions;
+      continue;
     }
 
     const baseType = parseBaseType(valueType);
     if (validValues.every((value) => hasCorrectType(baseType, value))) {
-      return accExceptions;
+      continue;
     }
 
-    return [
-      ...accExceptions,
-      {
-        code: 'badDefinition',
-        level: 'error',
-        message: `Bad definition for ${name}: validValues must be of ${baseType} type`,
-        identifiers: [name],
-      },
-    ];
-  }, []);
+    exceptions.push({
+      code: 'badDefinition',
+      level: 'error',
+      message: `Bad definition for ${name}: validValues must be of ${baseType} type`,
+      identifiers: [name],
+    });
+  }
+
+  return exceptions;
 }

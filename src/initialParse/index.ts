@@ -30,13 +30,12 @@ export function initialParse(args: string[], options: Options = {}): any {
   } else if (typeof booleanOpt === 'string') {
     booleanKeys = { [booleanOpt]: true };
   } else if (Array.isArray(booleanOpt)) {
-    booleanKeys = booleanOpt.filter(Boolean).reduce(
-      (accKeys, key: string) => ({
-        ...accKeys,
-        [key]: true,
-      }),
-      {} as { [key: string]: boolean },
-    );
+    booleanKeys = {} as { [key: string]: boolean };
+    const filteredBooleanOpt = booleanOpt.filter(Boolean);
+
+    for (const key of filteredBooleanOpt) {
+      booleanKeys[key] = true;
+    }
   }
   const flags: Flags = {
     allBooleans: true,

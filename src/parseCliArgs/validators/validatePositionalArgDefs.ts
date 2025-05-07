@@ -3,19 +3,19 @@ import type { PositionalArgumentDef, ValidationException } from '~src/parseCliAr
 import { toOptionName } from '~src/parseCliArgs/formatters/toOptionName.ts';
 
 function validateDefaultAndRequired(positionalArgDefs: PositionalArgumentDef[]): ValidationException[] {
-  return positionalArgDefs.reduce<ValidationException[]>((accExceptions, argDef, i) => {
+  const exceptions: ValidationException[] = [];
+
+  for (const [i, argDef] of positionalArgDefs.entries()) {
     if (argDef.required && argDef.defaultValue !== undefined) {
-      return [
-        ...accExceptions,
-        {
-          level: 'error',
-          message: 'Invalid definition: An option cannot be required and have default value',
-          identifiers: [toOptionName(argDef, i)],
-        },
-      ];
+      exceptions.push({
+        level: 'error',
+        message: 'Invalid definition: An option cannot be required and have default value',
+        identifiers: [toOptionName(argDef, i)],
+      });
     }
-    return accExceptions;
-  }, []);
+  }
+
+  return exceptions;
 }
 
 function validateRequiredBeforeOptional(positionalArgDefs: PositionalArgumentDef[]): ValidationException[] {

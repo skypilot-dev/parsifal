@@ -58,6 +58,11 @@ function formatArgUse(argDefinition: ArgumentDefinition, options: { leftColWidth
 
 export function formatArgsUse(argDefinitions: ArgumentDefinition[]): string {
   const namesWithValues = argDefinitions.map((argDefinition) => [getNameWithValues(argDefinition)].join(' '));
-  const leftColWidth = namesWithValues.reduce((acc, nameWithValues) => Math.max(acc, nameWithValues.length), 0);
+
+  let leftColWidth = 0;
+  for (const nameWithValues of namesWithValues) {
+    leftColWidth = Math.max(leftColWidth, nameWithValues.length);
+  }
+
   return argDefinitions.map((argDefinition) => formatArgUse(argDefinition, { leftColWidth })).join('\n');
 }

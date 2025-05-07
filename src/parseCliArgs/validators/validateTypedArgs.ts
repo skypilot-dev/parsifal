@@ -7,8 +7,12 @@ export function validateTypedArgs(argsMap: Map<string, Argument>): ValidationExc
     /* Skip undefined values, which are handled by `validateRequiredArgs` */
     .filter(([_name, argument]) => argument.value !== undefined);
 
-  return typedArgDefs.reduce<ValidationException[]>((accExceptions, [_name, argument]) => {
+  const exceptions: ValidationException[] = [];
+
+  for (const [_name, argument] of typedArgDefs) {
     const { definition, value } = argument;
-    return [...accExceptions, ...validateTypedValue(value, definition)];
-  }, []);
+    exceptions.push(...validateTypedValue(value, definition));
+  }
+
+  return exceptions;
 }

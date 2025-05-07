@@ -2,11 +2,13 @@ import type { ArgumentDefinition, ValidationException } from '~src/parseCliArgs/
 import { hasCorrectType } from '~src/parseCliArgs/validators/hasCorrectType.ts';
 
 export function disallowWrongTypeDefault(argDefs: ArgumentDefinition[]): ValidationException[] {
-  return argDefs.reduce<ValidationException[]>((accExceptions, argDef) => {
+  const exceptions: ValidationException[] = [];
+
+  for (const argDef of argDefs) {
     const { defaultValue, name, valueType } = argDef;
 
     if (defaultValue === undefined || valueType === undefined || hasCorrectType(valueType, defaultValue)) {
-      return accExceptions;
+      continue;
     }
 
     const typeDescription = (() => {
@@ -20,14 +22,13 @@ export function disallowWrongTypeDefault(argDefs: ArgumentDefinition[]): Validat
       }
     })();
 
-    return [
-      ...accExceptions,
-      {
-        code: 'badDefinition',
-        level: 'error',
-        message: `Bad definition for ${name}: The default value is not ${typeDescription}`,
-        identifiers: [name],
-      },
-    ];
-  }, []);
+    exceptions.push({
+      code: 'badDefinition',
+      level: 'error',
+      message: `Bad definition for ${name}: The default value is not ${typeDescription}`,
+      identifiers: [name],
+    });
+  }
+
+  return exceptions;
 }

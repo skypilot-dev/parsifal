@@ -6,16 +6,20 @@ function validateConstrainedArgs(
   positionalArgs: ArgumentValue[],
   argDefs: ArgumentDefinition[],
 ): ValidationException[] {
-  return argDefs.reduce<ValidationException[]>((accExceptions, argDef, i) => {
+  const exceptions: ValidationException[] = [];
+
+  for (const [i, argDef] of argDefs.entries()) {
     const value = positionalArgs[i];
-    return [
-      ...accExceptions,
+
+    exceptions.push(
       ...validateConstrainedValue(value, {
         ...argDef,
         name: argDef.name || 'name',
-      }),
-    ];
-  }, []);
+      })
+    );
+  }
+
+  return exceptions;
 }
 
 export function validatePositionalArgs(

@@ -32,9 +32,6 @@
     }
   },
   "main": "./dist/index.js",
-  "engines": {
-    "node": ">=18"
-  },
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [

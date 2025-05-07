@@ -10,14 +10,13 @@ interface AliasMap {
  * defined in the alias map and return the result. */
 export function omitAliases(keyValues: KeyValues, map: AliasMap): KeyValues {
   const aliases = Object.keys(map);
-  return Object.entries(keyValues).reduce((noAliases, entry) => {
-    const [key, value] = entry;
-    if (aliases.includes(key)) {
-      return noAliases;
+  const result: KeyValues = {};
+
+  for (const [key, value] of Object.entries(keyValues)) {
+    if (!aliases.includes(key)) {
+      result[key] = value;
     }
-    return {
-      ...noAliases,
-      [key]: value,
-    };
-  }, {});
+  }
+
+  return result;
 }
