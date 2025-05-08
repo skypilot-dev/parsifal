@@ -1,8 +1,8 @@
 /* eslint-disable  */
 // @ts-nocheck
 
-import { hasKey } from 'src/lib/functions/object/hasKey';
-import { isNumber } from 'src/lib/functions/number/isNumber';
+import { hasKeyAtPath } from 'src/lib/functions/object/hasKeyAtPath.ts';
+import { isNumber } from 'src/lib/functions/number/isNumber.ts';
 
 interface Flags {
   allBooleans: boolean;
@@ -228,7 +228,7 @@ export function initialParse(args: string[], options: Options = {}): any {
   }
 
   Object.keys(defaults).forEach(function (key) {
-    if (!hasKey(argv, key.split('.'))) {
+    if (!hasKeyAtPath(argv, key.split('.'))) {
       setKey(argv, key.split('.'), defaults[key]);
 
       (aliases[key] || []).forEach(function (x) {

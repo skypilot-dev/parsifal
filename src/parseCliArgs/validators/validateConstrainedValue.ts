@@ -29,15 +29,14 @@ export function validateConstrainedValue(
   const isArrayType = ['integerArray', 'stringArray'].includes(valueType || '');
 
   if (!isValid) {
+    const formattedValues = validValues.map((validValue) => formatValue(validValue)).join('|');
+    const allowedValuesStr = isArrayType ? `(${formattedValues})[]` : formattedValues;
+
     return [
       {
         code: 'unlistedValue',
         level: 'error',
-        message: `Invalid value ${formatValue(value)} for '${argDef.name}'. Allowed values: ${[
-          ...(isArrayType ? ['('] : []),
-          ...validValues.map((validValue) => formatValue(validValue)).join('|'),
-          ...(isArrayType ? [')[]'] : []),
-        ].join('')}`,
+        message: `Invalid value ${formatValue(value)} for '${argDef.name}'. Allowed values: ${allowedValuesStr}`,
         identifiers: [argDef.name],
       },
     ];

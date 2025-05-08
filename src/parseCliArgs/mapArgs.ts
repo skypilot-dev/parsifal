@@ -1,17 +1,8 @@
 import { getOrDefault } from '~src/lib/functions/object/getOrDefault.ts';
-import type { Argument, ArgumentDefinition, ArgumentValue, InitialParsedArgs } from '~src/parseCliArgs/_types/index.ts';
+import type { Argument, ArgumentDefinition, InitialParsedArgs } from '~src/parseCliArgs/_types/index.ts';
 
 interface MapArgsOptions {
   mapAllNamedArgs?: boolean;
-}
-
-function fixBooleans(argsMap: Map<string, Argument>): Map<string, Argument> {
-  for (const [_name, argument] of [...argsMap.entries()]
-    .filter(([_name, argument]: [string, Argument]) => argument.value === 'true' || argument.value === 'false')
-    .filter(([_name, argument]) => argument.definition.valueType === 'boolean')) {
-    argument.value = argument.value === 'true';
-  }
-  return argsMap;
 }
 
 export function mapArgs(
@@ -42,9 +33,9 @@ export function mapArgs(
         case 'stringArray':
           return enteredValue === undefined
             ? undefined
-            : (typeof enteredValue === 'string'
+            : typeof enteredValue === 'string'
               ? enteredValue.split(',')
-              : [`${enteredValue}`]);
+              : [`${enteredValue}`];
         case 'integerArray':
           return enteredValue === undefined
             ? undefined
@@ -71,5 +62,14 @@ export function mapArgs(
     }
   }
   fixBooleans(argsMap);
+  return argsMap;
+}
+
+function fixBooleans(argsMap: Map<string, Argument>): Map<string, Argument> {
+  for (const [_name, argument] of [...argsMap.entries()]
+    .filter(([_name, argument]: [string, Argument]) => argument.value === 'true' || argument.value === 'false')
+    .filter(([_name, argument]) => argument.definition.valueType === 'boolean')) {
+    argument.value = argument.value === 'true';
+  }
   return argsMap;
 }
